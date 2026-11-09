@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIGNICE Premium Popup</title>
+    <style>
+        /* মূল পেজের স্টাইল এবং ব্যাকগ্রাউন্ড */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f7; /* স্ক্রিনশটের মতো হালকা ধসর ব্যাকগ্রাউন্ড */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* স্ক্রলিং বন্ধ রাখতে */
+        }
+
+        /* পপআপ কন্টেইনার */
+        .popup-overlay {
+            position: relative;
+            width: 320px;
+            background-color: #000; /* একদম কুচকুচে কালো ব্যাকগ্রাউন্ড */
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); /* গোল্ডেন গ্লো ইফেক্ট */
+            border: 2px solid #ffd700; /* গাঢ় সোনালী বর্ডার */
+            color: #fff;
+            text-align: center;
+            box-sizing: border-box;
+            font-size: 10px; /* ছোট ফন্ট */
+            z-index: 9999;
+        }
+
+        /* একদম ওপরের স্ট্যাটাস বার (LIVE, MOD, PING) */
+        .top-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .status-live {
+            color: #4caf50; /* সবুজ লাইভ টেক্সট */
+            display: flex;
+            align-items: center;
+        }
+        .live-dot {
+            width: 5px;
+            height: 5px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .status-mod {
+            color: #fff;
+        }
+        .mod-on {
+            color: #4caf50; /* সবুজ 'ON' টেক্সট */
+        }
+
+        .status-ping {
+            color: #fff;
+        }
+        .ping-value {
+            color: #00bcd4; /* হালকা নীল 'PING' টেক্সট */
+        }
+
+        /* ওনার টাইটেল */
+        .owner-title {
+            font-size: 11px;
+            font-weight: 900;
+            color: #ffd700; /* সোনালী টেক্সট */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        /* রেইনবো ক্রিস্টাল বল এবং ওয়ান */
+        .crystal-ball-container {
+            position: relative;
+            margin: 15px 0;
+            display: inline-block;
+        }
+
+        /* রেইনবো ক্রিস্টাল বল */
+        .rainbow-ball {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(255,165,0,1) 15%, rgba(255,255,0,1) 30%, rgba(0,128,0,1) 45%, rgba(0,0,255,1) 60%, rgba(75,0,130,1) 75%, rgba(238,130,238,1) 90%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ওয়ান নাম্বার টেক্সট */
+        .one-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* স্মল টেক্সট এবং পিরিয়ড */
+        .prediction-text {
+            color: #ffd700; /* সোনালী স্মল টেক্সট */
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .period-text {
+            font-size: 9px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        /* বাটন কন্টেইনার */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        /* সাধারণ বাটন স্টাইল */
+        .btn {
+            background-color: transparent;
+            border: 1px solid #ffd700; /* সোনালী বর্ডার */
+            color: #ffd700;
+            border-radius: 20px;
+            padding: 6px 15px;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 47%; /* প্রায় অর্ধেক */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        /* বাটন হোভার ইফেক্ট */
+        .btn:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+        }
+
+        /* আইকন স্টাইল */
+        .btn-icon {
+            margin-right: 5px;
+            font-size: 10px;
+        }
+
+        /* জয়েন নাউ বাটন (নিচের বড় বাটন) */
+        .join-btn {
+            background: linear-gradient(to right, #ffd700, #b8860b); /* সোনালী গ্রেডিয়েন্ট */
+            border: none;
+            color: #000; /* কালো টেক্সট */
+            width: 100%;
+            padding: 10px 0;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* জয়েন নাউ বাটন হোভার */
+        .join-btn:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+            transform: scale(1.02);
+        }
+
+        /* ক্লোজ আইকন (বিকল্প উপায়ে বসানো) */
+        .close-icon {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            color: #ffd700;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- পপআপ কন্টেইনার -->
+    <div class="popup-overlay">
+        <!-- ক্লোজ আইকন -->
+        <div class="close-icon">&times;</div>
+
+        <!-- টাইটেল বার -->
+        <div class="owner-title">OWNER KAMRUL VIP</div>
+
+        <!-- স্ট্যাটাস বার -->
+        <div class="top-status-bar">
+            <div class="status-live">
+                <div class="live-dot"></div>
+                LIVE
+            </div>
+            <div class="status-mod">
+                MOD: <span class="mod-on">ON</span>
+            </div>
+            <div class="status-ping">
+                PING: <span class="ping-value">12MS</span>
+            </div>
+        </div>
+
+        <!-- ক্রিস্টাল বল এবং ওয়ান -->
+        <div class="crystal-ball-container">
+            <div class="rainbow-ball">
+                <div class="one-text">1</div>
+            </div>
+        </div>
+
+        <!-- প্রেডিকশন এবং পিরিয়ড -->
+        <div class="prediction-text">SMALL</div>
+        <div class="period-text">PERIOD: 1456</div>
+
+        <!-- বাটন গ্রুপ (AGAIN, HIDE) -->
+        <div class="button-group">
+            <button class="btn">
+                <span class="btn-icon">&#10227;</span> AGAIN
+            </button>
+            <button class="btn">
+                <span class="btn-icon">&#128065;</span> HIDE
+            </button>
+        </div>
+
+        <!-- জয়েন নাউ বাটন -->
+        <button class="join-btn">
+            &#187; <span class="btn-icon">&#9733;</span> JOIN NOW &#171;
+        </button>
+    </div>
+
+</body>
+</html>
