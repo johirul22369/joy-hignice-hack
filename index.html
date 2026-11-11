@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Perfectly Centered</title>
+    <title>JoyTG VIP Hack - Perfect Shadow Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -131,6 +131,19 @@
             font-weight: 700;
         }
 
+        /* 🌟 ব্যাকগ্রাউন্ডে কালো শ্যাডো বা ওভারলে এফেক্ট 🌟 */
+        #popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65); /* হালকা কালো শ্যাডো */
+            backdrop-filter: blur(2px); /* প্রিমিয়াম ব্লার লুক */
+            display: none;
+            z-index: 9998;
+        }
+
         /* মূল পপআপ উইন্ডো */
         .overlay-box {
             position: fixed;
@@ -176,27 +189,13 @@
             box-shadow: 0 0 8px #ef4444;
         }
 
-        /* ব্র্যান্ডের নাম (JoyTG) */
-        .brand-header-title {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10.5px;
-            font-weight: 900;
-            color: #ffd700;
-            white-space: nowrap;
-            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 4px #ffd700;
-            z-index: 10;
-        }
-
-        /* 🎯 গোল্ডেন বক্সের ভেতরে ১০০% নিখুঁত মাঝখানে রাখার পজিশন */
+        /* 🎯 গোল্ডেন বক্সের ভেতরে টেক্সট আরও নিচে ও নিখুঁত মাঝখানে সেন্টারে রাখার পজিশন */
         .center-prediction-area {
             position: absolute;
-            top: 72px;   /* ওপর থেকে নিখুঁত দূরত্ব */
-            right: 16px;  /* ডানপাশ থেকে নিখুঁত দূরত্ব */
+            top: 80px;   /* পিরিয়ড ও টেক্সট আরও একটু নিচে নামানো হয়েছে */
+            right: 16px;  /* ডানপাশের দূরত্ব */
             width: 125px; /* গোল্ডেন বক্সের চওড়া মাপ */
-            height: 78px; /* গোল্ডেন বক্সের উচ্চতা মাপ */
+            height: 75px; /* গোল্ডেন বক্সের উচ্চতা মাপ */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -276,15 +275,16 @@
             color: #000;
             border-radius: 14px;
             padding: 7px 0;
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 900;
             text-decoration: none;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -292,6 +292,9 @@
 
     <!-- রেফারেল গেম লিংক iframe -->
     <iframe id="game-iframe" src="https://hgnice.bet/#/register?invitationCode=376851951983" loading="lazy"></iframe>
+
+    <!-- ব্যাকগ্রাউন্ড কালো শ্যাডো বা ব্লার ওভারলে -->
+    <div id="popup-backdrop" onclick="hidePopup()"></div>
 
     <!-- ফ্লোটিং আইকন -->
     <div id="floating-icon-btn" onclick="handleIconClick()">
@@ -314,13 +317,10 @@
         <div class="popup-relative-wrapper">
             <button class="close-btn" onclick="hidePopup()">×</button>
 
-            <!-- ব্র্যান্ড নেম (JoyTG) -->
-            <div class="brand-header-title">👑 OWNER OF JoyTG 【2x™】</div>
-
-            <!-- নতুন ব্যাকগ্রাউন্ড ইমেজ লিংক -->
+            <!-- নতুন ব্যাকগ্রাউন্ড ইমেজ লিংক (কোনো ভাসমান টেক্সট বা নাম ছাড়া) -->
             <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
 
-            <!-- গোল্ডেন বক্সের ভেতরে ১০০% পারফেক্ট সেন্টারে বসানো এরিয়া -->
+            <!-- গোল্ডেন বক্সের ভেতরে পারফেক্ট সেন্টারে ও নিচে নামানো প্রেডিকশন এরিয়া -->
             <div class="center-prediction-area">
                 <div class="period-display" id="period-num">P 2026111130542</div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
@@ -334,7 +334,7 @@
                 <button class="action-btn" onclick="hidePopup()">👁 HIDE</button>
             </div>
             <a href="https://t.me/BDT588" target="_blank" class="telegram-join-btn">
-                ⚡ JOIN ADMIN (@BDT588) ⚡
+                ⚡ JOIN TELEGRAM ⚡
             </a>
         </div>
     </div>
@@ -346,6 +346,7 @@
         function handleIconClick() {
             if (isUnlocked) {
                 document.getElementById('main-content').style.display = 'block';
+                document.getElementById('popup-backdrop').style.display = 'block';
                 document.getElementById('floating-icon-btn').style.display = 'none';
                 startPeriodGenerator();
             } else {
@@ -364,6 +365,7 @@
                 }
                 document.getElementById('auth-overlay').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
+                document.getElementById('popup-backdrop').style.display = 'block';
                 document.getElementById('floating-icon-btn').style.display = 'none';
                 startPeriodGenerator();
             } else {
@@ -374,6 +376,7 @@
 
         function hidePopup() {
             document.getElementById('main-content').style.display = 'none';
+            document.getElementById('popup-backdrop').style.display = 'none';
             document.getElementById('floating-icon-btn').style.display = 'flex';
         }
 
