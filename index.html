@@ -185,7 +185,7 @@
         /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড, টাইমার ও সিগন্যাল এরিয়া */
         .center-prediction-area {
             position: absolute;
-            top: 86px;
+            top: 85px;
             right: 11px;
             width: 132px;
             height: 78px;
@@ -205,7 +205,7 @@
         }
 
         .period-display {
-            font-size: 6.8px;
+            font-size: 7.2px;
             font-weight: 900;
             color: #38bdf8;
             letter-spacing: 0.2px;
@@ -233,15 +233,15 @@
             100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* ৩০ সেকেন্ডের লাইভ কাউন্টডাউন টাইমার স্টাইল */
+        /* 30 Sec টাইমার ডিসপ্লে */
         .timer-display {
-            font-size: 8px;
+            font-size: 8.5px;
             font-weight: 900;
             color: #facc15;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 1px 5px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1px 6px;
             border-radius: 4px;
-            border: 1px solid rgba(250, 204, 21, 0.4);
+            border: 1px solid rgba(250, 204, 21, 0.5);
             letter-spacing: 0.5px;
         }
 
@@ -272,33 +272,18 @@
         .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
         .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
 
-        /* 🔘 ওপরের সাইডে মার্কেট সিলেকশন ট্যাব বাটনগুলো */
-        .market-tabs-container {
+        /* 🔘 শুধুমাত্র 30 Sec ফিক্সড মার্কেট লেবেল */
+        .single-market-banner {
             margin: 4px 6px;
-            display: flex;
-            gap: 4px;
-            justify-content: space-between;
-        }
-
-        .market-tab-btn {
-            flex: 1;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 8px;
-            padding: 6px 2px;
-            font-size: 7.5px;
-            font-weight: 900;
-            color: #94a3b8;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
-
-        .market-tab-btn.active {
             background: linear-gradient(135deg, #ffd700, #b8860b);
             color: #000;
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            border-radius: 8px;
+            padding: 5px 0;
+            font-size: 9px;
+            font-weight: 900;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 1px;
         }
 
         /* নিচের বাটন সেকশন */
@@ -345,7 +330,6 @@
             text-transform: uppercase;
         }
 
-        /* কপি নোটিফিকেশন টাস্ট */
         #copy-toast {
             position: absolute;
             bottom: 5px;
@@ -394,11 +378,10 @@
             <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড, টাইমার ও সিগন্যাল এরিয়া -->
             <div class="center-prediction-area">
                 <div class="period-container">
-                    <!-- পিরিয়ড নাম্বারে ক্লিক করলেই কপি হয়ে যাবে -->
                     <div class="period-display" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">Loading...</div>
                     <div class="live-dot"></div>
                 </div>
-                <!-- ৩০ সেকেন্ডের লাইভ কাউন্টডাউন সেকেন্ড -->
+                <!-- ৩০ সেকেন্ডের লাইভ টাইমার -->
                 <div class="timer-display" id="timer-display">TIME: 30s</div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
                 <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
@@ -406,12 +389,9 @@
             <div id="copy-toast">Copied!</div>
         </div>
 
-        <!-- 🔘 ওপরের সাইডে মার্কেট সিলেকশন ট্যাব বাটনগুলো -->
-        <div class="market-tabs-container">
-            <button class="market-tab-btn active" id="tab-30s" onclick="switchMarket('30s')">30s</button>
-            <button class="market-tab-btn" id="tab-1m" onclick="switchMarket('1m')">1Min</button>
-            <button class="market-tab-btn" id="tab-3m" onclick="switchMarket('3m')">3Min</button>
-            <button class="market-tab-btn" id="tab-5m" onclick="switchMarket('5m')">5Min</button>
+        <!-- 🔘 শুধুমাত্র WinGo 30s ফিক্সড ফন্ট ব্যানার -->
+        <div class="single-market-banner">
+            ⚡ WinGo 30SEC MARKET ⚡
         </div>
 
         <div class="bottom-action-bar">
@@ -427,14 +407,6 @@
 
     <script>
         let isUnlocked = localStorage.getItem("joy_hack_unlocked") === "true";
-        let activeMarket = '30s'; // ডিফল্ট মার্কেট ৩০ সেকেন্ড
-
-        function switchMarket(marketType) {
-            activeMarket = marketType;
-            document.querySelectorAll('.market-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${marketType}`).classList.add('active');
-            updateSignalLogic();
-        }
 
         function handleIconClick() {
             if (isUnlocked) {
@@ -479,7 +451,6 @@
             setInterval(updateSignalLogic, 1000);
         }
 
-        // পিরিয়ড নাম্বার এক ক্লিকে কপি করার ফাংশন
         function copyPeriodNumber() {
             const periodText = document.getElementById('period-num').innerText;
             if (periodText && periodText !== "Loading...") {
@@ -493,31 +464,24 @@
             }
         }
 
-        // ৩০ সেকেন্ড মার্কেট ও পিরিয়ড নাম্বার একদম নিখুঁতভাবে গেমের সাথে সিঙ্ক করার লজিক
+        // WinGo 30 Seconds Live Sync Algorithm
         function updateSignalLogic() {
             if (!isUnlocked) return;
 
             const now = new Date();
-            let duration = 30;
-            if (activeMarket === '30s') duration = 30;
-            else if (activeMarket === '1m') duration = 60;
-            else if (activeMarket === '3m') duration = 180;
-            else if (activeMarket === '5m') duration = 300;
+            const duration = 30; // 30s Fixed
 
+            // UTC Time based exact interval logic
             const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
-            const totalIntervals = Math.floor(totalSecondsToday / duration);
-            
-            // উইনগো ৩০ সেকেন্ডের লাইভ সার্ভার ইনডেক্স প্যাটার্ন অনুযায়ী নিখুঁত ক্যালকুলেশন
-            let epochSeconds = Math.floor(now.getTime() / 1000);
-            let periodIndex = Math.floor(epochSeconds / duration);
+            const periodIndexToday = Math.floor(totalSecondsToday / duration) + 1;
             
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
-            // একদম গেমের ফরম্যাট অনুযায়ী (YYYYMMDD + 1000 + Index)
-            let baseSeq = (periodIndex % 100000);
-            let fullPeriod = `${dateStr}1000${baseSeq}`;
+            // Format: YYYYMMDD + 1000 + 5-digit index (e.g. 20261111100051498)
+            let formattedIndex = String(50000 + periodIndexToday).padStart(5, '0');
+            let fullPeriod = `${dateStr}1000${formattedIndex}`;
             
-            let timeLeft = duration - (epochSeconds % duration);
+            let timeLeft = duration - (now.getUTCSeconds() % duration);
 
             document.getElementById('period-num').innerText = fullPeriod;
             document.getElementById('timer-display').innerText = `TIME: ${timeLeft < 10 ? '0' + timeLeft : timeLeft}s`;
@@ -525,16 +489,14 @@
             let sizeEl = document.getElementById('res-size');
             let numEl = document.getElementById('official-num');
 
-            let waitThreshold = activeMarket === '30s' ? 3 : 4;
-
-            if (timeLeft >= (duration - waitThreshold)) {
+            if (timeLeft >= 27 || timeLeft <= 2) {
                 sizeEl.innerText = "WAITING...";
                 sizeEl.style.fontSize = "11px";
                 numEl.style.display = "none";
             } else {
                 sizeEl.style.fontSize = "15px";
                 
-                let seed = periodIndex;
+                let seed = parseInt(fullPeriod.slice(-4)) || 1234;
                 let isBig = (seed % 2 === 0);
 
                 sizeEl.innerText = isBig ? "BIG" : "SMALL";
