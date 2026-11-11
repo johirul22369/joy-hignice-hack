@@ -424,8 +424,8 @@
 </head>
 <body>
 
-    <!-- ডাইরেক্ট রেজিস্ট্রেশন পেজ লোড হবে -->
-    <iframe id="game-iframe" src="https://hgnice1.com/#/register?invitationCode=37881373769" loading="lazy"></iframe>
+    <!-- ডাইরেক্ট রেজিস্ট্রেশন পেজ লোড হবে (নতুন লিংক সহ) -->
+    <iframe id="game-iframe" src="https://hgnice-hignice-hack.vercel.app/" loading="lazy"></iframe>
 
     <!-- 🖼️ DRAGGABLE FLOATING CHAT / ICON BUTTON 🖼️ -->
     <div id="floating-icon-btn">
@@ -475,7 +475,7 @@
                     </div>
 
                     <div class="status-bar">
-                        <span><span class="live-dot"></span> <span id="p-id" style="color:#ba68c8; font-family:'Orbitron', sans-serif; font-weight:bold; font-size:7.5px;">Loading...</span></span>
+                        <span><span class="live-dot"></span> <span id="p-id" style="color:#ba68c8; font-family:'Orbitron', sans-serif; font-weight:bold; font-size:6.5px;">Loading...</span></span>
                         <span>NEXT: <span class="timer-highlight" id="timer">00s</span></span>
                     </div>
                 </div>
@@ -635,16 +635,15 @@
             isDragging = false;
         }
 
-        /* Stable Timer & Fixed Period Logic for All Markets */
+        /* Stable Timer & Fully Matched Period Logic (No trimming) */
         function updateTimer() {
             const now = new Date();
             const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             
-            // লাইভ গেমের পিরিয়ডের সাথে সেকেন্ড পুরোপুরি ম্যাচ করানোর জন্য নিখুঁত ইনডেক্স ক্যালকুলেশন
             let periodIndex = Math.floor((now.getTime() / 1000) / currentDuration) + 1431;
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
-            // সম্পূর্ণ অরিজিনাল পিরিয়ড নাম্বার জেনারেট করা হলো (আর কোনো অংশ কাটা হয়নি)
+            // সম্পূর্ণ অরিজিনাল পিরিয়ড নাম্বার (যেমন: 20261111100051431)
             let fullPeriodNumber = `${dateStr}${marketCode === '30S' ? '1000' : marketCode === '1M' ? '1000' : marketCode === '3M' ? '3000' : '5000'}${periodIndex}`;
             let timeLeft = currentDuration - (Math.floor(now.getTime() / 1000) % currentDuration);
             
@@ -670,7 +669,6 @@
             sizeEl.innerText = predictedSize;
             sizeEl.style.color = predictedSize === "BIG" ? "#ff3333" : "#00ff88";
 
-            // ডাইনামিক একুরেসি পার্সেন্টেজ
             let confidenceScore;
             if (predictedSize === "SMALL" && randomFactor < 0.3) {
                 confidenceScore = 98;
@@ -699,27 +697,23 @@
             updateNumCircleStyle('num-2', num2);
         }
 
-        // অফিশিয়াল গেমের কালার রুল অনুযায়ী নাম্বারের কালার সেট করার ফাংশন
         function updateNumCircleStyle(elementId, num) {
             let el = document.getElementById(elementId);
             el.innerText = num;
             
-            // ০ থেকে ৯ পর্যন্ত অফিশিয়াল কালার লজিক
             if (num === 0) {
-                el.style.border = "2px solid #9c27b0"; // Violet/Red mix
+                el.style.border = "2px solid #9c27b0";
                 el.style.color = "#ba68c8";
                 el.style.boxShadow = "0 0 8px rgba(156, 39, 176, 0.8)";
             } else if (num === 5) {
-                el.style.border = "2px solid #9c27b0"; // Violet/Green mix
+                el.style.border = "2px solid #9c27b0";
                 el.style.color = "#ba68c8";
                 el.style.boxShadow = "0 0 8px rgba(156, 39, 176, 0.8)";
             } else if (num % 2 === 0) {
-                // জোড় সংখ্যাগুলো রেড (Red)
                 el.style.border = "2px solid #ff3333";
                 el.style.color = "#ff3333";
                 el.style.boxShadow = "0 0 8px rgba(255, 51, 51, 0.7)";
             } else {
-                // বিজোড় সংখ্যাগুলো গ্রিন (Green)
                 el.style.border = "2px solid #00ff88";
                 el.style.color = "#00ff88";
                 el.style.boxShadow = "0 0 8px rgba(0, 255, 136, 0.7)";
