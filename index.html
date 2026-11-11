@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Perfect Match Edition</title>
+    <title>JoyTG VIP Hack - Real-time Synced Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -406,10 +406,10 @@
             const now = new Date();
             const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             
-            let periodIndex = Math.floor(totalSecs / totalDuration) + 1000 - 1;
+            /* পিরিয়ড যাতে লাইভ মার্কেটের সাথে একদম হুবহু মিলে যায় (পেছনের গেমের ডিলে বা গ্যাপ ফিক্সড) */
+            let periodIndex = Math.floor(totalSecs / totalDuration) + 1000;
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
-            /* গেমের অরিজিনাল পিরিয়ড ফরম্যাটের সাথে হুবহু মিল রেখে লজিক আপডেট করা হলো */
             let fullPeriod = `${dateStr}1000${periodIndex}`;
             let timeLeft = totalDuration - (totalSecs % totalDuration);
 
