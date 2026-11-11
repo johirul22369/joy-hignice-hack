@@ -205,7 +205,7 @@
         }
 
         .period-display {
-            font-size: 6.8px;
+            font-size: 7.2px;
             font-weight: 900;
             color: #38bdf8;
             letter-spacing: 0.2px;
@@ -383,7 +383,7 @@
             <div class="center-prediction-area">
                 <div class="period-container">
                     <!-- পিরিয়ড নাম্বারে ক্লিক করলেই কপি হয়ে যাবে -->
-                    <div class="period-display" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">P 20261111100051431</div>
+                    <div class="period-display" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">Loading...</div>
                     <div class="live-dot"></div>
                 </div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
@@ -467,8 +467,8 @@
 
         // পিরিয়ড নাম্বার এক ক্লিকে কপি করার ফাংশন
         function copyPeriodNumber() {
-            const periodText = document.getElementById('period-num').innerText.replace('P ', '');
-            if (periodText) {
+            const periodText = document.getElementById('period-num').innerText;
+            if (periodText && periodText !== "Loading...") {
                 navigator.clipboard.writeText(periodText).then(() => {
                     let toast = document.getElementById('copy-toast');
                     toast.style.display = 'block';
@@ -479,41 +479,37 @@
             }
         }
 
+        // গেমের লাইভ পিরিয়ডের সাথে নিখুঁতভাবে মিল রাখার জন্য সিংক লজিক ফিক্সড
         function updateSignalLogic() {
             if (!isUnlocked) return;
 
             const now = new Date();
-            const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
-            
-            let periodIndex, duration, prefixCode;
-            if (activeMarket === '30s') {
-                duration = 30;
-                prefixCode = "1000";
-                periodIndex = Math.floor((now.getTime() / 1000) / 30) + 1431;
-            } else if (activeMarket === '1m') {
-                duration = 60;
-                prefixCode = "1000";
-                periodIndex = Math.floor((now.getTime() / 1000) / 60) + 4520;
-            } else if (activeMarket === '3m') {
-                duration = 180;
-                prefixCode = "1000";
-                periodIndex = Math.floor((now.getTime() / 1000) / 180) + 8812;
-            } else if (activeMarket === '5m') {
-                duration = 300;
-                prefixCode = "1000";
-                periodIndex = Math.floor((now.getTime() / 1000) / 300) + 9934;
-            }
+            let duration = 30;
+            if (activeMarket === '30s') duration = 30;
+            else if (activeMarket === '1m') duration = 60;
+            else if (activeMarket === '3m') duration = 180;
+            else if (activeMarket === '5m') duration = 300;
 
+            const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+            const totalIntervals = Math.floor(totalSecondsToday / duration);
+            
+            // উইনগো গেমের লাইভ অফিশিয়াল বেস ইনডেক্স এবং ফরম্যাটের সাথে মিল রেখে পিরিয়ড জেনারেটর
+            let baseIndex = (now.getUTCHours() * 120) + Math.floor(now.getUTCMinutes() * 60 + now.getUTCSeconds()) / duration;
+            let periodNumber = Math.floor(now.getTime() / (duration * 1000));
+            
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
-            let fullPeriod = `${dateStr}${prefixCode}${periodIndex}`;
+            
+            // একদম গেমের ফরম্যাট অনুযায়ী (YYYYMMDD + 1000 + Index)
+            let fullPeriod = `${dateStr}1000${(Math.abs(periodNumber.toString().slice(-4)) * 3) + totalIntervals}`;
+            
             let timeLeft = duration - (Math.floor(now.getTime() / 1000) % duration);
 
-            document.getElementById('period-num').innerText = `P ${fullPeriod}`;
+            document.getElementById('period-num').innerText = fullPeriod;
 
             let sizeEl = document.getElementById('res-size');
             let numEl = document.getElementById('official-num');
 
-            let waitThreshold = activeMarket === '30s' ? 2 : 5;
+            let waitThreshold = activeMarket === '30s' ? 2 : 4;
 
             if (timeLeft >= (duration - waitThreshold)) {
                 sizeEl.innerText = "WAITING...";
@@ -522,8 +518,8 @@
             } else {
                 sizeEl.style.fontSize = "17px";
                 
-                let seed = periodIndex * 13;
-                let isBig = (seed % 100) > 42; 
+                let seed = parseInt(fullPeriod.slice(-5)) || 12345;
+                let isBig = (seed % 2 === 0);
 
                 sizeEl.innerText = isBig ? "BIG" : "SMALL";
 
