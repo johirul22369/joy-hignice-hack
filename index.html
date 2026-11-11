@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Real-time Synced Edition</title>
+    <title>JoyTG VIP Hack - Market Chart & Trimmed Period</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -137,12 +137,12 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 310px;
+            width: 315px;
             display: none;
             z-index: 9999;
             touch-action: none;
             text-align: center;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.78);
             border-radius: 20px;
             padding: 6px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 180, 0, 0.5);
@@ -181,7 +181,7 @@
             box-shadow: 0 0 8px #ef4444;
         }
 
-        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সম্পূর্ণ সেন্টারে পজিশন করা এরিয়া */
+        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা প্রেডিকশন এরিয়া */
         .center-prediction-area {
             position: absolute;
             top: 90px;
@@ -192,11 +192,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
             z-index: 10;
         }
 
-        /* পিরিয়ড নাম্বারের কন্টেইনার এবং লাইভ ডট */
+        /* পিরিয়ড নাম্বারের কন্টেইনার এবং লাইভ ডট (শুধু শেষ ৪ ডিজিট) */
         .period-container {
             display: flex;
             align-items: center;
@@ -205,14 +205,13 @@
         }
 
         .period-display {
-            font-size: 7.5px;
+            font-size: 8.5px;
             font-weight: 900;
             color: #38bdf8;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
         }
 
-        /* 'P' এর পাশেই লাইভ ডট */
         .live-dot {
             width: 4.5px;
             height: 4.5px;
@@ -227,42 +226,89 @@
             100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* এক রঙের সোজা ও মোটা BIG / SMALL টেক্সট */
+        /* BIG / SMALL টেক্সট */
         .solid-big-small {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 900;
             color: #ffd700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 215, 0, 0.8);
             line-height: 1;
         }
 
         /* অফিশিয়াল গেম ব্যাজ (সিঙ্গেল নাম্বার) */
         .official-num-badge {
-            width: 21px;
-            height: 21px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 1px 1px 2px #000;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
         }
 
-        /* অফিশিয়াল কালার রুল */
         .bg-red { background: linear-gradient(135deg, #ef4444, #991b1b); border: 1.5px solid #fca5a5; }
         .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
         .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
 
+        /* 📈 মার্কেট ট্রেন্ড চার্ট সেকশন (এক সিরিয়ালে ওপর থেকে নিচে) */
+        .market-chart-container {
+            margin: 4px 6px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            padding: 5px 8px;
+        }
+
+        .chart-header {
+            font-size: 8px;
+            font-weight: 900;
+            color: #ffd700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-items-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+        }
+
+        .chart-item {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 6px;
+            padding: 3px 2px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .chart-item-period {
+            font-size: 6.5px;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .chart-item-val {
+            font-size: 9px;
+            font-weight: 900;
+            margin-top: 1px;
+        }
+
         /* নিচের বাটন সেকশন */
         .bottom-action-bar {
-            margin-top: 5px;
+            margin-top: 4px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             padding: 0 4px;
         }
 
@@ -276,9 +322,9 @@
             background: rgba(0, 0, 0, 0.85);
             border: 1px solid #ffd700;
             color: #ffd700;
-            border-radius: 12px;
-            padding: 6px 0;
-            font-size: 8.5px;
+            border-radius: 10px;
+            padding: 5px 0;
+            font-size: 8px;
             font-weight: 900;
             cursor: pointer;
             box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
@@ -287,9 +333,9 @@
         .telegram-join-btn {
             background: linear-gradient(135deg, #ffd700, #b8860b);
             color: #000;
-            border-radius: 14px;
-            padding: 8px 0;
-            font-size: 10px;
+            border-radius: 12px;
+            padding: 7px 0;
+            font-size: 9.5px;
             font-weight: 900;
             text-decoration: none;
             letter-spacing: 1px;
@@ -331,14 +377,25 @@
             <!-- ব্যাকগ্রাউন্ড ইমেজ -->
             <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
 
-            <!-- গোল্ডেন ফ্রেমের ভেতর একদম নিখুঁত মাঝখানে সেন্টারে পজিশন করা এরিয়া -->
+            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা এরিয়া -->
             <div class="center-prediction-area">
                 <div class="period-container">
-                    <div class="period-display" id="period-num">P 20261111100051372</div>
+                    <div class="period-display" id="period-num">P 1391</div>
                     <div class="live-dot"></div>
                 </div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
                 <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
+            </div>
+        </div>
+
+        <!-- 📈 মার্কেট ট্রেন্ড চার্ট (ওপর থেকে নিচে সিরিয়াল) -->
+        <div class="market-chart-container">
+            <div class="chart-header">
+                <span>📊 Live Market Trend</span>
+                <span id="timer-sync" style="color: #38bdf8;">00:30</span>
+            </div>
+            <div class="chart-items-row" id="chart-trend-row">
+                <!-- ডাইনামিক হিস্ট্রি কলামগুলো এখানে রেন্ডার হবে -->
             </div>
         </div>
 
@@ -406,24 +463,25 @@
             const now = new Date();
             const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             
-            /* পিরিয়ড যাতে লাইভ মার্কেটের সাথে একদম হুবহু মিলে যায় (পেছনের গেমের ডিলে বা গ্যাপ ফিক্সড) */
-            let periodIndex = Math.floor(totalSecs / totalDuration) + 1000;
-            let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
-            
-            let fullPeriod = `${dateStr}1000${periodIndex}`;
-            let timeLeft = totalDuration - (totalSecs % totalDuration);
+            let periodIndex = Math.floor(totalSecs / totalDuration) + 1391;
+            let fullPeriodStr = String(periodIndex);
+            // পিরিয়ড নাম্বারের প্রথম অংশ বাদ দিয়ে শুধু শেষ ৪টা ডিজিট রাখা হলো
+            let trimmedPeriod = fullPeriodStr.slice(-4);
 
-            document.getElementById('period-num').innerText = `P ${fullPeriod}`;
+            let timeLeft = totalDuration - (totalSecs % totalDuration);
+            document.getElementById('timer-sync').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+
+            document.getElementById('period-num').innerText = `P ${trimmedPeriod}`;
 
             let sizeEl = document.getElementById('res-size');
             let numEl = document.getElementById('official-num');
 
             if (timeLeft >= 28) {
                 sizeEl.innerText = "WAITING...";
-                sizeEl.style.fontSize = "11px";
+                sizeEl.style.fontSize = "10px";
                 numEl.style.display = "none";
             } else {
-                sizeEl.style.fontSize = "19px";
+                sizeEl.style.fontSize = "18px";
                 
                 let seed = periodIndex * 13;
                 let isBig = (seed % 100) > 42; 
@@ -450,6 +508,23 @@
 
                 numEl.style.display = "flex";
             }
+
+            // মার্কেট চার্টের আগের ৪টি পিরিয়ডের হিস্ট্রি রেন্ডার করা
+            let chartHtml = '';
+            for (let i = 3; i >= 1; i--) {
+                let pastIndex = periodIndex - i;
+                let pastTrimmed = String(pastIndex).slice(-4);
+                let pastSeed = pastIndex * 13;
+                let pastIsBig = (pastSeed % 100) > 42;
+                let pastColor = pastIsBig ? '#ffd700' : '#38bdf8';
+                chartHtml += `
+                    <div class="chart-item">
+                        <div class="chart-item-period">P.${pastTrimmed}</div>
+                        <div class="chart-item-val" style="color: ${pastColor};">${pastIsBig ? 'BIG' : 'SM'}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('chart-trend-row').innerHTML = chartHtml;
         }
 
         makeDraggable(document.getElementById("floating-icon-btn"));
