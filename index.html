@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Perfect Shadow Edition</title>
+    <title>JoyTG VIP Hack - Absolute Center Aligned</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -131,19 +131,6 @@
             font-weight: 700;
         }
 
-        /* 🌟 ব্যাকগ্রাউন্ডে কালো শ্যাডো বা ওভারলে এফেক্ট 🌟 */
-        #popup-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.65); /* হালকা কালো শ্যাডো */
-            backdrop-filter: blur(2px); /* প্রিমিয়াম ব্লার লুক */
-            display: none;
-            z-index: 9998;
-        }
-
         /* মূল পপআপ উইন্ডো */
         .overlay-box {
             position: fixed;
@@ -155,6 +142,12 @@
             z-index: 9999;
             touch-action: none;
             text-align: center;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 20px;
+            padding: 6px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 180, 0, 0.5);
+            backdrop-filter: blur(4px);
+            pointer-events: auto;
         }
 
         .popup-relative-wrapper {
@@ -165,19 +158,18 @@
         .popup-main-bg-img {
             width: 100%;
             display: block;
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
             pointer-events: none;
         }
 
         .close-btn {
             position: absolute;
-            top: 4px;
-            right: 14px;
+            top: 6px;
+            right: 12px;
             background: #ef4444;
             color: white;
             border: none;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             font-size: 10px;
             font-weight: bold;
@@ -189,28 +181,50 @@
             box-shadow: 0 0 8px #ef4444;
         }
 
-        /* 🎯 গোল্ডেন বক্সের ভেতরে টেক্সট আরও নিচে ও নিখুঁত মাঝখানে সেন্টারে রাখার পজিশন */
+        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সম্পূর্ণ সেন্টারে (ডানে-বামে ও লম্বালম্বি মাঝখানে) পজিশন করা এরিয়া */
         .center-prediction-area {
             position: absolute;
-            top: 80px;   /* পিরিয়ড ও টেক্সট আরও একটু নিচে নামানো হয়েছে */
-            right: 16px;  /* ডানপাশের দূরত্ব */
-            width: 125px; /* গোল্ডেন বক্সের চওড়া মাপ */
-            height: 75px; /* গোল্ডেন বক্সের উচ্চতা মাপ */
+            top: 90px;
+            right: 11px;
+            width: 132px;
+            height: 76px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center; /* একদম সেন্টারে ফিক্সড */
-            gap: 3px;     /* উপাদানগুলোর মাঝের ফাঁকা জায়গা */
+            align-items: center;     /* হরাইজন্টাল সেন্টার */
+            justify-content: center; /* লম্বালম্বি সেন্টার */
+            gap: 4px;
             z-index: 10;
         }
 
-        /* পিরিয়ড নাম্বার */
+        /* পিরিয়ড নাম্বারের কন্টেইনার এবং লাইভ ডট */
+        .period-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
         .period-display {
             font-size: 7.5px;
             font-weight: 900;
             color: #38bdf8;
             letter-spacing: 0.3px;
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+        }
+
+        /* 'P' এর পাশেই লাইভ ডট */
+        .live-dot {
+            width: 4.5px;
+            height: 4.5px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #22c55e;
+            animation: liveBlink 1s infinite alternate;
+        }
+
+        @keyframes liveBlink {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
 
         /* এক রঙের সোজা ও মোটা BIG / SMALL টেক্সট */
@@ -225,13 +239,13 @@
 
         /* অফিশিয়াল গেম ব্যাজ (সিঙ্গেল নাম্বার) */
         .official-num-badge {
-            width: 22px;
-            height: 22px;
+            width: 21px;
+            height: 21px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 1px 1px 2px #000;
@@ -243,13 +257,13 @@
         .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
         .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
 
-        /* নিচের বাটন ও টেলিগ্রাম লিংক */
+        /* নিচের বাটন সেকশন */
         .bottom-action-bar {
-            margin-top: 6px;
+            margin-top: 5px;
             display: flex;
             flex-direction: column;
             gap: 5px;
-            padding: 0 8px;
+            padding: 0 4px;
         }
 
         .button-row {
@@ -259,11 +273,11 @@
 
         .action-btn {
             flex: 1;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border: 1px solid #ffd700;
             color: #ffd700;
             border-radius: 12px;
-            padding: 5px 0;
+            padding: 6px 0;
             font-size: 8.5px;
             font-weight: 900;
             cursor: pointer;
@@ -274,12 +288,12 @@
             background: linear-gradient(135deg, #ffd700, #b8860b);
             color: #000;
             border-radius: 14px;
-            padding: 7px 0;
+            padding: 8px 0;
             font-size: 10px;
             font-weight: 900;
             text-decoration: none;
             letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -291,10 +305,7 @@
 <body>
 
     <!-- রেফারেল গেম লিংক iframe -->
-    <iframe id="game-iframe" src="https://hgnice.bet/#/register?invitationCode=376851951983" loading="lazy"></iframe>
-
-    <!-- ব্যাকগ্রাউন্ড কালো শ্যাডো বা ব্লার ওভারলে -->
-    <div id="popup-backdrop" onclick="hidePopup()"></div>
+    <iframe id="game-iframe" src="https://hgnice.bet/#/register?invitationCode=376851951983" loading="lazy" style="pointer-events: auto;"></iframe>
 
     <!-- ফ্লোটিং আইকন -->
     <div id="floating-icon-btn" onclick="handleIconClick()">
@@ -317,12 +328,15 @@
         <div class="popup-relative-wrapper">
             <button class="close-btn" onclick="hidePopup()">×</button>
 
-            <!-- নতুন ব্যাকগ্রাউন্ড ইমেজ লিংক (কোনো ভাসমান টেক্সট বা নাম ছাড়া) -->
+            <!-- ব্যাকগ্রাউন্ড ইমেজ -->
             <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
 
-            <!-- গোল্ডেন বক্সের ভেতরে পারফেক্ট সেন্টারে ও নিচে নামানো প্রেডিকশন এরিয়া -->
+            <!-- গোল্ডেন ফ্রেমের ভেতর একদম নিখুঁত মাঝখানে সেন্টারে পজিশন করা এরিয়া -->
             <div class="center-prediction-area">
-                <div class="period-display" id="period-num">P 2026111130542</div>
+                <div class="period-container">
+                    <div class="period-display" id="period-num">P 2026111130542</div>
+                    <div class="live-dot"></div>
+                </div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
                 <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
             </div>
@@ -331,7 +345,7 @@
         <div class="bottom-action-bar">
             <div class="button-row">
                 <button class="action-btn" onclick="refreshPrediction()">↻ REFRESH</button>
-                <button class="action-btn" onclick="hidePopup()">👁 HIDE</button>
+                <button class="action-btn" onclick="hidePopup()">HIDE</button>
             </div>
             <a href="https://t.me/BDT588" target="_blank" class="telegram-join-btn">
                 ⚡ JOIN TELEGRAM ⚡
@@ -346,7 +360,6 @@
         function handleIconClick() {
             if (isUnlocked) {
                 document.getElementById('main-content').style.display = 'block';
-                document.getElementById('popup-backdrop').style.display = 'block';
                 document.getElementById('floating-icon-btn').style.display = 'none';
                 startPeriodGenerator();
             } else {
@@ -365,7 +378,6 @@
                 }
                 document.getElementById('auth-overlay').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
-                document.getElementById('popup-backdrop').style.display = 'block';
                 document.getElementById('floating-icon-btn').style.display = 'none';
                 startPeriodGenerator();
             } else {
@@ -376,7 +388,6 @@
 
         function hidePopup() {
             document.getElementById('main-content').style.display = 'none';
-            document.getElementById('popup-backdrop').style.display = 'none';
             document.getElementById('floating-icon-btn').style.display = 'flex';
         }
 
