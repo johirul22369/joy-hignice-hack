@@ -2,252 +2,481 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIGNICE Premium Popup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JoyTG VIP Hack - Perfectly Centered</title>
     <style>
-        /* মূল পেজের স্টাইল এবং ব্যাকগ্রাউন্ড */
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f3f4f7; /* স্ক্রিনশটের মতো হালকা ধসর ব্যাকগ্রাউন্ড */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* স্ক্রলিং বন্ধ রাখতে */
+            font-family: 'Rubik', sans-serif;
         }
 
-        /* পপআপ কন্টেইনার */
-        .popup-overlay {
-            position: relative;
-            width: 320px;
-            background-color: #000; /* একদম কুচকুচে কালো ব্যাকগ্রাউন্ড */
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); /* গোল্ডেন গ্লো ইফেক্ট */
-            border: 2px solid #ffd700; /* গাঢ় সোনালী বর্ডার */
-            color: #fff;
-            text-align: center;
-            box-sizing: border-box;
-            font-size: 10px; /* ছোট ফন্ট */
-            z-index: 9999;
-        }
-
-        /* একদম ওপরের স্ট্যাটাস বার (LIVE, MOD, PING) */
-        .top-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .status-live {
-            color: #4caf50; /* সবুজ লাইভ টেক্সট */
-            display: flex;
-            align-items: center;
-        }
-        .live-dot {
-            width: 5px;
-            height: 5px;
-            background-color: #4caf50;
-            border-radius: 50%;
-            margin-right: 4px;
-        }
-
-        .status-mod {
-            color: #fff;
-        }
-        .mod-on {
-            color: #4caf50; /* সবুজ 'ON' টেক্সট */
-        }
-
-        .status-ping {
-            color: #fff;
-        }
-        .ping-value {
-            color: #00bcd4; /* হালকা নীল 'PING' টেক্সট */
-        }
-
-        /* ওনার টাইটেল */
-        .owner-title {
-            font-size: 11px;
-            font-weight: 900;
-            color: #ffd700; /* সোনালী টেক্সট */
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        /* রেইনবো ক্রিস্টাল বল এবং ওয়ান */
-        .crystal-ball-container {
-            position: relative;
-            margin: 15px 0;
-            display: inline-block;
-        }
-
-        /* রেইনবো ক্রিস্টাল বল */
-        .rainbow-ball {
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(255,165,0,1) 15%, rgba(255,255,0,1) 30%, rgba(0,128,0,1) 45%, rgba(0,0,255,1) 60%, rgba(75,0,130,1) 75%, rgba(238,130,238,1) 90%);
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* ওয়ান নাম্বার টেক্সট */
-        .one-text {
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        /* স্মল টেক্সট এবং পিরিয়ড */
-        .prediction-text {
-            color: #ffd700; /* সোনালী স্মল টেক্সট */
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-
-        .period-text {
-            font-size: 9px;
-            color: #fff;
-            margin-bottom: 12px;
-        }
-
-        /* বাটন কন্টেইনার */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        /* সাধারণ বাটন স্টাইল */
-        .btn {
-            background-color: transparent;
-            border: 1px solid #ffd700; /* সোনালী বর্ডার */
-            color: #ffd700;
-            border-radius: 20px;
-            padding: 6px 15px;
-            font-size: 9px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            width: 47%; /* প্রায় অর্ধেক */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        /* বাটন হোভার ইফেক্ট */
-        .btn:hover {
-            background-color: rgba(255, 215, 0, 0.1);
-            box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-        }
-
-        /* আইকন স্টাইল */
-        .btn-icon {
-            margin-right: 5px;
-            font-size: 10px;
-        }
-
-        /* জয়েন নাউ বাটন (নিচের বড় বাটন) */
-        .join-btn {
-            background: linear-gradient(to right, #ffd700, #b8860b); /* সোনালী গ্রেডিয়েন্ট */
-            border: none;
-            color: #000; /* কালো টেক্সট */
+        body, html {
             width: 100%;
-            padding: 10px 0;
-            border-radius: 25px;
+            height: 100%;
+            overflow: hidden;
+            background-color: #03050b;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #game-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        /* ফ্লোটিং আইকন */
+        #floating-icon-btn {
+            position: fixed;
+            top: 40px;
+            right: 20px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            cursor: move;
+            z-index: 9999;
+            overflow: hidden;
+            touch-action: none;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #floating-icon-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* পাসওয়ার্ড পপআপ উইন্ডো */
+        #auth-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 260px;
+            background: rgba(8, 12, 24, 0.98);
+            border: 2px solid #ffd700;
+            border-radius: 14px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+            padding: 15px;
+            display: none;
+            z-index: 10000;
+            text-align: center;
+        }
+
+        .auth-title {
             font-size: 11px;
             font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        /* জয়েন নাউ বাটন হোভার */
-        .join-btn:hover {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
-            transform: scale(1.02);
-        }
-
-        /* ক্লোজ আইকন (বিকল্প উপায়ে বসানো) */
-        .close-icon {
-            position: absolute;
-            top: 5px;
-            right: 8px;
             color: #ffd700;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: bold;
+            margin-bottom: 8px;
         }
 
+        .auth-input {
+            width: 100%;
+            padding: 7px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ffd700;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            outline: none;
+            font-weight: 700;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 8.5px;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 7px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-size: 9.5px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        #error-msg {
+            color: #ff3366;
+            font-size: 8px;
+            margin-top: 4px;
+            display: none;
+            font-weight: 700;
+        }
+
+        /* মূল পপআপ উইন্ডো */
+        .overlay-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 310px;
+            display: none;
+            z-index: 9999;
+            touch-action: none;
+            text-align: center;
+        }
+
+        .popup-relative-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .popup-main-bg-img {
+            width: 100%;
+            display: block;
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+            pointer-events: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 4px;
+            right: 14px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px #ef4444;
+        }
+
+        /* ব্র্যান্ডের নাম (JoyTG) */
+        .brand-header-title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10.5px;
+            font-weight: 900;
+            color: #ffd700;
+            white-space: nowrap;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 4px #ffd700;
+            z-index: 10;
+        }
+
+        /* 🎯 গোল্ডেন বক্সের ভেতরে ১০০% নিখুঁত মাঝখানে রাখার পজিশন */
+        .center-prediction-area {
+            position: absolute;
+            top: 72px;   /* ওপর থেকে নিখুঁত দূরত্ব */
+            right: 16px;  /* ডানপাশ থেকে নিখুঁত দূরত্ব */
+            width: 125px; /* গোল্ডেন বক্সের চওড়া মাপ */
+            height: 78px; /* গোল্ডেন বক্সের উচ্চতা মাপ */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* একদম সেন্টারে ফিক্সড */
+            gap: 3px;     /* উপাদানগুলোর মাঝের ফাঁকা জায়গা */
+            z-index: 10;
+        }
+
+        /* পিরিয়ড নাম্বার */
+        .period-display {
+            font-size: 7.5px;
+            font-weight: 900;
+            color: #38bdf8;
+            letter-spacing: 0.3px;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+        }
+
+        /* এক রঙের সোজা ও মোটা BIG / SMALL টেক্সট */
+        .solid-big-small {
+            font-size: 19px;
+            font-weight: 900;
+            color: #ffd700;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 215, 0, 0.8);
+            line-height: 1;
+        }
+
+        /* অফিশিয়াল গেম ব্যাজ (সিঙ্গেল নাম্বার) */
+        .official-num-badge {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        /* অফিশিয়াল কালার রুল */
+        .bg-red { background: linear-gradient(135deg, #ef4444, #991b1b); border: 1.5px solid #fca5a5; }
+        .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
+        .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
+
+        /* নিচের বাটন ও টেলিগ্রাম লিংক */
+        .bottom-action-bar {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 0 8px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            border-radius: 12px;
+            padding: 5px 0;
+            font-size: 8.5px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+        }
+
+        .telegram-join-btn {
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            color: #000;
+            border-radius: 14px;
+            padding: 7px 0;
+            font-size: 9.5px;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: 0.8px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- পপআপ কন্টেইনার -->
-    <div class="popup-overlay">
-        <!-- ক্লোজ আইকন -->
-        <div class="close-icon">&times;</div>
+    <!-- রেফারেল গেম লিংক iframe -->
+    <iframe id="game-iframe" src="https://hgnice.bet/#/register?invitationCode=376851951983" loading="lazy"></iframe>
 
-        <!-- টাইটেল বার -->
-        <div class="owner-title">OWNER KAMRUL VIP</div>
-
-        <!-- স্ট্যাটাস বার -->
-        <div class="top-status-bar">
-            <div class="status-live">
-                <div class="live-dot"></div>
-                LIVE
-            </div>
-            <div class="status-mod">
-                MOD: <span class="mod-on">ON</span>
-            </div>
-            <div class="status-ping">
-                PING: <span class="ping-value">12MS</span>
-            </div>
-        </div>
-
-        <!-- ক্রিস্টাল বল এবং ওয়ান -->
-        <div class="crystal-ball-container">
-            <div class="rainbow-ball">
-                <div class="one-text">1</div>
-            </div>
-        </div>
-
-        <!-- প্রেডিকশন এবং পিরিয়ড -->
-        <div class="prediction-text">SMALL</div>
-        <div class="period-text">PERIOD: 1456</div>
-
-        <!-- বাটন গ্রুপ (AGAIN, HIDE) -->
-        <div class="button-group">
-            <button class="btn">
-                <span class="btn-icon">&#10227;</span> AGAIN
-            </button>
-            <button class="btn">
-                <span class="btn-icon">&#128065;</span> HIDE
-            </button>
-        </div>
-
-        <!-- জয়েন নাউ বাটন -->
-        <button class="join-btn">
-            &#187; <span class="btn-icon">&#9733;</span> JOIN NOW &#171;
-        </button>
+    <!-- ফ্লোটিং আইকন -->
+    <div id="floating-icon-btn" onclick="handleIconClick()">
+        <img src="https://imagepaste.org/i/cbp8qk93.png" alt="Joy Icon">
     </div>
 
+    <!-- পাসওয়ার্ড পপআপ -->
+    <div id="auth-overlay">
+        <div class="auth-title">🔐 JoyTG VIP ACCESS</div>
+        <input type="password" id="pass-input" class="auth-input" placeholder="Enter Password">
+        <label class="remember-row">
+            <input type="checkbox" id="remember-pass"> Remember Password
+        </label>
+        <button class="auth-btn" onclick="checkPassword()">Submit</button>
+        <div id="error-msg">Wrong Password!</div>
+    </div>
+
+    <!-- মূল পপআপ উইন্ডো -->
+    <div class="overlay-box" id="main-content">
+        <div class="popup-relative-wrapper">
+            <button class="close-btn" onclick="hidePopup()">×</button>
+
+            <!-- ব্র্যান্ড নেম (JoyTG) -->
+            <div class="brand-header-title">👑 OWNER OF JoyTG 【2x™】</div>
+
+            <!-- নতুন ব্যাকগ্রাউন্ড ইমেজ লিংক -->
+            <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
+
+            <!-- গোল্ডেন বক্সের ভেতরে ১০০% পারফেক্ট সেন্টারে বসানো এরিয়া -->
+            <div class="center-prediction-area">
+                <div class="period-display" id="period-num">P 2026111130542</div>
+                <div class="solid-big-small" id="res-size">WAITING...</div>
+                <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
+            </div>
+        </div>
+
+        <div class="bottom-action-bar">
+            <div class="button-row">
+                <button class="action-btn" onclick="refreshPrediction()">↻ REFRESH</button>
+                <button class="action-btn" onclick="hidePopup()">👁 HIDE</button>
+            </div>
+            <a href="https://t.me/BDT588" target="_blank" class="telegram-join-btn">
+                ⚡ JOIN ADMIN (@BDT588) ⚡
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let isUnlocked = localStorage.getItem("joy_hack_unlocked") === "true";
+        const totalDuration = 30;
+
+        function handleIconClick() {
+            if (isUnlocked) {
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('floating-icon-btn').style.display = 'none';
+                startPeriodGenerator();
+            } else {
+                document.getElementById('auth-overlay').style.display = 'block';
+            }
+        }
+
+        function checkPassword() {
+            const pass = document.getElementById('pass-input').value;
+            const rememberMe = document.getElementById('remember-pass').checked;
+
+            if (pass === "Zahirul22369") {
+                isUnlocked = true;
+                if (rememberMe) {
+                    localStorage.setItem("joy_hack_unlocked", "true");
+                }
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('floating-icon-btn').style.display = 'none';
+                startPeriodGenerator();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+                document.getElementById('pass-input').value = "";
+            }
+        }
+
+        function hidePopup() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('floating-icon-btn').style.display = 'flex';
+        }
+
+        function refreshPrediction() {
+            updateSignalLogic();
+        }
+
+        function startPeriodGenerator() {
+            updateSignalLogic();
+            setInterval(updateSignalLogic, 1000);
+        }
+
+        function updateSignalLogic() {
+            if (!isUnlocked) return;
+
+            const now = new Date();
+            const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+            
+            let periodIndex = Math.floor(totalSecs / totalDuration) + 500 - 1;
+            let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
+            
+            let fullPeriod = `${dateStr}30${periodIndex}`;
+            let timeLeft = totalDuration - (totalSecs % totalDuration);
+
+            document.getElementById('period-num').innerText = `P ${fullPeriod}`;
+
+            let sizeEl = document.getElementById('res-size');
+            let numEl = document.getElementById('official-num');
+
+            if (timeLeft >= 28) {
+                sizeEl.innerText = "WAITING...";
+                sizeEl.style.fontSize = "11px";
+                numEl.style.display = "none";
+            } else {
+                sizeEl.style.fontSize = "19px";
+                
+                let seed = periodIndex * 13;
+                let isBig = (seed % 100) > 42; 
+
+                sizeEl.innerText = isBig ? "BIG" : "SMALL";
+
+                let luckyNum;
+                if (isBig) {
+                    luckyNum = 5 + (seed % 5);
+                } else {
+                    luckyNum = seed % 5;
+                }
+
+                numEl.innerText = luckyNum;
+                numEl.className = "official-num-badge";
+
+                if (luckyNum === 0 || luckyNum === 5) {
+                    numEl.classList.add("bg-violet");
+                } else if (luckyNum === 1 || luckyNum === 3 || luckyNum === 7 || luckyNum === 9) {
+                    numEl.classList.add("bg-green");
+                } else {
+                    numEl.classList.add("bg-red");
+                }
+
+                numEl.style.display = "flex";
+            }
+        }
+
+        makeDraggable(document.getElementById("floating-icon-btn"));
+        makeDraggable(document.getElementById("main-content"));
+
+        function makeDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+                document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
+                document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.transform = "none";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.ontouchend = null;
+                document.onmousemove = null;
+                document.ontouchmove = null;
+            }
+        }
+    </script>
 </body>
 </html>
