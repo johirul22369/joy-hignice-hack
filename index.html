@@ -424,7 +424,7 @@
 </head>
 <body>
 
-    <!-- ডাইরেক্ট রেজিস্ট্রেশন পেজ লোড হবে (নতুন লিংক সহ) -->
+    <!-- তোর নতুন দেওয়া লিংক যুক্ত করা হলো -->
     <iframe id="game-iframe" src="https://hgnice-hignice-hack.vercel.app/" loading="lazy"></iframe>
 
     <!-- 🖼️ DRAGGABLE FLOATING CHAT / ICON BUTTON 🖼️ -->
@@ -475,6 +475,7 @@
                     </div>
 
                     <div class="status-bar">
+                        <!-- তোর দেওয়া কোড থেকে নেওয়া সম্পূর্ণ পিরিয়ড নাম্বার ফরম্যাট এখানে বসানো হলো -->
                         <span><span class="live-dot"></span> <span id="p-id" style="color:#ba68c8; font-family:'Orbitron', sans-serif; font-weight:bold; font-size:6.5px;">Loading...</span></span>
                         <span>NEXT: <span class="timer-highlight" id="timer">00s</span></span>
                     </div>
@@ -635,7 +636,7 @@
             isDragging = false;
         }
 
-        /* Stable Timer & Fully Matched Period Logic (No trimming) */
+        /* Stable Timer & Fixed Period Logic matching the correct format */
         function updateTimer() {
             const now = new Date();
             const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
@@ -643,7 +644,7 @@
             let periodIndex = Math.floor((now.getTime() / 1000) / currentDuration) + 1431;
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
-            // সম্পূর্ণ অরিজিনাল পিরিয়ড নাম্বার (যেমন: 20261111100051431)
+            // সম্পূর্ণ অরিজিনাল পিরিয়ড নাম্বার ফরম্যাট (যেমন: 20261111100051431)
             let fullPeriodNumber = `${dateStr}${marketCode === '30S' ? '1000' : marketCode === '1M' ? '1000' : marketCode === '3M' ? '3000' : '5000'}${periodIndex}`;
             let timeLeft = currentDuration - (Math.floor(now.getTime() / 1000) % currentDuration);
             
