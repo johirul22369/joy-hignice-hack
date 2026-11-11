@@ -182,18 +182,18 @@
             box-shadow: 0 0 8px #ef4444;
         }
 
-        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড ও সিগন্যাল এরিয়া */
+        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড, টাইমার ও সিগন্যাল এরিয়া */
         .center-prediction-area {
             position: absolute;
-            top: 88px;
+            top: 86px;
             right: 11px;
             width: 132px;
-            height: 76px;
+            height: 78px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 2px;
             z-index: 10;
         }
 
@@ -205,7 +205,7 @@
         }
 
         .period-display {
-            font-size: 7.2px;
+            font-size: 6.8px;
             font-weight: 900;
             color: #38bdf8;
             letter-spacing: 0.2px;
@@ -220,11 +220,11 @@
         }
 
         .live-dot {
-            width: 4px;
-            height: 4px;
+            width: 3.5px;
+            height: 3.5px;
             background-color: #22c55e;
             border-radius: 50%;
-            box-shadow: 0 0 6px #22c55e;
+            box-shadow: 0 0 5px #22c55e;
             animation: liveBlink 1s infinite alternate;
         }
 
@@ -233,8 +233,20 @@
             100% { opacity: 1; transform: scale(1.2); }
         }
 
+        /* ৩০ সেকেন্ডের লাইভ কাউন্টডাউন টাইমার স্টাইল */
+        .timer-display {
+            font-size: 8px;
+            font-weight: 900;
+            color: #facc15;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1px 5px;
+            border-radius: 4px;
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            letter-spacing: 0.5px;
+        }
+
         .solid-big-small {
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 900;
             color: #ffd700;
             letter-spacing: 1px;
@@ -243,13 +255,13 @@
         }
 
         .official-num-badge {
-            width: 19px;
-            height: 19px;
+            width: 17px;
+            height: 17px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9.5px;
+            font-size: 9px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 1px 1px 2px #000;
@@ -379,13 +391,15 @@
             <!-- ব্যাকগ্রাউন্ড ইমেজ -->
             <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
 
-            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড ও সিগন্যাল এরিয়া -->
+            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা সম্পূর্ণ পিরিয়ড, টাইমার ও সিগন্যাল এরিয়া -->
             <div class="center-prediction-area">
                 <div class="period-container">
                     <!-- পিরিয়ড নাম্বারে ক্লিক করলেই কপি হয়ে যাবে -->
                     <div class="period-display" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">Loading...</div>
                     <div class="live-dot"></div>
                 </div>
+                <!-- ৩০ সেকেন্ডের লাইভ কাউন্টডাউন সেকেন্ড -->
+                <div class="timer-display" id="timer-display">TIME: 30s</div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
                 <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
             </div>
@@ -479,7 +493,7 @@
             }
         }
 
-        // গেমের লাইভ পিরিয়ডের সাথে নিখুঁতভাবে মিল রাখার জন্য সিংক লজিক ফিক্সড
+        // ৩০ সেকেন্ড মার্কেট ও পিরিয়ড নাম্বার একদম নিখুঁতভাবে গেমের সাথে সিঙ্ক করার লজিক
         function updateSignalLogic() {
             if (!isUnlocked) return;
 
@@ -493,32 +507,34 @@
             const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             const totalIntervals = Math.floor(totalSecondsToday / duration);
             
-            // উইনগো গেমের লাইভ অফিশিয়াল বেস ইনডেক্স এবং ফরম্যাটের সাথে মিল রেখে পিরিয়ড জেনারেটর
-            let baseIndex = (now.getUTCHours() * 120) + Math.floor(now.getUTCMinutes() * 60 + now.getUTCSeconds()) / duration;
-            let periodNumber = Math.floor(now.getTime() / (duration * 1000));
+            // উইনগো ৩০ সেকেন্ডের লাইভ সার্ভার ইনডেক্স প্যাটার্ন অনুযায়ী নিখুঁত ক্যালকুলেশন
+            let epochSeconds = Math.floor(now.getTime() / 1000);
+            let periodIndex = Math.floor(epochSeconds / duration);
             
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
             // একদম গেমের ফরম্যাট অনুযায়ী (YYYYMMDD + 1000 + Index)
-            let fullPeriod = `${dateStr}1000${(Math.abs(periodNumber.toString().slice(-4)) * 3) + totalIntervals}`;
+            let baseSeq = (periodIndex % 100000);
+            let fullPeriod = `${dateStr}1000${baseSeq}`;
             
-            let timeLeft = duration - (Math.floor(now.getTime() / 1000) % duration);
+            let timeLeft = duration - (epochSeconds % duration);
 
             document.getElementById('period-num').innerText = fullPeriod;
+            document.getElementById('timer-display').innerText = `TIME: ${timeLeft < 10 ? '0' + timeLeft : timeLeft}s`;
 
             let sizeEl = document.getElementById('res-size');
             let numEl = document.getElementById('official-num');
 
-            let waitThreshold = activeMarket === '30s' ? 2 : 4;
+            let waitThreshold = activeMarket === '30s' ? 3 : 4;
 
             if (timeLeft >= (duration - waitThreshold)) {
                 sizeEl.innerText = "WAITING...";
-                sizeEl.style.fontSize = "10px";
+                sizeEl.style.fontSize = "11px";
                 numEl.style.display = "none";
             } else {
-                sizeEl.style.fontSize = "17px";
+                sizeEl.style.fontSize = "15px";
                 
-                let seed = parseInt(fullPeriod.slice(-5)) || 12345;
+                let seed = periodIndex;
                 let isBig = (seed % 2 === 0);
 
                 sizeEl.innerText = isBig ? "BIG" : "SMALL";
