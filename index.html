@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Market Chart & Trimmed Period</title>
+    <title>JoyTG VIP Hack - 4 Markets Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -137,12 +137,12 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 315px;
+            width: 320px;
             display: none;
             z-index: 9999;
             touch-action: none;
             text-align: center;
-            background: rgba(0, 0, 0, 0.78);
+            background: rgba(0, 0, 0, 0.82);
             border-radius: 20px;
             padding: 6px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 180, 0, 0.5);
@@ -181,10 +181,10 @@
             box-shadow: 0 0 8px #ef4444;
         }
 
-        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা প্রেডিকশন এরিয়া */
+        /* 🎯 গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা ৩০ সেকেন্ড মেইন সিগন্যাল */
         .center-prediction-area {
             position: absolute;
-            top: 90px;
+            top: 88px;
             right: 11px;
             width: 132px;
             height: 76px;
@@ -205,7 +205,7 @@
         }
 
         .period-display {
-            font-size: 8.5px;
+            font-size: 8px;
             font-weight: 900;
             color: #38bdf8;
             letter-spacing: 0.5px;
@@ -213,8 +213,8 @@
         }
 
         .live-dot {
-            width: 4.5px;
-            height: 4.5px;
+            width: 4px;
+            height: 4px;
             background-color: #22c55e;
             border-radius: 50%;
             box-shadow: 0 0 6px #22c55e;
@@ -228,7 +228,7 @@
 
         /* BIG / SMALL টেক্সট */
         .solid-big-small {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             color: #ffd700;
             letter-spacing: 1px;
@@ -238,13 +238,13 @@
 
         /* অফিশিয়াল গেম ব্যাজ (সিঙ্গেল নাম্বার) */
         .official-num-badge {
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 1px 1px 2px #000;
@@ -255,52 +255,61 @@
         .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
         .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
 
-        /* 📈 মার্কেট ট্রেন্ড চার্ট সেকশন (এক সিরিয়ালে ওপর থেকে নিচে) */
-        .market-chart-container {
+        /* 📈 চারটা মার্কেট সেকশন (30s, 1M, 3M, 5M এক সিরিয়ালে ওপর থেকে নিচে) */
+        .all-markets-container {
             margin: 4px 6px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(10, 15, 30, 0.95);
             border: 1px solid rgba(255, 215, 0, 0.4);
             border-radius: 10px;
-            padding: 5px 8px;
-        }
-
-        .chart-header {
-            font-size: 8px;
-            font-weight: 900;
-            color: #ffd700;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 5px 6px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chart-items-row {
-            display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             gap: 4px;
         }
 
-        .chart-item {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 6px;
-            padding: 3px 2px;
-            text-align: center;
+        .market-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.65);
             border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 6px;
+            padding: 3px 6px;
         }
 
-        .chart-item-period {
-            font-size: 6.5px;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-
-        .chart-item-val {
-            font-size: 9px;
+        .market-title {
+            font-size: 7.5px;
             font-weight: 900;
-            margin-top: 1px;
+            color: #ffd700;
+            width: 55px;
+            text-align: left;
+        }
+
+        .market-period {
+            font-size: 7.5px;
+            font-weight: 700;
+            color: #38bdf8;
+            width: 45px;
+            text-align: center;
+        }
+
+        .market-result {
+            font-size: 8px;
+            font-weight: 900;
+            width: 40px;
+            text-align: center;
+        }
+
+        .market-num {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 900;
+            color: #fff;
         }
 
         /* নিচের বাটন সেকশন */
@@ -377,7 +386,7 @@
             <!-- ব্যাকগ্রাউন্ড ইমেজ -->
             <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
 
-            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা এরিয়া -->
+            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা মেইন ৩০ সেকেন্ড সিগন্যাল -->
             <div class="center-prediction-area">
                 <div class="period-container">
                     <div class="period-display" id="period-num">P 1391</div>
@@ -388,14 +397,35 @@
             </div>
         </div>
 
-        <!-- 📈 মার্কেট ট্রেন্ড চার্ট (ওপর থেকে নিচে সিরিয়াল) -->
-        <div class="market-chart-container">
-            <div class="chart-header">
-                <span>📊 Live Market Trend</span>
-                <span id="timer-sync" style="color: #38bdf8;">00:30</span>
+        <!-- 📊 ৪টি মার্কেট চার্ট সেকশন (ওপর থেকে নিচে এক সিরিয়ালে) -->
+        <div class="all-markets-container">
+            <!-- WinGo 30Sec -->
+            <div class="market-row">
+                <span class="market-title">⚡ WinGo 30s</span>
+                <span class="market-period" id="m-30s-p">P.1391</span>
+                <span class="market-result" id="m-30s-res" style="color:#ffd700;">BIG</span>
+                <div class="market-num bg-green" id="m-30s-num">7</div>
             </div>
-            <div class="chart-items-row" id="chart-trend-row">
-                <!-- ডাইনামিক হিস্ট্রি কলামগুলো এখানে রেন্ডার হবে -->
+            <!-- WinGo 1Min -->
+            <div class="market-row">
+                <span class="market-title">⏰ WinGo 1Min</span>
+                <span class="market-period" id="m-1m-p">P.4520</span>
+                <span class="market-result" id="m-1m-res" style="color:#38bdf8;">SMALL</span>
+                <div class="market-num bg-red" id="m-1m-num">3</div>
+            </div>
+            <!-- WinGo 3Min -->
+            <div class="market-row">
+                <span class="market-title">⏳ WinGo 3Min</span>
+                <span class="market-period" id="m-3m-p">P.8812</span>
+                <span class="market-result" id="m-3m-res" style="color:#ffd700;">BIG</span>
+                <div class="market-num bg-violet" id="m-3m-num">5</div>
+            </div>
+            <!-- WinGo 5Min -->
+            <div class="market-row">
+                <span class="market-title">🚀 WinGo 5Min</span>
+                <span class="market-period" id="m-5m-p">P.9934</span>
+                <span class="market-result" id="m-5m-res" style="color:#38bdf8;">SMALL</span>
+                <div class="market-num bg-green" id="m-5m-num">1</div>
             </div>
         </div>
 
@@ -463,27 +493,24 @@
             const now = new Date();
             const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             
-            let periodIndex = Math.floor(totalSecs / totalDuration) + 1391;
-            let fullPeriodStr = String(periodIndex);
-            // পিরিয়ড নাম্বারের প্রথম অংশ বাদ দিয়ে শুধু শেষ ৪টা ডিজিট রাখা হলো
-            let trimmedPeriod = fullPeriodStr.slice(-4);
+            // ৩০ সেকেন্ড মার্কেট পিরিয়ড (শুধু শেষ ৪ ডিজিট)
+            let periodIndex30s = Math.floor(totalSecs / 30) + 1391;
+            let trimmed30s = String(periodIndex30s).slice(-4);
+            let timeLeft30s = 30 - (totalSecs % 30);
 
-            let timeLeft = totalDuration - (totalSecs % totalDuration);
-            document.getElementById('timer-sync').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
-
-            document.getElementById('period-num').innerText = `P ${trimmedPeriod}`;
+            document.getElementById('period-num').innerText = `P ${trimmed30s}`;
 
             let sizeEl = document.getElementById('res-size');
             let numEl = document.getElementById('official-num');
 
-            if (timeLeft >= 28) {
+            if (timeLeft30s >= 28) {
                 sizeEl.innerText = "WAITING...";
                 sizeEl.style.fontSize = "10px";
                 numEl.style.display = "none";
             } else {
-                sizeEl.style.fontSize = "18px";
+                sizeEl.style.fontSize = "17px";
                 
-                let seed = periodIndex * 13;
+                let seed = periodIndex30s * 13;
                 let isBig = (seed % 100) > 42; 
 
                 sizeEl.innerText = isBig ? "BIG" : "SMALL";
@@ -509,22 +536,34 @@
                 numEl.style.display = "flex";
             }
 
-            // মার্কেট চার্টের আগের ৪টি পিরিয়ডের হিস্ট্রি রেন্ডার করা
-            let chartHtml = '';
-            for (let i = 3; i >= 1; i--) {
-                let pastIndex = periodIndex - i;
-                let pastTrimmed = String(pastIndex).slice(-4);
-                let pastSeed = pastIndex * 13;
-                let pastIsBig = (pastSeed % 100) > 42;
-                let pastColor = pastIsBig ? '#ffd700' : '#38bdf8';
-                chartHtml += `
-                    <div class="chart-item">
-                        <div class="chart-item-period">P.${pastTrimmed}</div>
-                        <div class="chart-item-val" style="color: ${pastColor};">${pastIsBig ? 'BIG' : 'SM'}</div>
-                    </div>
-                `;
+            // ৪টি মার্কেটের ডেটা আপডেট (30s, 1Min, 3Min, 5Min)
+            updateMarketRow('30s', periodIndex30s);
+            updateMarketRow('1m', Math.floor(totalSecs / 60) + 4520);
+            updateMarketRow('3m', Math.floor(totalSecs / 180) + 8812);
+            updateMarketRow('5m', Math.floor(totalSecs / 300) + 9934);
+        }
+
+        function updateMarketRow(marketKey, pIndex) {
+            let tPeriod = String(pIndex).slice(-4);
+            let seed = pIndex * 17;
+            let isBig = (seed % 100) > 45;
+            let num = isBig ? (5 + (seed % 5)) : (seed % 5);
+
+            document.getElementById(`m-${marketKey}-p`).innerText = `P.${tPeriod}`;
+            let resEl = document.getElementById(`m-${marketKey}-res`);
+            resEl.innerText = isBig ? "BIG" : "SMALL";
+            resEl.style.color = isBig ? "#ffd700" : "#38bdf8";
+
+            let numEl = document.getElementById(`m-${marketKey}-num`);
+            numEl.innerText = num;
+            numEl.className = "market-num";
+            if (num === 0 || num === 5) {
+                numEl.classList.add("bg-violet");
+            } else if (num === 1 || num === 3 || num === 7 || num === 9) {
+                numEl.classList.add("bg-green");
+            } else {
+                numEl.classList.add("bg-red");
             }
-            document.getElementById('chart-trend-row').innerHTML = chartHtml;
         }
 
         makeDraggable(document.getElementById("floating-icon-btn"));
