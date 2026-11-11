@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JoyTG VIP Hack - Genuine Period Edition</title>
+    <title>JoyTG VIP Hack - Perfect Match Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap');
 
@@ -334,7 +334,7 @@
             <!-- গোল্ডেন ফ্রেমের ভেতর একদম নিখুঁত মাঝখানে সেন্টারে পজিশন করা এরিয়া -->
             <div class="center-prediction-area">
                 <div class="period-container">
-                    <div class="period-display" id="period-num">P 2026111130542</div>
+                    <div class="period-display" id="period-num">P 20261111100051372</div>
                     <div class="live-dot"></div>
                 </div>
                 <div class="solid-big-small" id="res-size">WAITING...</div>
@@ -406,13 +406,13 @@
             const now = new Date();
             const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
             
-            let periodIndex = Math.floor(totalSecs / totalDuration) + 500 - 1;
+            let periodIndex = Math.floor(totalSecs / totalDuration) + 1000 - 1;
             let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
             
-            let fullPeriod = `${dateStr}30${periodIndex}`;
+            /* গেমের অরিজিনাল পিরিয়ড ফরম্যাটের সাথে হুবহু মিল রেখে লজিক আপডেট করা হলো */
+            let fullPeriod = `${dateStr}1000${periodIndex}`;
             let timeLeft = totalDuration - (totalSecs % totalDuration);
 
-            /* জেনুইন গেমের সাথে মিলিয়ে ফুল পিরিয়ড নাম্বার সেট করা হলো */
             document.getElementById('period-num').innerText = `P ${fullPeriod}`;
 
             let sizeEl = document.getElementById('res-size');
