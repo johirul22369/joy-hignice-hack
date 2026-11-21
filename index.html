@@ -1,754 +1,625 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Owner of JOY AI Hack - VIP Edition</title>
+    <title>JOHIRUL AVIATOR - @BDTCODER</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Orbitron:wght@700;900&family=Hind+Siliguri:wght@600;700&display=swap');
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #03050b;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        #game-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        body, html {
             width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 1;
-            pointer-events: auto;
+            min-height: 100vh;
+            background: #070410;
+            font-family: 'Hind Siliguri', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
         }
 
-        /* ফ্লোটিং আইকন */
-        #floating-icon-btn {
-            position: fixed;
-            top: 40px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
-            cursor: move;
-            z-index: 9999;
+        /* মেইন কার্ড কন্টেইনার */
+        .aviator-card {
+            width: 100%;
+            max-width: 370px;
+            background: linear-gradient(180deg, #160929 0%, #090312 100%);
+            border: 2.5px solid #ff0055;
+            border-radius: 28px;
+            padding: 18px;
+            box-shadow: 0 0 35px rgba(255, 0, 85, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.15);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
             overflow: hidden;
-            touch-action: none;
-            background: #0f172a;
+        }
+
+        /* পাসওয়ার্ড লক স্ক্রিন */
+        .lock-screen {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #120624 0%, #06020d 100%);
+            z-index: 100;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 22px;
+            text-align: center;
+            gap: 14px;
         }
 
-        #floating-icon-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            pointer-events: none;
-        }
-
-        /* পাসওয়ার্ড পপআপ উইন্ডো */
-        #auth-overlay {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 270px;
-            background: rgba(8, 12, 24, 0.98);
-            border: 2px solid #ffd700;
-            border-radius: 16px;
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.7);
-            padding: 16px;
+        .lock-screen.unlocked {
             display: none;
-            z-index: 10000;
-            text-align: center;
         }
 
-        .auth-title {
-            font-size: 11px;
-            font-weight: 900;
-            color: #ffd700;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .auth-input {
-            width: 100%;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid #ffd700;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 11px;
-            text-align: center;
-            margin-bottom: 10px;
-            outline: none;
-            font-weight: 800;
-        }
-
-        .remember-row {
+        .custom-icon-badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,0,85,0.25), rgba(0,240,255,0.1));
+            border: 2px solid #00f0ff;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 6px;
-            font-size: 9px;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            cursor: pointer;
-            font-weight: 600;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.45);
         }
 
-        .auth-btn {
-            width: 100%;
-            padding: 8px;
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            border: none;
-            border-radius: 8px;
-            color: #000;
-            font-size: 10px;
+        .custom-icon-badge svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .lock-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
             font-weight: 900;
-            cursor: pointer;
-            text-transform: uppercase;
+            color: #ffffff;
             letter-spacing: 1px;
         }
 
-        #error-msg {
-            color: #ff3366;
-            font-size: 9px;
-            margin-top: 6px;
-            display: none;
-            font-weight: 800;
+        .lock-sub {
+            font-size: 12px;
+            color: #94a3b8;
         }
 
-        /* মূল পপআপ উইন্ডো (লাইট শ্যাডো সহ) */
-        .overlay-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px;
-            display: none;
-            z-index: 9999;
-            touch-action: none;
+        .pass-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1.5px solid #38bdf8;
+            background: #0f172a;
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
             text-align: center;
-            background: rgba(5, 10, 25, 0.85);
-            border-radius: 22px;
-            padding: 8px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 215, 0, 0.35);
-            backdrop-filter: blur(8px);
-            pointer-events: auto;
-            border: 1px solid rgba(255, 215, 0, 0.4);
+            outline: none;
         }
 
-        .popup-relative-wrapper {
+        .unlock-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+            text-transform: uppercase;
+        }
+
+        .err-msg {
+            color: #ff4d6d;
+            font-size: 12px;
+            font-weight: 700;
+            min-height: 16px;
+        }
+
+        /* হেডার */
+        .header {
+            text-align: center;
             position: relative;
-            width: 100%;
         }
 
-        .popup-main-bg-img {
-            width: 100%;
-            display: block;
-            pointer-events: none;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 6px;
-            right: 12px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 11px;
-            font-weight: 900;
-            cursor: pointer;
-            z-index: 25;
+        .header-top {
             display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px #ef4444;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* ⚙️ বাম পাশের কোণায় সেটিংস/হিস্ট্রি ওপেন করার স্টাইলিশ বাটন */
-        .settings-btn {
-            position: absolute;
-            top: 6px;
-            left: 12px;
-            background: linear-gradient(135deg, #38bdf8, #0369a1);
-            color: white;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+        .mini-svg-icon {
+            width: 26px;
+            height: 26px;
+            filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.6));
+        }
+
+        .brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff0055, #ffffff, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.8px;
+        }
+
+        .sub-badge {
+            display: inline-block;
+            margin-top: 4px;
+            background: rgba(255, 0, 85, 0.2);
+            border: 1px solid #ff0055;
+            color: #ff4d88;
+            font-family: 'Orbitron', sans-serif;
             font-size: 10px;
-            font-weight: 900;
-            cursor: pointer;
-            z-index: 25;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 12px;
+            letter-spacing: 1px;
         }
 
-        /* গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা পিরিয়ড ও সিগন্যাল এরিয়া */
-        .center-prediction-area {
-            position: absolute;
-            top: 85px;
-            right: 11px;
-            width: 132px;
-            height: 78px;
+        /* লাইভ টাইম ও পিরিয়ড বার */
+        .time-period-bar {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid #38bdf8;
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+        }
+
+        .tp-box {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            z-index: 10;
         }
 
-        .period-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
+        .tp-label {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .period-display {
-            font-size: 7.5px;
+        .tp-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
             font-weight: 900;
-            color: #38bdf8;
-            letter-spacing: 0.3px;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
+            color: #00f0ff;
         }
 
-        .period-display:hover {
-            color: #00ff88;
+        /* সিড ইনপুট সেকশন */
+        .seed-box {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .seed-label {
+            font-size: 11px;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+
+        .seed-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 7px 10px;
+            color: #34d399;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            outline: none;
+        }
+
+        /* মেইন প্রেডিকশন ডিসপ্লে */
+        .radar-box {
+            background: radial-gradient(circle, #2e063d 0%, #0d021c 100%);
+            border: 2.5px solid #ff0055;
+            border-radius: 22px;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: inset 0 0 25px rgba(255, 0, 85, 0.45);
         }
 
         .live-dot {
-            width: 4px;
-            height: 4px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #22c55e;
-            animation: liveBlink 1s infinite alternate;
-        }
-
-        @keyframes liveBlink {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.3); }
-        }
-
-        .timer-display {
-            font-size: 9px;
-            font-weight: 900;
-            color: #facc15;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1px 7px;
-            border-radius: 5px;
-            border: 1px solid rgba(250, 204, 21, 0.5);
-            letter-spacing: 0.5px;
-        }
-
-        .solid-big-small {
-            font-size: 16px;
-            font-weight: 900;
-            color: #ffd700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.95), 0 0 6px rgba(255, 215, 0, 0.9);
-            line-height: 1;
-        }
-
-        .official-num-badge {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+            left: 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 9.5px;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .plane-icon {
+            font-size: 28px;
+            margin-bottom: 4px;
+            display: inline-block;
+            animation: fly 2s ease-in-out infinite;
+        }
+
+        @keyframes fly {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .multiplier-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 50px;
             font-weight: 900;
             color: #ffffff;
-            text-shadow: 1px 1px 2px #000;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
+            line-height: 1.1;
+            margin: 6px 0;
         }
 
-        .bg-red { background: linear-gradient(135deg, #ef4444, #991b1b); border: 1.5px solid #fca5a5; }
-        .bg-green { background: linear-gradient(135deg, #22c55e, #15803d); border: 1.5px solid #86efac; }
-        .bg-violet { background: linear-gradient(135deg, #a855f7, #6b21a8); border: 1.5px solid #d8b4fe; }
-
-        .single-market-banner {
-            margin: 4px 6px;
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            color: #000;
-            border-radius: 8px;
-            padding: 5px 0;
-            font-size: 9.5px;
-            font-weight: 900;
-            text-align: center;
-            box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-            letter-spacing: 1px;
+        .signal-status {
+            font-size: 12px;
+            font-weight: 700;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.4);
         }
 
-        /* আলাদা ছোট ফ্লোটিং হিস্ট্রি উইন্ডোজ */
-        #history-modal-window {
-            position: fixed;
-            top: 20%;
-            left: 10%;
-            width: 250px;
-            background: rgba(3, 7, 18, 0.96);
-            border: 2px solid #ffd700;
+        /* অটো কাউন্টডাউন বার */
+        .countdown-wrap {
+            background: #0f172a;
+            border: 1.5px solid #334155;
             border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.5);
-            padding: 8px;
-            display: none;
-            z-index: 10001;
-            touch-action: none;
-            backdrop-filter: blur(5px);
+            padding: 10px;
+            text-align: center;
         }
 
-        .history-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            padding-bottom: 4px;
-            margin-bottom: 6px;
-            cursor: move;
+        .cd-title {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
         }
 
-        .history-modal-title {
-            font-size: 9px;
-            color: #ffd700;
+        .cd-timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
             font-weight: 900;
-            letter-spacing: 0.5px;
+            color: #fbbf24;
+            margin-top: 2px;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
         }
 
-        .history-modal-close {
-            background: #ef4444;
-            color: white;
+        /* বাটনসমূহ */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
             border: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            font-size: 9px;
+            border-radius: 16px;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
             font-weight: 900;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .history-modal-body {
-            max-height: 150px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 8px;
-            color: #e2e8f0;
-            font-weight: 800;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 4px 6px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .tag-win {
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.15);
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-weight: 900;
-            border: 1px solid rgba(0, 255, 136, 0.4);
-        }
-
-        .tag-loss {
-            color: #ff3366;
-            background: rgba(255, 51, 102, 0.15);
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-weight: 900;
-            border: 1px solid rgba(255, 51, 102, 0.4);
-        }
-
-        /* নিচের বাটন সেকশন */
-        .bottom-action-bar {
-            margin-top: 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 0 4px;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 6px;
-        }
-
-        .action-btn {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            border-radius: 10px;
-            padding: 6px 0;
-            font-size: 8.5px;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-            letter-spacing: 0.5px;
-        }
-
-        .telegram-join-btn {
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            color: #000;
-            border-radius: 12px;
-            padding: 8px 0;
-            font-size: 10px;
-            font-weight: 900;
-            text-decoration: none;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            box-shadow: 0 0 18px rgba(0, 198, 255, 0.45);
             text-transform: uppercase;
         }
 
-        #copy-toast {
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: #fff;
-            font-size: 7.5px;
+        .register-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            border: 1.5px solid #ffd700;
+            border-radius: 18px;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
             font-weight: 900;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: none;
-            z-index: 20;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 0 22px rgba(255, 0, 85, 0.55);
+            text-transform: uppercase;
+        }
+
+        /* অটোমেটিক ANALYZING পপআপ */
+        .popup-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 2, 16, 0.92);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .popup-box {
+            width: 85%;
+            background: linear-gradient(180deg, #1e1035 0%, #0d061a 100%);
+            border: 2px solid #00f0ff;
+            border-radius: 22px;
+            padding: 22px 16px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        }
+
+        .spinner {
+            width: 46px;
+            height: 46px;
+            border: 4px solid rgba(0, 240, 255, 0.2);
+            border-top: 4px solid #ff0055;
+            border-right: 4px solid #00f0ff;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .popup-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            color: #00f0ff;
+            margin-bottom: 6px;
+        }
+
+        .popup-step {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            min-height: 18px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff0055, #00f0ff);
+            transition: width 0.2s ease;
         }
     </style>
 </head>
 <body>
 
-    <!-- জয়-এর আসল রেফারেল গেম লিংক iframe -->
-    <iframe id="game-iframe" src="https://hgnice.bet/#/register?invitationCode=376851951983" loading="lazy" style="pointer-events: auto;"></iframe>
+    <div class="aviator-card">
+        <!-- পাসওয়ার্ড লক স্ক্রিন -->
+        <div class="lock-screen" id="lockScreen">
+            <div class="custom-icon-badge">
+                <!-- কাস্টম SVG আইকন -->
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M56 12L40 28L12 22L8 26L28 36L16 48L8 46L4 50L16 56L22 68L26 64L24 56L36 44L46 64L50 60L44 32L60 16C62 14 62 11 60 9C58 7 55 7 53 9L56 12Z" transform="translate(-2 -6)" fill="url(#iconGrad)"/>
+                    <defs>
+                        <linearGradient id="iconGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#00F0FF"/>
+                            <stop offset="1" stop-color="#FF0055"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="lock-title">JOY VIP ACCESS</div>
+            <div class="lock-sub">@BDTCODER • Enter Access Password</div>
+            <input type="password" class="pass-input" id="passInput" placeholder="Enter Password">
+            <button class="unlock-btn" onclick="checkPassword()">UNLOCK PANEL</button>
+            <div class="err-msg" id="errMsg"></div>
+        </div>
 
-    <!-- ফ্লোটিং আইকন -->
-    <div id="floating-icon-btn" onclick="handleIconClick()">
-        <img src="https://imagepaste.org/i/cbp8qk93.png" alt="Joy Icon">
-    </div>
-
-    <!-- পাসওয়ার্ড পপআপ (পাসওয়ার্ড: Zahirul22369) -->
-    <div id="auth-overlay">
-        <div class="auth-title">🔐 OWNER OF JOY VIP ACCESS</div>
-        <input type="password" id="pass-input" class="auth-input" placeholder="Enter Password">
-        <label class="remember-row">
-            <input type="checkbox" id="remember-pass"> Remember Password
-        </label>
-        <button class="auth-btn" onclick="checkPassword()">Submit</button>
-        <div id="error-msg">Wrong Password!</div>
-    </div>
-
-    <!-- মূল পপআপ উইন্ডো -->
-    <div class="overlay-box" id="main-content">
-        <div class="popup-relative-wrapper">
-            <!-- ⚙️ বাম পাশের কোণায় সেটিংস/হিস্ট্রি বাটন -->
-            <button class="settings-btn" onclick="toggleHistoryModalWindow()" title="Open History">⚙️</button>
-            <button class="close-btn" onclick="hidePopup()">×</button>
-
-            <!-- ব্যাকগ্রাউন্ড ইমেজ -->
-            <img src="https://imagepaste.org/i/m42m4vdv.png" alt="JoyTG VIP Popup" class="popup-main-bg-img">
-
-            <!-- গোল্ডেন ফ্রেমের ভেতর সেন্টারে পজিশন করা পিরিয়ড ও সিগন্যাল এরিয়া -->
-            <div class="center-prediction-area">
-                <div class="period-container">
-                    <div class="period-display" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">Loading...</div>
-                    <div class="live-dot"></div>
+        <!-- অটোমেটিক অ্যানালাইসিং পপআপ -->
+        <div class="popup-overlay" id="analyzePopup">
+            <div class="popup-box">
+                <div class="spinner"></div>
+                <div class="popup-title">ANALYZING SEED...</div>
+                <div class="popup-step" id="popupStepText">Connecting SHA-256 Server Hash...</div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <!-- ৩০ সেকেন্ডের লাইভ টাইমার -->
-                <div class="timer-display" id="timer-display">TIME: 30s</div>
-                <div class="solid-big-small" id="res-size">WAITING...</div>
-                <div class="official-num-badge bg-green" id="official-num" style="display: none;">7</div>
             </div>
-            <div id="copy-toast">Copied!</div>
         </div>
 
-        <!-- 30 Sec মার্কেট ব্যানার -->
-        <div class="single-market-banner">
-            ⚡ WinGo 30SEC MARKET ⚡
-        </div>
-
-        <div class="bottom-action-bar">
-            <div class="button-row">
-                <button class="action-btn" onclick="toggleHistoryModalWindow()">📜 HISTORY</button>
-                <button class="action-btn" onclick="hidePopup()">HIDE</button>
+        <!-- হেডার -->
+        <div class="header">
+            <div class="header-top">
+                <svg class="mini-svg-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="28" stroke="#00F0FF" stroke-width="3"/>
+                    <path d="M20 42L44 22M44 22H28M44 22V38" stroke="#FF0055" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="brand-name">JOHIRUL AVIATOR</div>
             </div>
-            <a href="https://t.me/BDT588" target="_blank" class="telegram-join-btn">
-                ⚡ JOIN TELEGRAM ⚡
-            </a>
+            <div class="sub-badge">JOY • @BDTCODER • AUTO V2</div>
         </div>
-    </div>
 
-    <!-- 🌟 আলাদা ছোট ফ্লোটিং হিস্ট্রি উইন্ডোজ -->
-    <div id="history-modal-window">
-        <div class="history-modal-header" id="history-header">
-            <span class="history-modal-title">🤖 HACKER LIVE HISTORY</span>
-            <button class="history-modal-close" onclick="toggleHistoryModalWindow()">×</button>
+        <!-- লাইভ টাইম ও পিরিয়ড -->
+        <div class="time-period-bar">
+            <div class="tp-box">
+                <span class="tp-label">START TIME</span>
+                <span class="tp-val" id="liveClock">12:57:00</span>
+            </div>
+            <div class="tp-box" style="align-items: flex-end;">
+                <span class="tp-label">ROUND PERIOD</span>
+                <span class="tp-val" id="periodNumber">#AV2026112101</span>
+            </div>
         </div>
-        <div class="history-modal-body" id="history-container">
-            <div class="history-item"><span>Waiting for rounds...</span></div>
+
+        <!-- সিড ইনপুট -->
+        <div class="seed-box">
+            <div class="seed-label">
+                <span>SERVER / CLIENT SEED (SHA256)</span>
+                <span style="color:#10b981;">SYNCED</span>
+            </div>
+            <input type="text" class="seed-input" id="seedInput" value="a5f5ef53babd351c8c8322de9abcf2e1" placeholder="Paste Server Seed here...">
+        </div>
+
+        <!-- রেজাল্ট ডিসপ্লে -->
+        <div class="radar-box">
+            <div class="live-dot"><span class="dot"></span> AUTO ACTIVE</div>
+            <div class="plane-icon">✈️</div>
+            <div class="multiplier-text" id="multiplierDisplay">2.45x</div>
+            <div class="signal-status" id="cashoutAdvice">SAFE CASHOUT: 2.00x</div>
+        </div>
+
+        <!-- পরবর্তী অটো সিগন্যাল টাইমার -->
+        <div class="countdown-wrap">
+            <div class="cd-title">NEXT AUTO ANALYSIS IN</div>
+            <div class="cd-timer" id="nextTimer">00 : 20</div>
+        </div>
+
+        <!-- অ্যাকশন বাটন -->
+        <div class="btn-group">
+            <button class="analyze-btn" onclick="triggerAutoAnalysis()">⚡ ANALYZE NEXT ROUND NOW</button>
+            <a href="https://hgnice0.com/#/register?invitationCode=376851951983" target="_blank" class="register-btn">PLAY & REGISTER NOW</a>
         </div>
     </div>
 
     <script>
-        let isUnlocked = localStorage.getItem("joy_hack_unlocked") === "true";
-        let hackHistory = []; 
-        let cachedPeriod = "";
-        let cachedPrediction = { type: "BIG", num: 7 };
-
-        function handleIconClick() {
-            if (isUnlocked) {
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('floating-icon-btn').style.display = 'none';
-                startPeriodGenerator();
-            } else {
-                document.getElementById('auth-overlay').style.display = 'block';
-            }
-        }
+        const ACCESS_PASS = "Zahirul22369";
+        let isUnlocked = false;
+        let countdown = 20;
+        let roundCounter = 1;
 
         function checkPassword() {
-            const pass = document.getElementById('pass-input').value;
-            const rememberMe = document.getElementById('remember-pass').checked;
-
-            if (pass === "Zahirul22369") {
+            const val = document.getElementById("passInput").value.trim();
+            const err = document.getElementById("errMsg");
+            if (val === ACCESS_PASS) {
                 isUnlocked = true;
-                if (rememberMe) {
-                    localStorage.setItem("joy_hack_unlocked", "true");
-                }
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('floating-icon-btn').style.display = 'none';
-                startPeriodGenerator();
+                document.getElementById("lockScreen").classList.add("unlocked");
+                err.innerText = "";
+                triggerAutoAnalysis();
             } else {
-                document.getElementById('error-msg').style.display = 'block';
-                document.getElementById('pass-input').value = "";
+                err.innerText = "ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দে।";
             }
         }
 
-        function hidePopup() {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('floating-icon-btn').style.display = 'flex';
-        }
-
-        function toggleHistoryModalWindow() {
-            let win = document.getElementById('history-modal-window');
-            if (win.style.display === 'block') {
-                win.style.display = 'none';
-            } else {
-                win.style.display = 'block';
-                updateHistoryView();
-            }
-        }
-
-        function startPeriodGenerator() {
-            updateSignalLogic();
-            setInterval(updateSignalLogic, 1000);
-        }
-
-        function copyPeriodNumber() {
-            const periodText = document.getElementById('period-num').innerText;
-            if (periodText && periodText !== "Loading...") {
-                navigator.clipboard.writeText(periodText).then(() => {
-                    let toast = document.getElementById('copy-toast');
-                    toast.style.display = 'block';
-                    setTimeout(() => {
-                        toast.style.display = 'none';
-                    }, 1200);
-                });
-            }
-        }
-
-        // WinGo 30 Seconds Fixed Signal & 100% Accurate Verified Win/Loss Engine
-        function updateSignalLogic() {
-            if (!isUnlocked) return;
-
+        // লাইভ ঘড়ি
+        function updateClock() {
             const now = new Date();
-            const duration = 30; // 30s Fixed
+            const timeStr = now.toTimeString().split(' ')[0];
+            document.getElementById('liveClock').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-            const totalSecondsToday = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
-            let elapsedInPeriod = totalSecondsToday % duration; 
-            let periodIndexToday = Math.floor(totalSecondsToday / duration) + 1;
-            
-            let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
-            let formattedIndex = String(50000 + periodIndexToday).padStart(5, '0');
-            let fullPeriod = `${dateStr}1000${formattedIndex}`;
-            
-            let timeLeft = duration - elapsedInPeriod;
+        // অটোমেটিক অ্যানালাইসিং পপআপ
+        function triggerAutoAnalysis() {
+            if (!isUnlocked) return;
+            const popup = document.getElementById('analyzePopup');
+            const stepText = document.getElementById('popupStepText');
+            const fill = document.getElementById('progressFill');
 
-            document.getElementById('period-num').innerText = fullPeriod;
-            document.getElementById('timer-display').innerText = `TIME: ${timeLeft < 10 ? '0' + timeLeft : timeLeft}s`;
+            popup.classList.add('active');
+            fill.style.width = '15%';
+            stepText.innerText = 'Reading Server Seed SHA-256...';
 
-            let sizeEl = document.getElementById('res-size');
-            let numEl = document.getElementById('official-num');
-            
-            let elapsedSec = elapsedInPeriod + 1; 
+            setTimeout(() => {
+                fill.style.width = '55%';
+                stepText.innerText = 'Calculating Crash Point & Time Period...';
+            }, 700);
 
-            if (fullPeriod !== cachedPeriod) {
-                if (cachedPeriod !== "") {
-                    // একদম নিখুঁত গাণিতিক ফর্মুলা যা অফিশিয়াল WinGo নিয়মের সাথে হুবহু মিলে সঠিক আউটকাম (০-৯) এবং সাইজ (Small/Big) বের করবে
-                    let actualSeed = parseInt(cachedPeriod.slice(-5)) || 54321;
-                    let actualMarketNum = (actualSeed * 13 + 7) % 10; 
-                    let actualMarketSize = actualMarketNum >= 5 ? "BIG" : "SMALL";
-                    
-                    // হ্যাকারের প্রেডিক্ট করা সাইজ এবং মার্কেটের রিয়েল আউটকাম নিখুঁতভাবে তুলনা করা
-                    let isWin = (cachedPrediction.type === actualMarketSize);
+            setTimeout(() => {
+                fill.style.width = '90%';
+                stepText.innerText = 'Verifying Signal Accuracy...';
+            }, 1400);
 
-                    hackHistory.unshift({
-                        period: cachedPeriod.slice(-4),
-                        res: cachedPrediction.type,
-                        num: cachedPrediction.num,
-                        marketNum: actualMarketNum,
-                        marketSize: actualMarketSize,
-                        status: isWin ? "WIN" : "LOSS"
-                    });
-                    if (hackHistory.length > 10) hackHistory.pop();
-                    updateHistoryView();
-                }
+            setTimeout(() => {
+                fill.style.width = '100%';
+                popup.classList.remove('active');
+                generateNewSignal();
+                countdown = 20;
+            }, 2000);
+        }
 
-                cachedPeriod = fullPeriod;
-                
-                // রিয়েল হিউম্যান অ্যানালিসিস ইঞ্জিন
-                let seedVal = parseInt(fullPeriod.slice(-5)) || 12345;
-                let marketFlowTrend = (seedVal * 31 + Math.floor(Date.now() / 30000)) % 100;
-                
-                let isBig = marketFlowTrend >= 46;
-                let predType = isBig ? "BIG" : "SMALL";
+        // নতুন সিগন্যাল ও পিরিয়ড
+        function generateNewSignal() {
+            roundCounter++;
+            const now = new Date();
+            const datePart = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+            document.getElementById('periodNumber').innerText = `#AV${datePart}${String(roundCounter).padStart(2,'0')}`;
 
-                let luckyNum;
-                if (isBig) {
-                    luckyNum = 5 + ((seedVal + marketFlowTrend) % 5);
-                } else {
-                    luckyNum = (seedVal + marketFlowTrend) % 5;
-                }
-
-                cachedPrediction = { type: predType, num: luckyNum };
-            }
-
-            // ৩০ সেকেন্ড থেকে ২৮ সেকেন্ড পর্যন্ত WAITING, বাকি সময় ফিক্সড সিগন্যাল
-            if (timeLeft >= 28) {
-                sizeEl.innerText = "WAITING...";
-                sizeEl.style.fontSize = "11.5px";
-                numEl.style.display = "none";
+            const rand = Math.random();
+            let mult;
+            if (rand < 0.6) {
+                mult = (Math.random() * (2.80 - 1.40) + 1.40).toFixed(2);
+            } else if (rand < 0.9) {
+                mult = (Math.random() * (5.50 - 2.81) + 2.81).toFixed(2);
             } else {
-                sizeEl.style.fontSize = "16px";
-                sizeEl.innerText = cachedPrediction.type;
-
-                let luckyNum = cachedPrediction.num;
-                numEl.innerText = luckyNum;
-                numEl.className = "official-num-badge";
-
-                if (luckyNum === 0 || luckyNum === 5) {
-                    numEl.classList.add("bg-violet");
-                } else if (luckyNum === 1 || luckyNum === 3 || luckyNum === 7 || luckyNum === 9) {
-                    numEl.classList.add("bg-green");
-                } else {
-                    numEl.classList.add("bg-red");
-                }
-
-                numEl.style.display = "flex";
+                mult = (Math.random() * (9.90 - 5.51) + 5.51).toFixed(2);
             }
+
+            const safeCashout = Math.max(1.25, (mult * 0.78)).toFixed(2);
+            document.getElementById('multiplierDisplay').innerText = `${mult}x`;
+            document.getElementById('cashoutAdvice').innerText = `SAFE CASHOUT: ${safeCashout}x`;
         }
 
-        function updateHistoryView() {
-            let container = document.getElementById('history-container');
-            if (hackHistory.length === 0) {
-                container.innerHTML = `<div class="history-item"><span>Waiting for first round result...</span></div>`;
-                return;
+        // প্রতি ২০ সেকেন্ড পরপর অটোমেটিক পপআপ
+        setInterval(() => {
+            if (!isUnlocked) return;
+            countdown--;
+            if (countdown <= 0) {
+                triggerAutoAnalysis();
             }
-            let htmlStr = "";
-            hackHistory.forEach(item => {
-                let statusTag = item.status === "WIN" ? `<span class="tag-win">WIN</span>` : `<span class="tag-loss">LOSS</span>`;
-                htmlStr += `<div class="history-item">
-                    <span>#${item.period} (${item.res} - ${item.num})</span>
-                    ${statusTag}
-                </div>`;
-            });
-            container.innerHTML = htmlStr;
-        }
-
-        makeDraggable(document.getElementById("floating-icon-btn"));
-        makeDraggable(document.getElementById("main-content"));
-        makeDraggable(document.getElementById("history-modal-window"));
-
-        function makeDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let header = document.getElementById(elmnt.id + "-header") || elmnt;
-            
-            header.onmousedown = dragMouseDown;
-            header.ontouchstart = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-                let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-                let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.transform = "none";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.ontouchend = null;
-                document.onmousemove = null;
-                document.ontouchmove = null;
-            }
-        }
+            document.getElementById('nextTimer').innerText = `00 : ${String(countdown).padStart(2, '0')}`;
+        }, 1000);
     </script>
 </body>
 </html>
