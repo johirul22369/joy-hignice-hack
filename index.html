@@ -1,512 +1,1580 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JOHIRUL AVIATOR - @BDTCODER</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>𓆩♛𓆪 𝐎𝐖𝐍𝐄𝐑 𝐎𝐅 𝐉𝐎𝐘 👑 - Eagle Wing VIP</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Orbitron:wght@700;900&family=Hind+Siliguri:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap');
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body, html {
+        html, body {
             width: 100%;
-            min-height: 100vh;
-            background: #06030d;
-            font-family: 'Hind Siliguri', sans-serif;
+            height: 100%;
+            overflow: hidden;
+            background-color: #02050c;
+            color: #ffffff;
+        }
+
+        #game-iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .text-3d {
+            font-family: 'Chakra Petch', sans-serif;
+            font-weight: 700;
+            text-shadow:
+                0 1px 0 #091326,
+                0 2px 0 #050a14,
+                0 3px 6px rgba(0, 0, 0, 0.95),
+                0 0 10px rgba(250, 204, 21, 0.4);
+        }
+
+        /* স্লো মোশনে পাখির মতো হালকা ভেসে থাকার মুভমেন্ট */
+        @keyframes eagleSlowFloat {
+            0%, 100% {
+                margin-top: 0px;
+                margin-left: 0px;
+            }
+            50% {
+                margin-top: -5px;
+                margin-left: 2px;
+            }
+        }
+
+        /* বড় গর্জিয়াস ঈগলের ডানা (Slow Motion) */
+        .wing-pair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .wing-3d {
+            position: absolute;
+            top: 50%;
+            filter:
+                drop-shadow(0 8px 16px rgba(0, 0, 0, 0.96))
+                drop-shadow(0 0 16px rgba(250, 204, 21, 0.55));
+        }
+
+        .wing-left {
+            right: 100%;
+            margin-right: -4px;
+            transform-origin: 95% 48%;
+            animation: eagleFlapLeft 3.4s ease-in-out infinite;
+        }
+
+        .wing-right {
+            left: 100%;
+            margin-left: -4px;
+            transform-origin: 5% 48%;
+            animation: eagleFlapRight 3.4s ease-in-out infinite;
+        }
+
+        @keyframes eagleFlapLeft {
+            0%, 100% { transform: translateY(-50%) rotate(-8deg) scale(1); }
+            50%      { transform: translateY(-56%) rotate(16deg) scale(1.04, 0.97); }
+        }
+
+        @keyframes eagleFlapRight {
+            0%, 100% { transform: translateY(-50%) rotate(8deg) scale(1); }
+            50%      { transform: translateY(-56%) rotate(-16deg) scale(1.04, 0.97); }
+        }
+
+        /* ফ্লোটিং আইকন + বড় ঈগল ডানা */
+        #floating-icon-btn {
+            position: fixed;
+            top: 88px;
+            right: 54px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2.5px solid #facc15;
+            box-shadow:
+                0 0 0 2px #f43f5e,
+                0 10px 24px rgba(0, 0, 0, 0.95),
+                0 0 22px rgba(250, 204, 21, 0.8),
+                inset 0 2px 6px rgba(255, 255, 255, 0.45);
+            cursor: grab;
+            z-index: 9999;
+            overflow: visible;
+            touch-action: none;
+            background: radial-gradient(circle at 30% 25%, #065f46, #042f2e 70%, #020617 100%);
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 12px;
+            justify-content: center;
+            animation: eagleSlowFloat 4.2s ease-in-out infinite;
         }
 
-        .panel {
+        #floating-icon-btn:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        .icon-circle-clip {
             width: 100%;
-            max-width: 360px;
-            background: linear-gradient(180deg, #17082b 0%, #090313 100%);
-            border: 2px solid #ff0055;
-            border-radius: 26px;
-            padding: 18px 16px;
-            box-shadow: 0 0 32px rgba(255, 0, 85, 0.45);
-            color: #fff;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #floating-icon-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* পাসওয়ার্ড পপআপ */
+        #auth-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 236px;
+            background: linear-gradient(155deg, rgba(6, 78, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 55%, rgba(3, 7, 16, 1) 100%);
+            border: 1.5px solid rgba(250, 204, 21, 0.9);
+            border-radius: 18px;
+            box-shadow:
+                0 22px 44px rgba(0, 0, 0, 0.95),
+                0 0 26px rgba(16, 185, 129, 0.35),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            padding: 13px;
+            display: none;
+            z-index: 10000;
+            text-align: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .auth-title {
+            font-size: 11.5px;
+            color: #fffbeb;
+            text-shadow:
+                0 0 8px rgba(250, 204, 21, 0.95),
+                0 2px 4px rgba(0, 0, 0, 1);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 7px 9px;
+            background: rgba(3, 8, 18, 0.94);
+            border: 1px solid rgba(52, 211, 153, 0.78);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 11px;
+            text-align: center;
+            margin-bottom: 8px;
+            outline: none;
+            font-weight: 700;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 9px;
+            color: #cbd5e1;
+            margin-bottom: 9px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 7px;
+            background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+            border: none;
+            border-radius: 8px;
+            color: #050912;
+            font-size: 10.5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            box-shadow: 0 4px 14px rgba(250, 204, 21, 0.45);
+        }
+
+        #error-msg {
+            color: #fb7185;
+            font-size: 9px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 700;
+        }
+
+        /* হ্যাক পপআপ + বড় গর্জিয়াস ঈগলের ডানা */
+        .overlay-box {
+            position: fixed;
+            top: 96px;
+            left: 68px;
+            width: 224px;
+            max-width: calc(100vw - 136px);
+            display: none;
+            z-index: 9999;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.36) 0%, transparent 58%),
+                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.24) 0%, transparent 55%),
+                linear-gradient(165deg, #0b2524 0%, #09111e 50%, #04070e 100%);
+            border-radius: 20px;
+            padding: 7.5px;
+            box-shadow:
+                0 22px 44px rgba(0, 0, 0, 0.96),
+                0 0 24px rgba(16, 185, 129, 0.4),
+                0 0 14px rgba(250, 204, 21, 0.28),
+                inset 0 1px 1.5px rgba(255, 255, 255, 0.34);
+            border: 1.5px solid rgba(250, 204, 21, 0.82);
+            backdrop-filter: blur(12px);
+            animation: eagleSlowFloat 4.2s ease-in-out infinite;
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3px;
+            margin-bottom: 5px;
+            cursor: grab;
+            touch-action: none;
+            padding: 2px 3px 4px;
+            border-bottom: 1px solid rgba(250, 204, 21, 0.35);
+        }
+
+        .popup-header:active {
+            cursor: grabbing;
+        }
+
+        .badge-left {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fef08a 100%);
+            color: #1c1917;
+            font-size: 6.2px;
+            padding: 2px 4.5px;
+            border-radius: 6px;
+            line-height: 1.05;
+            text-transform: uppercase;
+            pointer-events: none;
+            text-shadow: none;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        .brand-center {
+            text-align: center;
+            flex: 1;
+            pointer-events: none;
+        }
+
+        .brand-main {
+            font-style: italic;
+            font-size: 9.8px;
+            letter-spacing: 0.35px;
+            color: #fffbeb;
+            -webkit-text-fill-color: #fffbeb;
+            -webkit-text-stroke: 0.35px #78350f;
+            text-shadow:
+                0 0 6px rgba(254, 240, 138, 0.95),
+                0 0 14px rgba(250, 204, 21, 0.85),
+                0 1px 0 #78350f,
+                0 2px 4px rgba(0, 0, 0, 1);
+            line-height: 1.12;
+            white-space: nowrap;
+            animation: joyPopGlow 2.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes joyPopGlow {
+            0% {
+                color: #fffbeb;
+                -webkit-text-fill-color: #fffbeb;
+                text-shadow:
+                    0 0 6px rgba(254, 240, 138, 0.9),
+                    0 0 13px rgba(250, 204, 21, 0.75),
+                    0 2px 4px rgba(0, 0, 0, 1);
+            }
+            100% {
+                color: #fde047;
+                -webkit-text-fill-color: #fde047;
+                text-shadow:
+                    0 0 8px rgba(250, 204, 21, 1),
+                    0 0 18px rgba(52, 211, 153, 0.8),
+                    0 2px 5px rgba(0, 0, 0, 1);
+            }
+        }
+
+        .brand-sub {
+            font-size: 6px;
+            color: #a7f3d0;
+            letter-spacing: 0.3px;
+            margin-top: 1px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 2.5px;
+        }
+
+        .voice-toggle-btn {
+            font-size: 6px;
+            padding: 2px 4.5px;
+            border-radius: 5px;
+            border: 1px solid rgba(251, 113, 133, 0.85);
+            background: linear-gradient(135deg, #f43f5e, #be123c);
+            color: #ffffff;
+            cursor: pointer;
+            text-shadow: none;
+            box-shadow: 0 0 8px rgba(244, 63, 94, 0.5);
+        }
+
+        .voice-toggle-btn.is-off {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #94a3b8;
+            border-color: rgba(148, 163, 184, 0.45);
+            box-shadow: none;
+        }
+
+        .hide-btn {
+            background: linear-gradient(180deg, #134e4a, #042f2e);
+            color: #ecfdf5;
+            border: 1px solid rgba(52, 211, 153, 0.55);
+            padding: 2px 4.5px;
+            border-radius: 5px;
+            font-size: 6px;
+            cursor: pointer;
+        }
+
+        .market-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5px;
+            margin-bottom: 5px;
+            background: rgba(2, 6, 14, 0.95);
+            padding: 2px;
+            border-radius: 9px;
+            border: 1px solid rgba(52, 211, 153, 0.35);
+        }
+
+        .market-btn {
+            font-size: 6.8px;
+            padding: 2.5px 1px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            background: rgba(15, 23, 42, 0.88);
+            color: #cbd5e1;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .market-btn.active {
+            background: linear-gradient(135deg, #10b981 0%, #f59e0b 100%);
+            color: #050912;
+            border-color: #fef08a;
+            text-shadow: none;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.55);
+        }
+
+        .ai-call-banner {
+            margin-bottom: 5px;
+            padding: 3.5px 6px;
+            border-radius: 9px;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.25), rgba(245, 158, 11, 0.25));
+            border: 1px solid rgba(250, 204, 21, 0.52);
+            font-size: 7.2px;
+            font-weight: 800;
+            color: #fef08a;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.16);
+        }
+
+        .pred-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.32fr 0.9fr;
+            gap: 4px;
+            align-items: stretch;
+            position: relative;
+        }
+
+        .side-panel {
+            border-radius: 12px;
+            padding: 5px 3px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.22);
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        /* লক স্ক্রিন */
-        .lock-box {
+        .panel-small {
+            background: linear-gradient(170deg, rgba(20, 184, 166, 0.48) 0%, rgba(17, 94, 89, 0.92) 60%, rgba(4, 47, 46, 0.98) 100%);
+        }
+
+        .panel-big {
+            background: linear-gradient(170deg, rgba(245, 158, 11, 0.48) 0%, rgba(146, 64, 14, 0.92) 60%, rgba(69, 26, 3, 0.98) 100%);
+        }
+
+        .side-panel.is-predicted {
+            border-color: #fef08a;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow:
+                0 0 16px rgba(250, 204, 21, 0.62),
+                0 8px 16px rgba(0, 0, 0, 0.8),
+                inset 0 1px 2px rgba(255, 255, 255, 0.45);
+        }
+
+        .side-panel > div {
+            position: relative;
+            z-index: 2;
+        }
+
+        .firecracker-rocket {
             position: absolute;
-            inset: 0;
-            background: #090314;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 22px;
-            gap: 12px;
-            text-align: center;
-        }
-
-        .lock-box.hidden {
-            display: none;
-        }
-
-        .icon-ring {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 2px solid #00f0ff;
-            background: rgba(0, 240, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-        }
-
-        .lock-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .lock-sub {
-            font-size: 11.5px;
-            color: #94a3b8;
-        }
-
-        .pass-inp {
-            width: 100%;
-            padding: 11px;
-            border-radius: 12px;
-            border: 1.5px solid #00f0ff;
-            background: #0f172a;
-            color: #fff;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .unlock-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 0 18px rgba(255, 0, 85, 0.5);
-        }
-
-        .err-text {
-            color: #ff4d6d;
-            font-size: 12px;
-            font-weight: 700;
-            min-height: 16px;
-        }
-
-        /* হেডার */
-        .top-head {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .top-head svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
-            font-weight: 900;
-            background: linear-gradient(90deg, #ff0055, #fff, #00f0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .id-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 9.5px;
-            color: #00f0ff;
-            background: rgba(0, 240, 255, 0.12);
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-
-        /* ফাটার সময় থেকে শুরু হওয়া টাইম পিরিয়ড বক্স */
-        .burst-time-box {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1.5px solid #ff0055;
-            border-radius: 15px;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            box-shadow: 0 0 14px rgba(255, 0, 85, 0.25);
-        }
-
-        .b-label {
-            font-size: 10px;
-            color: #cbd5e1;
-            font-weight: 700;
-        }
-
-        .b-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
-            font-weight: 900;
-            color: #ffd700;
-        }
-
-        /* মেইন সিগন্যাল স্ক্রিন */
-        .screen {
-            background: radial-gradient(circle, #320642 0%, #0b0218 100%);
-            border: 2px solid #00f0ff;
-            border-radius: 20px;
-            padding: 20px 12px;
-            text-align: center;
-            box-shadow: inset 0 0 22px rgba(0, 240, 255, 0.25);
-            margin-bottom: 12px;
-        }
-
-        .plane {
-            font-size: 26px;
-            display: inline-block;
-            animation: floatPlane 1.8s ease-in-out infinite;
-        }
-
-        @keyframes floatPlane {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .odd-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 18px #ff0055, 0 0 35px #00f0ff;
-            line-height: 1.1;
-            margin: 6px 0;
-        }
-
-        .target-badge {
-            display: inline-block;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: #34d399;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            padding: 3px 12px;
-            border-radius: 20px;
-        }
-
-        /* নেক্সট পপআপ কাউন্টডাউন */
-        .timer-strip {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 13px;
-            padding: 8px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .timer-strip span {
-            font-size: 10.5px;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-
-        .timer-strip strong {
-            display: block;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            color: #fbbf24;
-            margin-top: 2px;
-        }
-
-        /* বাটন */
-        .btn-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-
-        .btn-scan {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 15px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 0 16px rgba(0, 198, 255, 0.45);
-        }
-
-        .btn-play {
-            display: block;
-            width: 100%;
-            padding: 13px;
-            border-radius: 16px;
-            border: 1.5px solid #ffd700;
-            background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 14px;
-            text-align: center;
-            text-decoration: none;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
-        }
-
-        /* অটো পপআপ */
-        .auto-popup {
-            position: absolute;
-            inset: 0;
-            background: rgba(5, 2, 14, 0.92);
-            backdrop-filter: blur(5px);
-            z-index: 60;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            left: 50%;
+            bottom: 3px;
+            width: 3px;
+            height: 11px;
+            border-radius: 999px;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, #ffffff 0%, #34d399 50%, #fbbf24 100%);
+            box-shadow: 0 0 8px #34d399, 0 0 15px #fbbf24;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            z-index: 3;
+            animation: rocketAscendBlast 2.1s cubic-bezier(0.22, 1, 0.36, 1) infinite;
         }
 
-        .auto-popup.show {
-            opacity: 1;
-            pointer-events: all;
+        .panel-big .firecracker-rocket {
+            animation-delay: 1.05s;
         }
 
-        .popup-card {
-            width: 84%;
-            background: #140826;
-            border: 2px solid #ff0055;
-            border-radius: 20px;
-            padding: 20px 14px;
-            text-align: center;
-            box-shadow: 0 0 28px rgba(255, 0, 85, 0.5);
+        @keyframes rocketAscendBlast {
+            0%   { opacity: 0; bottom: 2px; height: 9px; transform: translateX(-50%) scale(0.9); }
+            12%  { opacity: 1; bottom: 8px; height: 12px; transform: translateX(-50%) scale(1); }
+            62%  { opacity: 1; bottom: calc(100% - 17px); height: 7px; transform: translateX(-50%) scale(1.05); }
+            67%  { opacity: 0; bottom: calc(100% - 14px); height: 2px; transform: translateX(-50%) scale(0.4); }
+            100% { opacity: 0; bottom: 2px; height: 9px; transform: translateX(-50%) scale(0.9); }
         }
 
-        .ring-loader {
-            width: 42px;
-            height: 42px;
-            border: 4px solid rgba(255, 255, 255, 0.15);
-            border-top: 4px solid #00f0ff;
-            border-right: 4px solid #ff0055;
+        .firecracker-burst {
+            position: absolute;
+            left: 50%;
+            top: 13px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            margin: 0 auto 10px;
-            animation: spin 0.75s linear infinite;
+            transform: translate(-50%, -50%) scale(0.15);
+            background: radial-gradient(circle, #ffffff 0%, #34d399 38%, #fbbf24 70%, transparent 100%);
+            box-shadow:
+                0 0 14px #ffffff,
+                0 0 24px #34d399,
+                -11px -9px 6px #facc15,
+                11px -9px 6px #34d399,
+                -13px 2px 6px #fb7185,
+                13px 2px 6px #4ade80,
+                -8px 10px 6px #38bdf8,
+                8px 10px 6px #facc15,
+                0 -13px 6px #ffffff,
+                0 12px 6px #fb7185;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 4;
+            animation: thashLightScatter 2.1s ease-out infinite;
         }
 
-        @keyframes spin {
+        .panel-big .firecracker-burst {
+            animation-delay: 1.05s;
+        }
+
+        @keyframes thashLightScatter {
+            0%, 64% { opacity: 0; transform: translate(-50%, -50%) scale(0.15); }
+            68%       { opacity: 1; transform: translate(-50%, -50%) scale(1.25); }
+            82%       { opacity: 0.9; transform: translate(-50%, -50%) scale(1.85); }
+            100%      { opacity: 0; transform: translate(-50%, -50%) scale(2.35); }
+        }
+
+        .firecracker-sparks {
+            position: absolute;
+            left: 50%;
+            top: 13px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0.1);
+            box-shadow:
+                -16px -4px 4px #facc15,
+                16px -4px 4px #34d399,
+                -6px -14px 4px #fb7185,
+                6px -14px 4px #4ade80,
+                -12px 7px 4px #38bdf8,
+                12px 7px 4px #facc15,
+                -4px 14px 4px #fb7185,
+                4px 14px 4px #4ade80;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 4;
+            animation: sparkOuterSpray 2.1s ease-out infinite;
+        }
+
+        .panel-big .firecracker-sparks {
+            animation-delay: 1.05s;
+        }
+
+        @keyframes sparkOuterSpray {
+            0%, 65% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+            71%       { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            88%       { opacity: 0.65; transform: translate(-50%, -50%) scale(1.75); }
+            100%      { opacity: 0; transform: translate(-50%, -50%) scale(2.15); }
+        }
+
+        .panel-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+            transform: perspective(180px) rotateX(10deg);
+            color: #ffffff;
+            text-shadow:
+                0 1px 0 #06131a,
+                0 2px 4px rgba(0, 0, 0, 0.95),
+                0 0 8px rgba(250, 204, 21, 0.6);
+        }
+
+        .panel-range {
+            font-size: 6.8px;
+            color: #e2e8f0;
+            opacity: 0.92;
+            margin-top: 1.5px;
+        }
+
+        .panel-tag {
+            margin-top: 4px;
+            font-size: 5.8px;
+            padding: 2px 2px;
+            border-radius: 4.5px;
+            background: rgba(15, 23, 42, 0.92);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .panel-tag.active-tag {
+            background: linear-gradient(135deg, #fde047 0%, #22c55e 100%);
+            color: #052e16;
+            border-color: #ffffff;
+            text-shadow: none;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.65);
+        }
+
+        .center-panel {
+            background:
+                radial-gradient(circle at 50% 42%, rgba(52, 211, 153, 0.14) 0%, transparent 68%),
+                linear-gradient(180deg, rgba(9, 32, 38, 0.98) 0%, rgba(4, 9, 18, 0.99) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.65);
+            border-radius: 12px;
+            padding: 4px 3.5px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+
+        .period-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5px;
+            background: rgba(15, 23, 42, 0.94);
+            padding: 1.5px 4px;
+            border-radius: 4.5px;
+            width: 100%;
+            border: 1px solid rgba(52, 211, 153, 0.25);
+        }
+
+        .period-display {
+            font-size: 6px;
+            color: #f8fafc;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .live-dot {
+            width: 4.5px;
+            height: 4.5px;
+            background-color: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #34d399, 0 0 10px #4ade80;
+            flex-shrink: 0;
+            animation: liveBlink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes liveBlink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.82); }
+        }
+
+        .football-orb-wrap {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5px 0;
+        }
+
+        .red-white-rack-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                #ef4444 0deg 22.5deg,
+                #ffffff 22.5deg 45deg
+            );
+            box-shadow:
+                0 0 12px rgba(239, 68, 68, 0.7),
+                0 0 16px rgba(255, 255, 255, 0.35),
+                0 6px 12px rgba(0, 0, 0, 0.85);
+            animation: rackSpinSlow 5s linear infinite;
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 3.8px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 3.8px));
+        }
+
+        @keyframes rackSpinSlow {
+            0%   { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .pop-head {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            color: #00f0ff;
-            font-weight: 900;
-            margin-bottom: 5px;
+        .glow-orb {
+            position: relative;
+            font-family: 'Chakra Petch', sans-serif;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow:
+                0 1px 2px rgba(0, 0, 0, 1),
+                0 2px 0 #090d16,
+                0 0 8px rgba(0, 0, 0, 0.95);
+            border: 1.5px solid #ffffff;
+            overflow: hidden;
+            z-index: 2;
         }
 
-        .pop-msg {
-            font-size: 12px;
+        .glow-orb::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background:
+                repeating-conic-gradient(
+                    from 15deg,
+                    rgba(255, 255, 255, 0.25) 0deg 14deg,
+                    transparent 14deg 60deg
+                ),
+                radial-gradient(circle at 50% 50%, transparent 32%, rgba(255, 255, 255, 0.36) 33.5%, transparent 35.5%),
+                radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.45), transparent 55%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glow-orb span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .orb-green {
+            background: radial-gradient(circle at 30% 22%, #86efac 0%, #22c55e 45%, #15803d 78%, #052e16 100%);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.85), 0 0 14px rgba(34, 197, 94, 0.85), inset 0 2px 5px rgba(255, 255, 255, 0.45);
+        }
+
+        .orb-red {
+            background: radial-gradient(circle at 30% 22%, #fca5a5 0%, #ef4444 45%, #b91c1c 78%, #450a0a 100%);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.85), 0 0 14px rgba(239, 68, 68, 0.88), inset 0 2px 5px rgba(255, 255, 255, 0.45);
+        }
+
+        .orb-violet {
+            background: radial-gradient(circle at 30% 22%, #e9d5ff 0%, #a855f7 45%, #7e22ce 78%, #2e1065 100%);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.85), 0 0 14px rgba(168, 85, 247, 0.88), inset 0 2px 5px rgba(255, 255, 255, 0.45);
+        }
+
+        .timer-pill {
+            font-size: 6px;
+            color: #fde047;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.22), rgba(245, 158, 11, 0.22));
+            border: 1px solid rgba(250, 204, 21, 0.45);
+            padding: 1.5px 5px;
+            border-radius: 999px;
+            margin-top: 1px;
+            white-space: nowrap;
+        }
+
+        .winloss-bar {
+            margin-top: 5px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .wl-btn {
+            font-size: 6.2px;
+            padding: 3px 2px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            text-transform: uppercase;
+            text-shadow: none;
+        }
+
+        .btn-win {
+            background: linear-gradient(135deg, #34d399, #059669);
+            color: #022c22;
+        }
+
+        .btn-loss {
+            background: linear-gradient(135deg, #fb7185, #be123c);
+            color: #ffffff;
+        }
+
+        .wl-status {
+            font-size: 6px;
+            text-align: center;
+            padding: 2.5px 2px;
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(52, 211, 153, 0.32);
+            color: #fde047;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-box {
+            margin-top: 5px;
+            background: linear-gradient(180deg, rgba(6, 24, 29, 0.96), rgba(3, 8, 17, 0.98));
+            border: 1px solid rgba(52, 211, 153, 0.32);
+            border-radius: 9px;
+            padding: 4.5px;
+        }
+
+        .recent-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 6px;
             color: #e2e8f0;
-            margin-bottom: 12px;
+            margin-bottom: 3px;
         }
 
-        .bar-bg {
-            width: 100%;
-            height: 7px;
-            background: #1e293b;
-            border-radius: 10px;
+        .conf-badge {
+            color: #34d399;
+        }
+
+        .wheel-strip {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            align-items: center;
+        }
+
+        .color-wheel {
+            position: relative;
+            font-family: 'Chakra Petch', sans-serif;
+            width: 15.5px;
+            height: 15.5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6.8px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
+            border: 1.5px solid #ffffff;
+            box-shadow:
+                0 0 0 1px #ef4444,
+                0 2px 6px rgba(0, 0, 0, 0.8);
             overflow: hidden;
         }
 
-        .bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #ff0055, #00f0ff);
-            transition: width 0.2s ease;
+        .color-wheel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(255, 255, 255, 0.25) 0deg 12deg,
+                transparent 12deg 72deg
+            );
+            pointer-events: none;
+        }
+
+        .color-wheel span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .w-green { background: radial-gradient(circle at 32% 28%, #4ade80, #16a34a 65%, #052e16 100%); }
+        .w-red { background: radial-gradient(circle at 32% 28%, #f87171, #dc2626 65%, #450a0a 100%); }
+        .w-violet-green { background: conic-gradient(#a855f7 0deg 180deg, #22c55e 180deg 360deg); }
+        .w-violet-red { background: conic-gradient(#a855f7 0deg 180deg, #ef4444 180deg 360deg); }
+
+        .bottom-action-bar {
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .telegram-join-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 55%, #d97706 100%);
+            color: #1c1917;
+            border: 1px solid #fef08a;
+            border-radius: 9px;
+            padding: 5px 7px;
+            font-size: 7px;
+            text-decoration: none;
+            letter-spacing: 0.45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-transform: uppercase;
+            text-shadow: none;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.42);
+        }
+
+        #copy-toast {
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #34d399, #059669);
+            color: #022c22;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3.5px 9px;
+            border-radius: 6px;
+            display: none;
+            z-index: 10002;
         }
     </style>
 </head>
 <body>
 
-    <div class="panel">
-        <!-- পাসওয়ার্ড লক -->
-        <div class="lock-box" id="lockBox">
-            <div class="icon-ring">
-                <svg viewBox="0 0 64 64" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M54 10L38 26L12 20L8 24L27 34L16 45L8 43L4 47L15 53L21 64L25 60L23 53L34 42L44 61L48 57L42 31L58 15C60 13 60 10 58 8C56 6 53 6 51 8L54 10Z" transform="translate(-2 -4)" fill="url(#pGrad)"/>
-                    <defs>
-                        <linearGradient id="pGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#00F0FF"/>
-                            <stop offset="1" stop-color="#FF0055"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <div class="lock-title">JOHIRUL AVIATOR</div>
-            <div class="lock-sub">@BDTCODER • Enter Password</div>
-            <input type="password" class="pass-inp" id="passInp" placeholder="Password">
-            <button class="unlock-btn" onclick="unlockApp()">ENTER</button>
-            <div class="err-text" id="errText"></div>
-        </div>
+    <iframe id="game-iframe" src="https://hgnice0.com/#/register?invitationCode=376851951983" loading="lazy"></iframe>
 
-        <!-- অটোমেটিক পপআপ -->
-        <div class="auto-popup" id="autoPopup">
-            <div class="popup-card">
-                <div class="ring-loader"></div>
-                <div class="pop-head">ANALYZING...</div>
-                <div class="pop-msg" id="popMsg">Catching crash time & period...</div>
-                <div class="bar-bg">
-                    <div class="bar-fill" id="barFill"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- হেডার -->
-        <div class="top-head">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="28" stroke="#00F0FF" stroke-width="3"/>
-                <path d="M20 42L44 22M44 22H28M44 22V38" stroke="#FF0055" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- ফ্লোটিং আইকন + বড় গর্জিয়াস ঈগল ডানা -->
+    <div id="floating-icon-btn">
+        <div class="wing-pair">
+            <svg class="wing-3d wing-left" width="54" height="58" viewBox="0 0 110 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="eagleIconL" x1="104" y1="18" x2="8" y2="104" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="35%" stop-color="#facc15"/>
+                        <stop offset="72%" stop-color="#34d399"/>
+                        <stop offset="100%" stop-color="#064e3b"/>
+                    </linearGradient>
+                </defs>
+                <path d="M104 46C76 16 42 8 8 14C20 26 28 38 30 50C16 53 7 61 4 72C19 70 33 65 44 56C37 71 35 86 38 100C52 89 65 76 74 62C69 78 68 94 71 110C85 92 97 70 104 46Z" fill="url(#eagleIconL)" stroke="#fef08a" stroke-width="2.2"/>
+                <path d="M96 48C70 26 42 20 16 23" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M90 62C64 48 38 46 16 54" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
-            <div class="title">AVIATOR HACK</div>
-            <div class="id-tag">@BDTCODER</div>
+            <svg class="wing-3d wing-right" width="54" height="58" viewBox="0 0 110 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="eagleIconR" x1="6" y1="18" x2="102" y2="104" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="35%" stop-color="#facc15"/>
+                        <stop offset="72%" stop-color="#34d399"/>
+                        <stop offset="100%" stop-color="#064e3b"/>
+                    </linearGradient>
+                </defs>
+                <path d="M6 46C34 16 68 8 102 14C90 26 82 38 80 50C94 53 103 61 106 72C91 70 77 65 66 56C73 71 75 86 72 100C58 89 45 76 36 62C41 78 42 94 39 110C25 92 13 70 6 46Z" fill="url(#eagleIconR)" stroke="#fef08a" stroke-width="2.2"/>
+                <path d="M14 48C40 26 68 20 94 23" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M20 62C46 48 72 46 94 54" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
         </div>
-
-        <!-- যে সময়ে ফাটবে ওই সময় থেকে শুরু হওয়া পিরিয়ড ও টাইম -->
-        <div class="burst-time-box">
-            <div>
-                <div class="b-label">BURST START TIME</div>
-                <div class="b-val" id="burstTime">13:07:00</div>
-            </div>
-            <div style="text-align: right;">
-                <div class="b-label">PERIOD</div>
-                <div class="b-val" id="burstPeriod">#130700-01</div>
-            </div>
-        </div>
-
-        <!-- সিগন্যাল ডিসপ্লে -->
-        <div class="screen">
-            <div class="plane">✈️</div>
-            <div class="odd-val" id="oddVal">2.15x</div>
-            <div class="target-badge" id="targetBadge">CASH OUT: 1.75x</div>
-        </div>
-
-        <!-- নেক্সট অটো পপআপ টাইমার -->
-        <div class="timer-strip">
-            <span>AUTO POPUP IN</span>
-            <strong id="secCount">00 : 18</strong>
-        </div>
-
-        <!-- ডাইরেক্ট প্লে বাটন -->
-        <div class="btn-stack">
-            <button class="btn-scan" onclick="runPopup()">⚡ NEXT SIGNAL NOW</button>
-            <a href="https://hgnice0.com/#/register?invitationCode=376851951983" target="_blank" class="btn-play">OPEN AVIATOR & PLAY</a>
+        <div class="icon-circle-clip">
+            <img src="https://cdn.imageurlgenerator.com/uploads/5082a2d5-1833-47fe-9594-4df69e1e307c.png" alt="Owner Of Joy Icon" />
         </div>
     </div>
 
+    <!-- পাসওয়ার্ড পপআপ -->
+    <div id="auth-overlay">
+        <div class="auth-title text-3d">🔐 𝐎𝐖𝐍𝐄𝐑 𝐎𝐅 𝐉𝐎𝐘 👑</div>
+        <input type="password" id="pass-input" class="auth-input" placeholder="Enter Password" />
+        <label class="remember-row">
+            <input type="checkbox" id="remember-pass" /> Remember Password
+        </label>
+        <button type="button" class="auth-btn text-3d" onclick="checkPassword()">Submit</button>
+        <div id="error-msg">Wrong Password!</div>
+    </div>
+
+    <!-- হ্যাক পপআপ + বড় গর্জিয়াস ঈগলের ডানা -->
+    <div class="overlay-box" id="main-content">
+        <div class="wing-pair">
+            <svg class="wing-3d wing-left" width="68" height="142" viewBox="0 0 115 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="eaglePopL" x1="110" y1="22" x2="8" y2="168" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="32%" stop-color="#facc15"/>
+                        <stop offset="68%" stop-color="#34d399"/>
+                        <stop offset="100%" stop-color="#064e3b"/>
+                    </linearGradient>
+                </defs>
+                <path d="M110 68C78 24 40 10 6 16C20 34 29 52 32 70C15 74 6 86 3 102C20 98 37 91 51 79C42 100 40 121 44 142C60 126 75 109 86 91C79 115 78 139 82 164C96 136 105 104 110 68Z" fill="url(#eaglePopL)" stroke="#fef08a" stroke-width="2.4"/>
+                <path d="M100 72C72 42 40 32 14 34" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M94 92C66 72 38 69 14 78" stroke="#fde047" stroke-width="2" stroke-linecap="round"/>
+                <path d="M88 114C62 102 38 102 18 112" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <svg class="wing-3d wing-right" width="68" height="142" viewBox="0 0 115 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="eaglePopR" x1="5" y1="22" x2="107" y2="168" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="32%" stop-color="#facc15"/>
+                        <stop offset="68%" stop-color="#34d399"/>
+                        <stop offset="100%" stop-color="#064e3b"/>
+                    </linearGradient>
+                </defs>
+                <path d="M5 68C37 24 75 10 109 16C95 34 86 52 83 70C100 74 109 86 112 102C95 98 78 91 64 79C73 100 75 121 71 142C55 126 40 109 29 91C36 115 37 139 33 164C19 136 10 104 5 68Z" fill="url(#eaglePopR)" stroke="#fef08a" stroke-width="2.4"/>
+                <path d="M15 72C43 42 75 32 101 34" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M21 92C49 72 77 69 101 78" stroke="#fde047" stroke-width="2" stroke-linecap="round"/>
+                <path d="M27 114C53 102 77 102 97 112" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <div class="popup-header" id="main-content-header">
+            <div class="badge-left text-3d">3D<br />VIP</div>
+            <div class="brand-center">
+                <div class="brand-main text-3d">𓆩♛𓆪 𝐎𝐖𝐍𝐄𝐑 𝐎𝐅 𝐉𝐎𝐘 👑</div>
+                <div class="brand-sub text-3d" id="mode-subtitle">30 SEC EAGLE WING</div>
+            </div>
+            <div class="header-controls">
+                <button type="button" class="voice-toggle-btn text-3d" id="voice-toggle-btn" onclick="toggleVoice()" title="Bangla Female Voice ON/OFF">👩 ON</button>
+                <button type="button" class="hide-btn text-3d" onclick="hidePopup()">HIDE</button>
+            </div>
+        </div>
+
+        <div class="market-tabs">
+            <button type="button" class="market-btn text-3d active" data-market="30S">30S</button>
+            <button type="button" class="market-btn text-3d" data-market="1M">1M</button>
+            <button type="button" class="market-btn text-3d" data-market="3M">3M</button>
+            <button type="button" class="market-btn text-3d" data-market="5M">5M</button>
+        </div>
+
+        <div class="ai-call-banner" id="ai-call-banner">👩 সবাই এখানে একটা বিগ ট্রেড করো!</div>
+
+        <div class="pred-grid">
+            <div class="side-panel panel-small" id="small-panel">
+                <span class="firecracker-rocket"></span>
+                <span class="firecracker-burst"></span>
+                <span class="firecracker-sparks"></span>
+                <div>
+                    <div class="panel-title">SMALL</div>
+                    <div class="panel-range text-3d">0 - 4</div>
+                </div>
+                <div class="panel-tag text-3d" id="small-tag">STANDBY</div>
+            </div>
+
+            <div class="center-panel">
+                <div class="period-row">
+                    <div class="period-display text-3d" id="period-num" onclick="copyPeriodNumber()" title="Click to Copy Period">Loading...</div>
+                    <div class="live-dot"></div>
+                </div>
+
+                <div class="football-orb-wrap">
+                    <div class="red-white-rack-ring"></div>
+                    <div class="glow-orb orb-green" id="main-orb"><span id="main-orb-text">-</span></div>
+                </div>
+
+                <div class="timer-pill text-3d" id="timer-display">NEXT IN 30s</div>
+            </div>
+
+            <div class="side-panel panel-big" id="big-panel">
+                <span class="firecracker-rocket"></span>
+                <span class="firecracker-burst"></span>
+                <span class="firecracker-sparks"></span>
+                <div>
+                    <div class="panel-title">BIG</div>
+                    <div class="panel-range text-3d">5 - 9</div>
+                </div>
+                <div class="panel-tag text-3d" id="big-tag">STANDBY</div>
+            </div>
+        </div>
+
+        <div class="winloss-bar">
+            <button type="button" class="wl-btn btn-win text-3d" onclick="triggerWinResult()">🏆 WIN</button>
+            <div class="wl-status text-3d" id="wl-status">W: 0 | L: 0</div>
+            <button type="button" class="wl-btn btn-loss text-3d" onclick="triggerLossResult()">❌ LOSS</button>
+        </div>
+
+        <div class="recent-box">
+            <div class="recent-head text-3d">
+                <span id="color-label">GREEN</span>
+                <span class="conf-badge" id="conf-label">CONF 88%</span>
+            </div>
+            <div class="wheel-strip" id="recent-wheels"></div>
+        </div>
+
+        <div class="bottom-action-bar">
+            <a href="https://t.me/trader_joy22369" target="_blank" rel="noopener noreferrer" class="telegram-join-btn text-3d">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.693-1.653-1.124-2.678-1.8-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.442-752-.244-1.349-.374-1.297-.789.027-.216.324-.437.893-.663 3.498-1.524 5.83-2.529 6.996-3.014 3.333-1.386 4.025-1.627 4.479-1.635.099-.002.321.023.465.14.12.098.153.228.166.32.013.092.028.301.012.463z" fill="#1c1917"/>
+                </svg>
+                JOIN TELEGRAM
+            </a>
+        </div>
+    </div>
+
+    <div id="copy-toast">Copied!</div>
+
     <script>
-        const PASS = "Zahirul22369";
-        let unlocked = false;
-        let sec = 18;
-        let stepNum = 1;
+        const MARKETS = {
+            "30S": { duration: 30,  offset: 50000, salt: 0x9E3779B9, label: "30 SEC EAGLE WING", bnName: "ত্রিশ সেকেন্ড" },
+            "1M":  { duration: 60,  offset: 20000, salt: 0x85EBCA6B, label: "1 MIN EAGLE WING",  bnName: "এক মিনিট" },
+            "3M":  { duration: 180, offset: 10000, salt: 0xC2B2AE35, label: "3 MIN EAGLE WING",  bnName: "তিন মিনিট" },
+            "5M":  { duration: 300, offset: 5000,  salt: 0x27D4EB2F, label: "5 MIN EAGLE WING",  bnName: "পাঁচ মিনিট" }
+        };
 
-        function unlockApp() {
-            const p = document.getElementById("passInp").value.trim();
-            const err = document.getElementById("errText");
-            if (p === PASS) {
-                unlocked = true;
-                document.getElementById("lockBox").classList.add("hidden");
-                err.innerText = "";
-                runPopup();
+        const BANGLA_DIGITS = ["শূন্য", "এক", "দুই", "তিন", "চার", "পাঁচ", "ছয়", "সাত", "আট", "নয়"];
+        const ACCESS_PASS = "Zahirul22369";
+
+        let currentMarket = "30S";
+        let isUnlocked = localStorage.getItem("joy_vip_hack_unlocked") === "true";
+        let voiceEnabled = localStorage.getItem("joy_female_voice_enabled") !== "false";
+        let cachedPeriod = "";
+        let lastEvaluatedPeriod = "";
+        let cachedPrediction = { type: "BIG", num: 7, confidence: 86, colorName: "GREEN" };
+        let previousPrediction = null;
+        let signalTimerStarted = false;
+        let winCount = 0;
+        let lossCount = 0;
+
+        updateVoiceButtonUI();
+
+        document.getElementById("pass-input").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") checkPassword();
+        });
+
+        document.querySelectorAll(".market-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".market-btn").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentMarket = btn.dataset.market;
+                document.getElementById("mode-subtitle").innerText = MARKETS[currentMarket].label;
+                cachedPeriod = "";
+                lastEvaluatedPeriod = "";
+                previousPrediction = null;
+                updateSignalLogic();
+                if (voiceEnabled) {
+                    speakFemaleBangla(`${MARKETS[currentMarket].bnName} মার্কেট চালু হয়েছে।`);
+                }
+            });
+        });
+
+        function updateVoiceButtonUI() {
+            const btn = document.getElementById("voice-toggle-btn");
+            if (!btn) return;
+            if (voiceEnabled) {
+                btn.textContent = "👩 ON";
+                btn.classList.remove("is-off");
             } else {
-                err.innerText = "পাসওয়ার্ড ভুল হয়েছে!";
+                btn.textContent = "🔇 OFF";
+                btn.classList.add("is-off");
             }
         }
 
-        function runPopup() {
-            if (!unlocked) return;
-            const pop = document.getElementById("autoPopup");
-            const msg = document.getElementById("popMsg");
-            const bar = document.getElementById("barFill");
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            localStorage.setItem("joy_female_voice_enabled", String(voiceEnabled));
+            updateVoiceButtonUI();
 
-            pop.classList.add("show");
-            bar.style.width = "20%";
-            msg.innerText = "Syncing exact burst timestamp...";
-
-            setTimeout(() => {
-                bar.style.width = "65%";
-                msg.innerText = "Generating time period & odd...";
-            }, 600);
-
-            setTimeout(() => {
-                bar.style.width = "100%";
-                pop.classList.remove("show");
-                updateBurstSignal();
-                sec = 18;
-            }, 1300);
+            if (!voiceEnabled && "speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            } else if (voiceEnabled) {
+                speakFemaleBangla("ফিমেল ভয়েস চালু করা হয়েছে।");
+            }
         }
 
-        function updateBurstSignal() {
+        function pickFemaleBanglaVoice() {
+            if (!("speechSynthesis" in window)) return null;
+            const voices = window.speechSynthesis.getVoices() || [];
+            const maleKeywords = /\bmale\b|\bman\b|\bboy\b|rishi|prabhat|amit|arjun|david|mark|alex|daniel/i;
+            const femaleKeywords = /female|woman|girl|tanisha|bashkar|nabila|priya|lekha|aditi|raveena|sangeeta|kalpana|zira|samantha|victoria|google.*bn|microsoft.*tanisha/i;
+
+            const nonMaleVoices = voices.filter((v) => !maleKeywords.test(v.name));
+            const banglaFemale = nonMaleVoices.find((v) => (/bn/i.test(v.lang) || /bangla|bengali/i.test(v.name)) && femaleKeywords.test(v.name));
+            if (banglaFemale) return banglaFemale;
+
+            const banglaNonMale = nonMaleVoices.find((v) => /bn/i.test(v.lang) || /bangla|bengali/i.test(v.name));
+            if (banglaNonMale) return banglaNonMale;
+
+            const anyFemale = nonMaleVoices.find((v) => femaleKeywords.test(v.name));
+            return anyFemale || nonMaleVoices[0] || null;
+        }
+
+        function speakFemaleBangla(text, onDone) {
+            if (!voiceEnabled || !("speechSynthesis" in window) || !text) {
+                if (typeof onDone === "function") onDone();
+                return;
+            }
+            try {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                const chosenVoice = pickFemaleBanglaVoice();
+                if (chosenVoice) {
+                    utter.voice = chosenVoice;
+                }
+                utter.lang = "bn-BD";
+                utter.pitch = 1.32;
+                utter.rate = 1.03;
+                utter.volume = 1;
+                if (typeof onDone === "function") {
+                    utter.onend = onDone;
+                    utter.onerror = onDone;
+                }
+                window.speechSynthesis.speak(utter);
+            } catch (_) {
+                if (typeof onDone === "function") onDone();
+            }
+        }
+
+        function getTradeCallSentence(pred) {
+            if (pred.type === "BIG") {
+                return "সবাই এখানে একটা বিগ ট্রেড করো!";
+            }
+            return "সবাই এখানে একটা স্মল ট্রেড করো!";
+        }
+
+        function triggerWinResult() {
+            winCount++;
+            document.getElementById("wl-status").textContent = `W: ${winCount} | L: ${lossCount}`;
+            document.getElementById("ai-call-banner").textContent = "👩 অভিনন্দন! এই ট্রেড উইন হয়েছে!";
+            speakFemaleBangla("অভিনন্দন! এই ট্রেড উইন হয়েছে!");
+        }
+
+        function triggerLossResult() {
+            lossCount++;
+            document.getElementById("wl-status").textContent = `W: ${winCount} | L: ${lossCount}`;
+            document.getElementById("ai-call-banner").textContent = "👩 দুঃখিত, এই ট্রেড লস হয়েছে!";
+            speakFemaleBangla("দুঃখিত, এই ট্রেড লস হয়েছে!");
+        }
+
+        function checkPreviousTradeOutcome(slotNum, cfg, dateSeed, prevPred) {
+            const outcomeHash = mixHash((dateSeed ^ Math.imul(slotNum, cfg.salt) ^ 0x517CC1B7) >>> 0);
+            const actualIsBig = (outcomeHash % 100) >= 50;
+            const predictedIsBig = prevPred.type === "BIG";
+            return predictedIsBig === actualIsBig;
+        }
+
+        function announcePeriodUpdateBangla(pred, prevOutcomeText) {
+            const callText = getTradeCallSentence(pred);
+            const numBn = BANGLA_DIGITS[pred.num] ?? pred.num;
+            document.getElementById("ai-call-banner").textContent = `👩 ${callText}`;
+
+            if (!voiceEnabled) return;
+
+            if (prevOutcomeText) {
+                speakFemaleBangla(prevOutcomeText, () => {
+                    setTimeout(() => {
+                        speakFemaleBangla(`${callText} নম্বর ${numBn}।`);
+                    }, 350);
+                });
+            } else {
+                speakFemaleBangla(`${callText} নম্বর ${numBn}।`);
+            }
+        }
+
+        function handleIconClick() {
+            if (isUnlocked) {
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('floating-icon-btn').style.display = 'none';
+                startPeriodGenerator();
+                if (voiceEnabled) {
+                    speakFemaleBangla("ওনার অফ জয় ঈগল উইং প্যানেল ওপেন হয়েছে।");
+                }
+            } else {
+                document.getElementById('error-msg').style.display = 'none';
+                document.getElementById('auth-overlay').style.display = 'block';
+            }
+        }
+
+        function checkPassword() {
+            const pass = document.getElementById('pass-input').value.trim();
+            const rememberMe = document.getElementById('remember-pass').checked;
+
+            if (pass === ACCESS_PASS) {
+                isUnlocked = true;
+                if (rememberMe) {
+                    localStorage.setItem("joy_vip_hack_unlocked", "true");
+                }
+                document.getElementById('error-msg').style.display = 'none';
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('floating-icon-btn').style.display = 'none';
+                startPeriodGenerator();
+                if (voiceEnabled) {
+                    speakFemaleBangla("স্বাগতম! প্যানেল আনলক হয়েছে।");
+                }
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+                document.getElementById('pass-input').value = "";
+            }
+        }
+
+        function hidePopup() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('floating-icon-btn').style.display = 'flex';
+            if (voiceEnabled) {
+                speakFemaleBangla("প্যানেল হাইড করা হলো।");
+            }
+        }
+
+        function startPeriodGenerator() {
+            updateSignalLogic();
+            if (!signalTimerStarted) {
+                signalTimerStarted = true;
+                setInterval(updateSignalLogic, 1000);
+            }
+        }
+
+        function copyPeriodNumber() {
+            const periodText = document.getElementById('period-num').innerText.trim();
+            if (periodText && periodText !== "Loading...") {
+                navigator.clipboard.writeText(periodText).then(() => {
+                    const toast = document.getElementById('copy-toast');
+                    toast.style.display = 'block';
+                    setTimeout(() => {
+                        toast.style.display = 'none';
+                    }, 1200);
+                    if (voiceEnabled) {
+                        speakFemaleBangla("পিরিয়ড নম্বর কপি হয়েছে।");
+                    }
+                }).catch(() => {});
+            }
+        }
+
+        function getSyncedMarketClock(marketKey, cfg, now) {
+            const secInDay = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+            const slot = Math.floor(secInDay / cfg.duration);
+            const rem = secInDay % cfg.duration;
+            const timeLeft = cfg.duration - rem;
+            const elapsed = rem;
+            const periodIndexToday = slot + 1;
+            return { elapsed, timeLeft, periodIndexToday };
+        }
+
+        function mixHash(seed) {
+            let x = seed >>> 0;
+            x ^= x >>> 16;
+            x = Math.imul(x, 0x7feb352d) >>> 0;
+            x ^= x >>> 15;
+            x = Math.imul(x, 0x846ca68b) >>> 0;
+            x ^= x >>> 16;
+            return x >>> 0;
+        }
+
+        function getColorMeta(num) {
+            if (num === 0) {
+                return { orbClass: "orb-violet", wheelClass: "w-violet-red", colorName: "VIOLET+RED" };
+            }
+            if (num === 5) {
+                return { orbClass: "orb-violet", wheelClass: "w-violet-green", colorName: "VIOLET+GRN" };
+            }
+            if ([1, 3, 7, 9].includes(num)) {
+                return { orbClass: "orb-green", wheelClass: "w-green", colorName: "GREEN" };
+            }
+            return { orbClass: "orb-red", wheelClass: "w-red", colorName: "RED" };
+        }
+
+        function evaluateSlot(slotNum, cfg, dateSeed) {
+            const baseSeed = (dateSeed ^ Math.imul(slotNum, cfg.salt)) >>> 0;
+            const h1 = mixHash(baseSeed);
+            const h2 = mixHash(h1 ^ (slotNum * 2654435761));
+
+            let prevStreakType = null;
+            let streakCount = 0;
+            let bigCount = 0;
+
+            for (let lookback = 1; lookback <= 5; lookback++) {
+                const prevIdx = Math.max(1, slotNum - lookback);
+                const pHash = mixHash((dateSeed ^ Math.imul(prevIdx, cfg.salt)) >>> 0);
+                const pIsBig = (pHash % 100) >= 49;
+                if (pIsBig) bigCount++;
+
+                if (lookback === 1) {
+                    prevStreakType = pIsBig ? "BIG" : "SMALL";
+                    streakCount = 1;
+                } else if (((pIsBig ? "BIG" : "SMALL") === prevStreakType) && streakCount === lookback - 1) {
+                    streakCount++;
+                }
+            }
+
+            let bigScore = h1 % 100;
+
+            if (prevStreakType === "BIG" && streakCount >= 3) {
+                bigScore -= 18;
+            } else if (prevStreakType === "SMALL" && streakCount >= 3) {
+                bigScore += 18;
+            }
+
+            if (bigCount >= 4) bigScore -= 10;
+            if (bigCount <= 1) bigScore += 10;
+
+            const type = bigScore >= 50 ? "BIG" : "SMALL";
+
+            const poolSmall = [0, 1, 2, 3, 4];
+            const poolBig = [5, 6, 7, 8, 9];
+            const pool = type === "BIG" ? poolBig : poolSmall;
+
+            let pickIdx = h2 % pool.length;
+            let num = pool[pickIdx];
+
+            if (slotNum > 1) {
+                const prevNum = evaluateSlotRawNum(slotNum - 1, cfg, dateSeed);
+                if (num === prevNum) {
+                    num = pool[(pickIdx + 1) % pool.length];
+                }
+            }
+
+            const delta = Math.abs(bigScore - 50);
+            const confidence = Math.min(94, Math.max(76, 78 + Math.floor(delta * 0.65) + (h2 % 6)));
+            const meta = getColorMeta(num);
+
+            return { type, num, confidence, ...meta };
+        }
+
+        function evaluateSlotRawNum(slotNum, cfg, dateSeed) {
+            const baseSeed = (dateSeed ^ Math.imul(slotNum, cfg.salt)) >>> 0;
+            const h1 = mixHash(baseSeed);
+            const h2 = mixHash(h1 ^ (slotNum * 2654435761));
+            const type = (h1 % 100) >= 50 ? "BIG" : "SMALL";
+            const pool = type === "BIG" ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+            return pool[h2 % pool.length];
+        }
+
+        function renderRecentWheels(cfg, periodIndexToday, dateSeed) {
+            const container = document.getElementById('recent-wheels');
+            container.innerHTML = "";
+            for (let i = 9; i >= 0; i--) {
+                const idx = Math.max(1, periodIndexToday - i);
+                const sig = evaluateSlot(idx, cfg, dateSeed);
+
+                const el = document.createElement('div');
+                el.className = `color-wheel ${sig.wheelClass}`;
+                el.innerHTML = `<span>${sig.num}</span>`;
+                container.appendChild(el);
+            }
+        }
+
+        function updateSignalLogic() {
+            if (!isUnlocked) return;
+
+            const cfg = MARKETS[currentMarket] || MARKETS["30S"];
             const now = new Date();
-            const hh = String(now.getHours()).padStart(2, "0");
-            const mm = String(now.getMinutes()).padStart(2, "0");
-            const ss = String(now.getSeconds()).padStart(2, "0");
-            const timeNow = `${hh}:${mm}:${ss}`;
+            const { elapsed, timeLeft, periodIndexToday } = getSyncedMarketClock(currentMarket, cfg, now);
 
-            document.getElementById("burstTime").innerText = timeNow;
-            document.getElementById("burstPeriod").innerText = `#${hh}${mm}${ss}-${String(stepNum).padStart(2, "0")}`;
-            stepNum++;
+            const dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
+            const dateSeed = parseInt(dateStr, 10) || 20261121;
+            const formattedIndex = String(cfg.offset + periodIndexToday).padStart(5, '0');
+            const fullPeriod = `${dateStr}1000${formattedIndex}`;
 
-            const r = Math.random();
-            let odd;
-            if (r < 0.65) {
-                odd = (Math.random() * (2.75 - 1.35) + 1.35).toFixed(2);
-            } else if (r < 0.9) {
-                odd = (Math.random() * (5.20 - 2.76) + 2.76).toFixed(2);
-            } else {
-                odd = (Math.random() * (9.50 - 5.21) + 5.21).toFixed(2);
+            document.getElementById('period-num').innerText = fullPeriod;
+            document.getElementById('timer-display').innerText = `NEXT IN ${String(timeLeft).padStart(2, '0')}s`;
+
+            let periodJustChanged = false;
+            let outcomeSentence = "";
+
+            if (fullPeriod !== cachedPeriod) {
+                if (cachedPeriod && previousPrediction && periodIndexToday > 1) {
+                    const isWin = checkPreviousTradeOutcome(periodIndexToday - 1, cfg, dateSeed, previousPrediction);
+                    if (isWin) {
+                        winCount++;
+                        outcomeSentence = "অভিনন্দন! আগের ট্রেড উইন হয়েছে!";
+                    } else {
+                        lossCount++;
+                        outcomeSentence = "দুঃখিত, আগের ট্রেড লস হয়েছে!";
+                    }
+                    document.getElementById("wl-status").textContent = `W: ${winCount} | L: ${lossCount}`;
+                }
+
+                cachedPeriod = fullPeriod;
+                cachedPrediction = evaluateSlot(periodIndexToday, cfg, dateSeed);
+                previousPrediction = { ...cachedPrediction };
+                periodJustChanged = true;
             }
 
-            const safe = Math.max(1.20, (odd * 0.78)).toFixed(2);
-            document.getElementById("oddVal").innerText = `${odd}x`;
-            document.getElementById("targetBadge").innerText = `CASH OUT: ${safe}x`;
+            const orb = document.getElementById('main-orb');
+            const orbText = document.getElementById('main-orb-text');
+            const smallPanel = document.getElementById('small-panel');
+            const bigPanel = document.getElementById('big-panel');
+            const smallTag = document.getElementById('small-tag');
+            const bigTag = document.getElementById('big-tag');
+            const confLabel = document.getElementById('conf-label');
+
+            if (elapsed <= 2) {
+                orbText.innerText = "...";
+                orb.className = "glow-orb orb-violet";
+                document.getElementById('color-label').innerText = "SCANNING";
+                confLabel.innerText = "SYNC...";
+                document.getElementById("ai-call-banner").textContent = outcomeSentence
+                    ? `👩 ${outcomeSentence}`
+                    : "👩 সিগন্যাল স্ক্যান হচ্ছে, একটু অপেক্ষা করো...";
+                smallPanel.classList.remove('is-predicted');
+                bigPanel.classList.remove('is-predicted');
+                smallTag.innerText = "WAIT";
+                bigTag.innerText = "WAIT";
+                smallTag.className = "panel-tag text-3d";
+                bigTag.className = "panel-tag text-3d";
+            } else {
+                orbText.innerText = String(cachedPrediction.num);
+                orb.className = `glow-orb ${cachedPrediction.orbClass}`;
+                document.getElementById('color-label').innerText = cachedPrediction.colorName;
+                confLabel.innerText = `CONF ${cachedPrediction.confidence}%`;
+                document.getElementById("ai-call-banner").textContent = `👩 ${getTradeCallSentence(cachedPrediction)}`;
+
+                if (cachedPrediction.type === "BIG") {
+                    bigPanel.classList.add('is-predicted');
+                    smallPanel.classList.remove('is-predicted');
+                    bigTag.innerText = "PREDICTED";
+                    bigTag.className = "panel-tag text-3d active-tag";
+                    smallTag.innerText = "SKIP";
+                    smallTag.className = "panel-tag text-3d";
+                } else {
+                    smallPanel.classList.add('is-predicted');
+                    bigPanel.classList.remove('is-predicted');
+                    smallTag.innerText = "PREDICTED";
+                    smallTag.className = "panel-tag text-3d active-tag";
+                    bigTag.innerText = "SKIP";
+                    bigTag.className = "panel-tag text-3d";
+                }
+            }
+
+            if (periodJustChanged && lastEvaluatedPeriod !== fullPeriod) {
+                lastEvaluatedPeriod = fullPeriod;
+                announcePeriodUpdateBangla(cachedPrediction, outcomeSentence);
+            }
+
+            renderRecentWheels(cfg, periodIndexToday, dateSeed);
         }
 
-        setInterval(() => {
-            if (!unlocked) return;
-            sec--;
-            if (sec <= 0) {
-                runPopup();
+        if ("speechSynthesis" in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                pickFemaleBanglaVoice();
+            };
+        }
+
+        makeDraggable(document.getElementById("floating-icon-btn"), document.getElementById("floating-icon-btn"), handleIconClick);
+        makeDraggable(document.getElementById("main-content"), document.getElementById("main-content-header"), null);
+
+        function makeDraggable(targetEl, handleEl, onTap) {
+            let isDown = false;
+            let moved = false;
+            let startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+            function onStart(x, y) {
+                const rect = targetEl.getBoundingClientRect();
+                origLeft = rect.left;
+                origTop = rect.top;
+                startX = x;
+                startY = y;
+                isDown = true;
+                moved = false;
+                targetEl.style.left = `${origLeft}px`;
+                targetEl.style.top = `${origTop}px`;
+                targetEl.style.right = "auto";
+                targetEl.style.bottom = "auto";
+                targetEl.style.transform = "none";
             }
-            document.getElementById("secCount").innerText = `00 : ${String(sec).padStart(2, "0")}`;
-        }, 1000);
+
+            function onMove(x, y) {
+                if (!isDown) return;
+                const dx = x - startX;
+                const dy = y - startY;
+                if (Math.hypot(dx, dy) > 6) moved = true;
+                const maxLeft = Math.max(4, window.innerWidth - targetEl.offsetWidth - 4);
+                const maxTop = Math.max(4, window.innerHeight - targetEl.offsetHeight - 4);
+                targetEl.style.left = `${Math.max(4, Math.min(maxLeft, origLeft + dx))}px`;
+                targetEl.style.top = `${Math.max(4, Math.min(maxTop, origTop + dy))}px`;
+            }
+
+            function onEnd() {
+                if (!isDown) return;
+                isDown = false;
+                if (!moved && typeof onTap === "function") onTap();
+            }
+
+            handleEl.addEventListener("touchstart", (e) => {
+                if (e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) return;
+                if (e.touches.length === 1) onStart(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+
+            handleEl.addEventListener("touchmove", (e) => {
+                if (!isDown || e.touches.length !== 1) return;
+                e.preventDefault();
+                onMove(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: false });
+
+            handleEl.addEventListener("touchend", onEnd);
+            handleEl.addEventListener("touchcancel", onEnd);
+
+            handleEl.addEventListener("mousedown", (e) => {
+                if (e.button !== 0 || e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) return;
+                onStart(e.clientX, e.clientY);
+
+                function mm(ev) { onMove(ev.clientX, ev.clientY); }
+                function mu() {
+                    document.removeEventListener("mousemove", mm);
+                    document.removeEventListener("mouseup", mu);
+                    onEnd();
+                }
+                document.addEventListener("mousemove", mm);
+                document.addEventListener("mouseup", mu);
+            });
+        }
     </script>
 </body>
 </html>
