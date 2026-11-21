@@ -26,10 +26,9 @@
             padding: 12px;
         }
 
-        /* মেইন কার্ড কন্টেইনার */
         .aviator-card {
             width: 100%;
-            max-width: 370px;
+            max-width: 375px;
             background: linear-gradient(180deg, #160929 0%, #090312 100%);
             border: 2.5px solid #ff0055;
             border-radius: 28px;
@@ -38,7 +37,7 @@
             color: #ffffff;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             position: relative;
             overflow: hidden;
         }
@@ -130,7 +129,6 @@
         /* হেডার */
         .header {
             text-align: center;
-            position: relative;
         }
 
         .header-top {
@@ -159,15 +157,15 @@
         .sub-badge {
             display: inline-block;
             margin-top: 4px;
-            background: rgba(255, 0, 85, 0.2);
-            border: 1px solid #ff0055;
-            color: #ff4d88;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            color: #34d399;
             font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
             padding: 2px 10px;
             border-radius: 12px;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
 
         /* লাইভ টাইম ও পিরিয়ড বার */
@@ -201,9 +199,9 @@
             color: #00f0ff;
         }
 
-        /* সিড ইনপুট সেকশন */
+        /* Provably Fair SHA-256 / SHA-512 সিড বক্স */
         .seed-box {
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid #334155;
             border-radius: 14px;
             padding: 10px;
@@ -213,7 +211,7 @@
         }
 
         .seed-label {
-            font-size: 11px;
+            font-size: 10.5px;
             color: #cbd5e1;
             display: flex;
             justify-content: space-between;
@@ -228,8 +226,20 @@
             padding: 7px 10px;
             color: #34d399;
             font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
+            font-size: 10.5px;
             outline: none;
+        }
+
+        .hash-flow {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px dashed #334155;
         }
 
         /* মেইন প্রেডিকশন ডিসপ্লে */
@@ -237,7 +247,7 @@
             background: radial-gradient(circle, #2e063d 0%, #0d021c 100%);
             border: 2.5px solid #ff0055;
             border-radius: 22px;
-            padding: 20px 15px;
+            padding: 18px 15px;
             text-align: center;
             position: relative;
             box-shadow: inset 0 0 25px rgba(255, 0, 85, 0.45);
@@ -250,7 +260,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
             color: #10b981;
             font-family: 'Orbitron', sans-serif;
@@ -271,8 +281,8 @@
         }
 
         .plane-icon {
-            font-size: 28px;
-            margin-bottom: 4px;
+            font-size: 26px;
+            margin-bottom: 2px;
             display: inline-block;
             animation: fly 2s ease-in-out infinite;
         }
@@ -284,7 +294,7 @@
 
         .multiplier-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 50px;
+            font-size: 48px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
@@ -293,7 +303,7 @@
         }
 
         .signal-status {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 700;
             color: #38bdf8;
             background: rgba(56, 189, 248, 0.15);
@@ -308,19 +318,19 @@
             background: #0f172a;
             border: 1.5px solid #334155;
             border-radius: 14px;
-            padding: 10px;
+            padding: 9px;
             text-align: center;
         }
 
         .cd-title {
-            font-size: 11px;
+            font-size: 10.5px;
             color: #94a3b8;
             font-weight: 700;
         }
 
         .cd-timer {
             font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 900;
             color: #fbbf24;
             margin-top: 2px;
@@ -331,12 +341,12 @@
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
         }
 
         .analyze-btn {
             width: 100%;
-            padding: 13px;
+            padding: 12px;
             background: linear-gradient(90deg, #00c6ff, #0072ff);
             border: none;
             border-radius: 16px;
@@ -352,7 +362,7 @@
         .register-btn {
             display: block;
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: linear-gradient(90deg, #ff0055, #ff5500);
             border: 1.5px solid #ffd700;
             border-radius: 18px;
@@ -370,7 +380,7 @@
         .popup-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(6, 2, 16, 0.92);
+            background: rgba(6, 2, 16, 0.93);
             backdrop-filter: blur(6px);
             display: flex;
             justify-content: center;
@@ -387,7 +397,7 @@
         }
 
         .popup-box {
-            width: 85%;
+            width: 86%;
             background: linear-gradient(180deg, #1e1035 0%, #0d061a 100%);
             border: 2px solid #00f0ff;
             border-radius: 22px;
@@ -413,14 +423,14 @@
 
         .popup-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: 900;
             color: #00f0ff;
             margin-bottom: 6px;
         }
 
         .popup-step {
-            font-size: 12px;
+            font-size: 11.5px;
             color: #cbd5e1;
             margin-bottom: 12px;
             min-height: 18px;
@@ -448,7 +458,6 @@
         <!-- পাসওয়ার্ড লক স্ক্রিন -->
         <div class="lock-screen" id="lockScreen">
             <div class="custom-icon-badge">
-                <!-- কাস্টম SVG আইকন -->
                 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M56 12L40 28L12 22L8 26L28 36L16 48L8 46L4 50L16 56L22 68L26 64L24 56L36 44L46 64L50 60L44 32L60 16C62 14 62 11 60 9C58 7 55 7 53 9L56 12Z" transform="translate(-2 -6)" fill="url(#iconGrad)"/>
                     <defs>
@@ -470,8 +479,8 @@
         <div class="popup-overlay" id="analyzePopup">
             <div class="popup-box">
                 <div class="spinner"></div>
-                <div class="popup-title">ANALYZING SEED...</div>
-                <div class="popup-step" id="popupStepText">Connecting SHA-256 Server Hash...</div>
+                <div class="popup-title">ANALYZING SHA-512...</div>
+                <div class="popup-step" id="popupStepText">Merging Server + 3 Client Seeds...</div>
                 <div class="progress-track">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
@@ -487,14 +496,14 @@
                 </svg>
                 <div class="brand-name">JOHIRUL AVIATOR</div>
             </div>
-            <div class="sub-badge">JOY • @BDTCODER • AUTO V2</div>
+            <div class="sub-badge">🛡️ PROVABLY FAIR • @BDTCODER</div>
         </div>
 
         <!-- লাইভ টাইম ও পিরিয়ড -->
         <div class="time-period-bar">
             <div class="tp-box">
                 <span class="tp-label">START TIME</span>
-                <span class="tp-val" id="liveClock">12:57:00</span>
+                <span class="tp-val" id="liveClock">13:03:00</span>
             </div>
             <div class="tp-box" style="align-items: flex-end;">
                 <span class="tp-label">ROUND PERIOD</span>
@@ -502,21 +511,26 @@
             </div>
         </div>
 
-        <!-- সিড ইনপুট -->
+        <!-- Provably Fair সিড ইনপুট -->
         <div class="seed-box">
             <div class="seed-label">
-                <span>SERVER / CLIENT SEED (SHA256)</span>
-                <span style="color:#10b981;">SYNCED</span>
+                <span>SERVER + CLIENT SEED (SHA512)</span>
+                <span style="color:#10b981;">100% FAIR</span>
             </div>
-            <input type="text" class="seed-input" id="seedInput" value="a5f5ef53babd351c8c8322de9abcf2e1" placeholder="Paste Server Seed here...">
+            <input type="text" class="seed-input" id="seedInput" value="8b66b893918da51d49763a6c420b4cad75e2663682631" placeholder="Paste Server/Client Seed...">
+            <div class="hash-flow">
+                <span>AB + CD + EF + GH</span>
+                <span>➔</span>
+                <span style="color:#38bdf8;">SHA512 HASH</span>
+            </div>
         </div>
 
         <!-- রেজাল্ট ডিসপ্লে -->
         <div class="radar-box">
-            <div class="live-dot"><span class="dot"></span> AUTO ACTIVE</div>
+            <div class="live-dot"><span class="dot"></span> AUTO SYNC</div>
             <div class="plane-icon">✈️</div>
-            <div class="multiplier-text" id="multiplierDisplay">2.45x</div>
-            <div class="signal-status" id="cashoutAdvice">SAFE CASHOUT: 2.00x</div>
+            <div class="multiplier-text" id="multiplierDisplay">2.17x</div>
+            <div class="signal-status" id="cashoutAdvice">SAFE CASHOUT: 1.75x</div>
         </div>
 
         <!-- পরবর্তী অটো সিগন্যাল টাইমার -->
@@ -551,7 +565,6 @@
             }
         }
 
-        // লাইভ ঘড়ি
         function updateClock() {
             const now = new Date();
             const timeStr = now.toTimeString().split(' ')[0];
@@ -560,7 +573,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // অটোমেটিক অ্যানালাইসিং পপআপ
         function triggerAutoAnalysis() {
             if (!isUnlocked) return;
             const popup = document.getElementById('analyzePopup');
@@ -569,16 +581,16 @@
 
             popup.classList.add('active');
             fill.style.width = '15%';
-            stepText.innerText = 'Reading Server Seed SHA-256...';
+            stepText.innerText = 'Merging Server + First 3 Bettors Seeds...';
 
             setTimeout(() => {
                 fill.style.width = '55%';
-                stepText.innerText = 'Calculating Crash Point & Time Period...';
+                stepText.innerText = 'Generating SHA-512 Hash Result...';
             }, 700);
 
             setTimeout(() => {
                 fill.style.width = '90%';
-                stepText.innerText = 'Verifying Signal Accuracy...';
+                stepText.innerText = 'Syncing Round Period & Time...';
             }, 1400);
 
             setTimeout(() => {
@@ -589,7 +601,6 @@
             }, 2000);
         }
 
-        // নতুন সিগন্যাল ও পিরিয়ড
         function generateNewSignal() {
             roundCounter++;
             const now = new Date();
@@ -611,7 +622,6 @@
             document.getElementById('cashoutAdvice').innerText = `SAFE CASHOUT: ${safeCashout}x`;
         }
 
-        // প্রতি ২০ সেকেন্ড পরপর অটোমেটিক পপআপ
         setInterval(() => {
             if (!isUnlocked) return;
             countdown--;
