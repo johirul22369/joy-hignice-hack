@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JOHIRUL AVIATOR - @BDTCODER</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Orbitron:wght@700;900&family=Hind+Siliguri:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Orbitron:wght@700;900&family=Hind+Siliguri:wght@600;700&display=swap');
 
         * {
             box-sizing: border-box;
@@ -18,7 +18,7 @@
         body, html {
             width: 100%;
             min-height: 100vh;
-            background: #070410;
+            background: #06030d;
             font-family: 'Hind Siliguri', sans-serif;
             display: flex;
             justify-content: center;
@@ -26,100 +26,90 @@
             padding: 12px;
         }
 
-        .aviator-card {
+        .panel {
             width: 100%;
-            max-width: 375px;
-            background: linear-gradient(180deg, #160929 0%, #090312 100%);
-            border: 2.5px solid #ff0055;
-            border-radius: 28px;
-            padding: 18px;
-            box-shadow: 0 0 35px rgba(255, 0, 85, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.15);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            max-width: 360px;
+            background: linear-gradient(180deg, #17082b 0%, #090313 100%);
+            border: 2px solid #ff0055;
+            border-radius: 26px;
+            padding: 18px 16px;
+            box-shadow: 0 0 32px rgba(255, 0, 85, 0.45);
+            color: #fff;
             position: relative;
             overflow: hidden;
         }
 
-        /* পাসওয়ার্ড লক স্ক্রিন */
-        .lock-screen {
+        /* লক স্ক্রিন */
+        .lock-box {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, #120624 0%, #06020d 100%);
+            background: #090314;
             z-index: 100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 22px;
+            gap: 12px;
             text-align: center;
-            gap: 14px;
         }
 
-        .lock-screen.unlocked {
+        .lock-box.hidden {
             display: none;
         }
 
-        .custom-icon-badge {
-            width: 72px;
-            height: 72px;
+        .icon-ring {
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,0,85,0.25), rgba(0,240,255,0.1));
             border: 2px solid #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.45);
-        }
-
-        .custom-icon-badge svg {
-            width: 40px;
-            height: 40px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
         .lock-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
+            color: #fff;
         }
 
         .lock-sub {
-            font-size: 12px;
+            font-size: 11.5px;
             color: #94a3b8;
         }
 
-        .pass-input {
+        .pass-inp {
             width: 100%;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1.5px solid #38bdf8;
+            padding: 11px;
+            border-radius: 12px;
+            border: 1.5px solid #00f0ff;
             background: #0f172a;
-            color: #ffffff;
+            color: #fff;
             font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
             text-align: center;
+            font-size: 13px;
             outline: none;
         }
 
         .unlock-btn {
             width: 100%;
             padding: 12px;
-            border-radius: 14px;
+            border-radius: 12px;
             border: none;
             background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: #ffffff;
+            color: #fff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
             font-weight: 900;
+            font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
-            text-transform: uppercase;
+            box-shadow: 0 0 18px rgba(255, 0, 85, 0.5);
         }
 
-        .err-msg {
+        .err-text {
             color: #ff4d6d;
             font-size: 12px;
             font-weight: 700;
@@ -127,324 +117,236 @@
         }
 
         /* হেডার */
-        .header {
-            text-align: center;
-        }
-
-        .header-top {
+        .top-head {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .mini-svg-icon {
-            width: 26px;
-            height: 26px;
-            filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.6));
+        .top-head svg {
+            width: 24px;
+            height: 24px;
         }
 
-        .brand-name {
+        .title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
-            background: linear-gradient(90deg, #ff0055, #ffffff, #00f0ff);
+            background: linear-gradient(90deg, #ff0055, #fff, #00f0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 0.8px;
         }
 
-        .sub-badge {
-            display: inline-block;
-            margin-top: 4px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            color: #34d399;
+        .id-tag {
             font-family: 'Orbitron', sans-serif;
             font-size: 9.5px;
-            font-weight: 800;
-            padding: 2px 10px;
-            border-radius: 12px;
-            letter-spacing: 0.8px;
+            color: #00f0ff;
+            background: rgba(0, 240, 255, 0.12);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            padding: 2px 8px;
+            border-radius: 10px;
         }
 
-        /* লাইভ টাইম ও পিরিয়ড বার */
-        .time-period-bar {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1.5px solid #38bdf8;
-            border-radius: 16px;
-            padding: 10px 14px;
+        /* ফাটার সময় থেকে শুরু হওয়া টাইম পিরিয়ড বক্স */
+        .burst-time-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1.5px solid #ff0055;
+            border-radius: 15px;
+            padding: 10px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+            margin-bottom: 12px;
+            box-shadow: 0 0 14px rgba(255, 0, 85, 0.25);
         }
 
-        .tp-box {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tp-label {
+        .b-label {
             font-size: 10px;
-            color: #94a3b8;
+            color: #cbd5e1;
             font-weight: 700;
-            text-transform: uppercase;
         }
 
-        .tp-val {
+        .b-val {
             font-family: 'Orbitron', sans-serif;
             font-size: 13px;
             font-weight: 900;
-            color: #00f0ff;
+            color: #ffd700;
         }
 
-        /* Provably Fair SHA-256 / SHA-512 সিড বক্স */
-        .seed-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .seed-label {
-            font-size: 10.5px;
-            color: #cbd5e1;
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-        }
-
-        .seed-input {
-            width: 100%;
-            background: #0f172a;
-            border: 1px solid #475569;
-            border-radius: 8px;
-            padding: 7px 10px;
-            color: #34d399;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10.5px;
-            outline: none;
-        }
-
-        .hash-flow {
-            display: flex;
-            justify-content: space-between;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 9px;
-            color: #94a3b8;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 5px 8px;
-            border-radius: 6px;
-            border: 1px dashed #334155;
-        }
-
-        /* মেইন প্রেডিকশন ডিসপ্লে */
-        .radar-box {
-            background: radial-gradient(circle, #2e063d 0%, #0d021c 100%);
-            border: 2.5px solid #ff0055;
-            border-radius: 22px;
-            padding: 18px 15px;
+        /* মেইন সিগন্যাল স্ক্রিন */
+        .screen {
+            background: radial-gradient(circle, #320642 0%, #0b0218 100%);
+            border: 2px solid #00f0ff;
+            border-radius: 20px;
+            padding: 20px 12px;
             text-align: center;
-            position: relative;
-            box-shadow: inset 0 0 25px rgba(255, 0, 85, 0.45);
+            box-shadow: inset 0 0 22px rgba(0, 240, 255, 0.25);
+            margin-bottom: 12px;
         }
 
-        .live-dot {
-            position: absolute;
-            top: 12px;
-            left: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 9.5px;
-            font-weight: 800;
-            color: #10b981;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #10b981;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .plane-icon {
+        .plane {
             font-size: 26px;
-            margin-bottom: 2px;
             display: inline-block;
-            animation: fly 2s ease-in-out infinite;
+            animation: floatPlane 1.8s ease-in-out infinite;
         }
 
-        @keyframes fly {
-            0%, 100% { transform: translateY(0px) rotate(-5deg); }
-            50% { transform: translateY(-6px) rotate(2deg); }
+        @keyframes floatPlane {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
-        .multiplier-text {
+        .odd-val {
             font-family: 'Orbitron', sans-serif;
             font-size: 48px;
             font-weight: 900;
-            color: #ffffff;
-            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
+            color: #fff;
+            text-shadow: 0 0 18px #ff0055, 0 0 35px #00f0ff;
             line-height: 1.1;
             margin: 6px 0;
         }
 
-        .signal-status {
+        .target-badge {
+            display: inline-block;
             font-size: 11.5px;
             font-weight: 700;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.15);
-            display: inline-block;
-            padding: 4px 14px;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            padding: 3px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.4);
         }
 
-        /* অটো কাউন্টডাউন বার */
-        .countdown-wrap {
+        /* নেক্সট পপআপ কাউন্টডাউন */
+        .timer-strip {
             background: #0f172a;
-            border: 1.5px solid #334155;
-            border-radius: 14px;
-            padding: 9px;
+            border: 1px solid #334155;
+            border-radius: 13px;
+            padding: 8px;
             text-align: center;
+            margin-bottom: 12px;
         }
 
-        .cd-title {
+        .timer-strip span {
             font-size: 10.5px;
             color: #94a3b8;
             font-weight: 700;
         }
 
-        .cd-timer {
+        .timer-strip strong {
+            display: block;
             font-family: 'Orbitron', sans-serif;
-            font-size: 19px;
-            font-weight: 900;
+            font-size: 18px;
             color: #fbbf24;
             margin-top: 2px;
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
         }
 
-        /* বাটনসমূহ */
-        .btn-group {
+        /* বাটন */
+        .btn-stack {
             display: flex;
             flex-direction: column;
             gap: 9px;
         }
 
-        .analyze-btn {
+        .btn-scan {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
             border: none;
-            border-radius: 16px;
-            color: #ffffff;
+            border-radius: 15px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: #fff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 13px;
             font-weight: 900;
+            font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 0 18px rgba(0, 198, 255, 0.45);
-            text-transform: uppercase;
+            box-shadow: 0 0 16px rgba(0, 198, 255, 0.45);
         }
 
-        .register-btn {
+        .btn-play {
             display: block;
             width: 100%;
             padding: 13px;
-            background: linear-gradient(90deg, #ff0055, #ff5500);
+            border-radius: 16px;
             border: 1.5px solid #ffd700;
-            border-radius: 18px;
-            color: #ffffff;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            color: #fff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
             font-weight: 900;
+            font-size: 14px;
             text-align: center;
             text-decoration: none;
-            box-shadow: 0 0 22px rgba(255, 0, 85, 0.55);
-            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
         }
 
-        /* অটোমেটিক ANALYZING পপআপ */
-        .popup-overlay {
+        /* অটো পপআপ */
+        .auto-popup {
             position: absolute;
             inset: 0;
-            background: rgba(6, 2, 16, 0.93);
-            backdrop-filter: blur(6px);
+            background: rgba(5, 2, 14, 0.92);
+            backdrop-filter: blur(5px);
+            z-index: 60;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.2s ease;
         }
 
-        .popup-overlay.active {
+        .auto-popup.show {
             opacity: 1;
             pointer-events: all;
         }
 
-        .popup-box {
-            width: 86%;
-            background: linear-gradient(180deg, #1e1035 0%, #0d061a 100%);
-            border: 2px solid #00f0ff;
-            border-radius: 22px;
-            padding: 22px 16px;
+        .popup-card {
+            width: 84%;
+            background: #140826;
+            border: 2px solid #ff0055;
+            border-radius: 20px;
+            padding: 20px 14px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 28px rgba(255, 0, 85, 0.5);
         }
 
-        .spinner {
-            width: 46px;
-            height: 46px;
-            border: 4px solid rgba(0, 240, 255, 0.2);
-            border-top: 4px solid #ff0055;
-            border-right: 4px solid #00f0ff;
+        .ring-loader {
+            width: 42px;
+            height: 42px;
+            border: 4px solid rgba(255, 255, 255, 0.15);
+            border-top: 4px solid #00f0ff;
+            border-right: 4px solid #ff0055;
             border-radius: 50%;
-            margin: 0 auto 12px;
-            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+            animation: spin 0.75s linear infinite;
         }
 
         @keyframes spin {
             100% { transform: rotate(360deg); }
         }
 
-        .popup-title {
+        .pop-head {
             font-family: 'Orbitron', sans-serif;
-            font-size: 14.5px;
-            font-weight: 900;
+            font-size: 14px;
             color: #00f0ff;
-            margin-bottom: 6px;
+            font-weight: 900;
+            margin-bottom: 5px;
         }
 
-        .popup-step {
-            font-size: 11.5px;
-            color: #cbd5e1;
+        .pop-msg {
+            font-size: 12px;
+            color: #e2e8f0;
             margin-bottom: 12px;
-            min-height: 18px;
         }
 
-        .progress-track {
+        .bar-bg {
             width: 100%;
-            height: 8px;
+            height: 7px;
             background: #1e293b;
             border-radius: 10px;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .bar-fill {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #ff0055, #00f0ff);
@@ -454,181 +356,156 @@
 </head>
 <body>
 
-    <div class="aviator-card">
-        <!-- পাসওয়ার্ড লক স্ক্রিন -->
-        <div class="lock-screen" id="lockScreen">
-            <div class="custom-icon-badge">
-                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M56 12L40 28L12 22L8 26L28 36L16 48L8 46L4 50L16 56L22 68L26 64L24 56L36 44L46 64L50 60L44 32L60 16C62 14 62 11 60 9C58 7 55 7 53 9L56 12Z" transform="translate(-2 -6)" fill="url(#iconGrad)"/>
+    <div class="panel">
+        <!-- পাসওয়ার্ড লক -->
+        <div class="lock-box" id="lockBox">
+            <div class="icon-ring">
+                <svg viewBox="0 0 64 64" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M54 10L38 26L12 20L8 24L27 34L16 45L8 43L4 47L15 53L21 64L25 60L23 53L34 42L44 61L48 57L42 31L58 15C60 13 60 10 58 8C56 6 53 6 51 8L54 10Z" transform="translate(-2 -4)" fill="url(#pGrad)"/>
                     <defs>
-                        <linearGradient id="iconGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                        <linearGradient id="pGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#00F0FF"/>
                             <stop offset="1" stop-color="#FF0055"/>
                         </linearGradient>
                     </defs>
                 </svg>
             </div>
-            <div class="lock-title">JOY VIP ACCESS</div>
-            <div class="lock-sub">@BDTCODER • Enter Access Password</div>
-            <input type="password" class="pass-input" id="passInput" placeholder="Enter Password">
-            <button class="unlock-btn" onclick="checkPassword()">UNLOCK PANEL</button>
-            <div class="err-msg" id="errMsg"></div>
+            <div class="lock-title">JOHIRUL AVIATOR</div>
+            <div class="lock-sub">@BDTCODER • Enter Password</div>
+            <input type="password" class="pass-inp" id="passInp" placeholder="Password">
+            <button class="unlock-btn" onclick="unlockApp()">ENTER</button>
+            <div class="err-text" id="errText"></div>
         </div>
 
-        <!-- অটোমেটিক অ্যানালাইসিং পপআপ -->
-        <div class="popup-overlay" id="analyzePopup">
-            <div class="popup-box">
-                <div class="spinner"></div>
-                <div class="popup-title">ANALYZING SHA-512...</div>
-                <div class="popup-step" id="popupStepText">Merging Server + 3 Client Seeds...</div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
+        <!-- অটোমেটিক পপআপ -->
+        <div class="auto-popup" id="autoPopup">
+            <div class="popup-card">
+                <div class="ring-loader"></div>
+                <div class="pop-head">ANALYZING...</div>
+                <div class="pop-msg" id="popMsg">Catching crash time & period...</div>
+                <div class="bar-bg">
+                    <div class="bar-fill" id="barFill"></div>
                 </div>
             </div>
         </div>
 
         <!-- হেডার -->
-        <div class="header">
-            <div class="header-top">
-                <svg class="mini-svg-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="32" r="28" stroke="#00F0FF" stroke-width="3"/>
-                    <path d="M20 42L44 22M44 22H28M44 22V38" stroke="#FF0055" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="brand-name">JOHIRUL AVIATOR</div>
-            </div>
-            <div class="sub-badge">🛡️ PROVABLY FAIR • @BDTCODER</div>
+        <div class="top-head">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="28" stroke="#00F0FF" stroke-width="3"/>
+                <path d="M20 42L44 22M44 22H28M44 22V38" stroke="#FF0055" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="title">AVIATOR HACK</div>
+            <div class="id-tag">@BDTCODER</div>
         </div>
 
-        <!-- লাইভ টাইম ও পিরিয়ড -->
-        <div class="time-period-bar">
-            <div class="tp-box">
-                <span class="tp-label">START TIME</span>
-                <span class="tp-val" id="liveClock">13:03:00</span>
+        <!-- যে সময়ে ফাটবে ওই সময় থেকে শুরু হওয়া পিরিয়ড ও টাইম -->
+        <div class="burst-time-box">
+            <div>
+                <div class="b-label">BURST START TIME</div>
+                <div class="b-val" id="burstTime">13:07:00</div>
             </div>
-            <div class="tp-box" style="align-items: flex-end;">
-                <span class="tp-label">ROUND PERIOD</span>
-                <span class="tp-val" id="periodNumber">#AV2026112101</span>
+            <div style="text-align: right;">
+                <div class="b-label">PERIOD</div>
+                <div class="b-val" id="burstPeriod">#130700-01</div>
             </div>
         </div>
 
-        <!-- Provably Fair সিড ইনপুট -->
-        <div class="seed-box">
-            <div class="seed-label">
-                <span>SERVER + CLIENT SEED (SHA512)</span>
-                <span style="color:#10b981;">100% FAIR</span>
-            </div>
-            <input type="text" class="seed-input" id="seedInput" value="8b66b893918da51d49763a6c420b4cad75e2663682631" placeholder="Paste Server/Client Seed...">
-            <div class="hash-flow">
-                <span>AB + CD + EF + GH</span>
-                <span>➔</span>
-                <span style="color:#38bdf8;">SHA512 HASH</span>
-            </div>
+        <!-- সিগন্যাল ডিসপ্লে -->
+        <div class="screen">
+            <div class="plane">✈️</div>
+            <div class="odd-val" id="oddVal">2.15x</div>
+            <div class="target-badge" id="targetBadge">CASH OUT: 1.75x</div>
         </div>
 
-        <!-- রেজাল্ট ডিসপ্লে -->
-        <div class="radar-box">
-            <div class="live-dot"><span class="dot"></span> AUTO SYNC</div>
-            <div class="plane-icon">✈️</div>
-            <div class="multiplier-text" id="multiplierDisplay">2.17x</div>
-            <div class="signal-status" id="cashoutAdvice">SAFE CASHOUT: 1.75x</div>
+        <!-- নেক্সট অটো পপআপ টাইমার -->
+        <div class="timer-strip">
+            <span>AUTO POPUP IN</span>
+            <strong id="secCount">00 : 18</strong>
         </div>
 
-        <!-- পরবর্তী অটো সিগন্যাল টাইমার -->
-        <div class="countdown-wrap">
-            <div class="cd-title">NEXT AUTO ANALYSIS IN</div>
-            <div class="cd-timer" id="nextTimer">00 : 20</div>
-        </div>
-
-        <!-- অ্যাকশন বাটন -->
-        <div class="btn-group">
-            <button class="analyze-btn" onclick="triggerAutoAnalysis()">⚡ ANALYZE NEXT ROUND NOW</button>
-            <a href="https://hgnice0.com/#/register?invitationCode=376851951983" target="_blank" class="register-btn">PLAY & REGISTER NOW</a>
+        <!-- ডাইরেক্ট প্লে বাটন -->
+        <div class="btn-stack">
+            <button class="btn-scan" onclick="runPopup()">⚡ NEXT SIGNAL NOW</button>
+            <a href="https://hgnice0.com/#/register?invitationCode=376851951983" target="_blank" class="btn-play">OPEN AVIATOR & PLAY</a>
         </div>
     </div>
 
     <script>
-        const ACCESS_PASS = "Zahirul22369";
-        let isUnlocked = false;
-        let countdown = 20;
-        let roundCounter = 1;
+        const PASS = "Zahirul22369";
+        let unlocked = false;
+        let sec = 18;
+        let stepNum = 1;
 
-        function checkPassword() {
-            const val = document.getElementById("passInput").value.trim();
-            const err = document.getElementById("errMsg");
-            if (val === ACCESS_PASS) {
-                isUnlocked = true;
-                document.getElementById("lockScreen").classList.add("unlocked");
+        function unlockApp() {
+            const p = document.getElementById("passInp").value.trim();
+            const err = document.getElementById("errText");
+            if (p === PASS) {
+                unlocked = true;
+                document.getElementById("lockBox").classList.add("hidden");
                 err.innerText = "";
-                triggerAutoAnalysis();
+                runPopup();
             } else {
-                err.innerText = "ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দে।";
+                err.innerText = "পাসওয়ার্ড ভুল হয়েছে!";
             }
         }
 
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-            document.getElementById('liveClock').innerText = timeStr;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        function runPopup() {
+            if (!unlocked) return;
+            const pop = document.getElementById("autoPopup");
+            const msg = document.getElementById("popMsg");
+            const bar = document.getElementById("barFill");
 
-        function triggerAutoAnalysis() {
-            if (!isUnlocked) return;
-            const popup = document.getElementById('analyzePopup');
-            const stepText = document.getElementById('popupStepText');
-            const fill = document.getElementById('progressFill');
-
-            popup.classList.add('active');
-            fill.style.width = '15%';
-            stepText.innerText = 'Merging Server + First 3 Bettors Seeds...';
+            pop.classList.add("show");
+            bar.style.width = "20%";
+            msg.innerText = "Syncing exact burst timestamp...";
 
             setTimeout(() => {
-                fill.style.width = '55%';
-                stepText.innerText = 'Generating SHA-512 Hash Result...';
-            }, 700);
+                bar.style.width = "65%";
+                msg.innerText = "Generating time period & odd...";
+            }, 600);
 
             setTimeout(() => {
-                fill.style.width = '90%';
-                stepText.innerText = 'Syncing Round Period & Time...';
-            }, 1400);
-
-            setTimeout(() => {
-                fill.style.width = '100%';
-                popup.classList.remove('active');
-                generateNewSignal();
-                countdown = 20;
-            }, 2000);
+                bar.style.width = "100%";
+                pop.classList.remove("show");
+                updateBurstSignal();
+                sec = 18;
+            }, 1300);
         }
 
-        function generateNewSignal() {
-            roundCounter++;
+        function updateBurstSignal() {
             const now = new Date();
-            const datePart = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
-            document.getElementById('periodNumber').innerText = `#AV${datePart}${String(roundCounter).padStart(2,'0')}`;
+            const hh = String(now.getHours()).padStart(2, "0");
+            const mm = String(now.getMinutes()).padStart(2, "0");
+            const ss = String(now.getSeconds()).padStart(2, "0");
+            const timeNow = `${hh}:${mm}:${ss}`;
 
-            const rand = Math.random();
-            let mult;
-            if (rand < 0.6) {
-                mult = (Math.random() * (2.80 - 1.40) + 1.40).toFixed(2);
-            } else if (rand < 0.9) {
-                mult = (Math.random() * (5.50 - 2.81) + 2.81).toFixed(2);
+            document.getElementById("burstTime").innerText = timeNow;
+            document.getElementById("burstPeriod").innerText = `#${hh}${mm}${ss}-${String(stepNum).padStart(2, "0")}`;
+            stepNum++;
+
+            const r = Math.random();
+            let odd;
+            if (r < 0.65) {
+                odd = (Math.random() * (2.75 - 1.35) + 1.35).toFixed(2);
+            } else if (r < 0.9) {
+                odd = (Math.random() * (5.20 - 2.76) + 2.76).toFixed(2);
             } else {
-                mult = (Math.random() * (9.90 - 5.51) + 5.51).toFixed(2);
+                odd = (Math.random() * (9.50 - 5.21) + 5.21).toFixed(2);
             }
 
-            const safeCashout = Math.max(1.25, (mult * 0.78)).toFixed(2);
-            document.getElementById('multiplierDisplay').innerText = `${mult}x`;
-            document.getElementById('cashoutAdvice').innerText = `SAFE CASHOUT: ${safeCashout}x`;
+            const safe = Math.max(1.20, (odd * 0.78)).toFixed(2);
+            document.getElementById("oddVal").innerText = `${odd}x`;
+            document.getElementById("targetBadge").innerText = `CASH OUT: ${safe}x`;
         }
 
         setInterval(() => {
-            if (!isUnlocked) return;
-            countdown--;
-            if (countdown <= 0) {
-                triggerAutoAnalysis();
+            if (!unlocked) return;
+            sec--;
+            if (sec <= 0) {
+                runPopup();
             }
-            document.getElementById('nextTimer').innerText = `00 : ${String(countdown).padStart(2, '0')}`;
+            document.getElementById("secCount").innerText = `00 : ${String(sec).padStart(2, "0")}`;
         }, 1000);
     </script>
 </body>
