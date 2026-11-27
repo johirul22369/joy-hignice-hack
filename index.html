@@ -8,11 +8,11 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;overflow:hidden;background:#05060d;color:#eaf0ff;user-select:none}
 #game-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;z-index:1;filter:brightness(.85)}
-#fab{position:fixed;top:80px;right:38px;width:58px;height:58px;border-radius:50%;z-index:9999;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:2px;background:conic-gradient(from 180deg,#ff4fa3,#7a2bff,#38e8ff,#2ee6a0,#ffd34d,#ff4fa3);box-shadow:0 0 22px rgba(255,79,163,.6),0 0 44px rgba(56,232,255,.4),0 10px 26px rgba(0,0,0,.85)}
+#fab{position:fixed;top:80px;right:38px;width:58px;height:58px;border-radius:50%;z-index:9999;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:2px;background:conic-gradient(from 180deg,#ff4fa3,#7a2bff,#38e8ff,#2ee6a0,#ffd34d,#ff4fa3);box-shadow:0 0 22px rgba(255,79,163,.6),0 0 44px rgba(56,232,255,.4),0 10px 26px rgba(0,0,0,.85);touch-action:none}
 #fab img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.7);pointer-events:none}
 #auth{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(3,5,12,.78);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);z-index:10000;padding:20px}
 #auth .card{position:relative;width:320px;max-width:100%;padding:30px 24px 24px;border-radius:24px;background:linear-gradient(180deg,rgba(30,36,64,.95),rgba(10,13,26,.98)) padding-box,linear-gradient(135deg,#ff4fa3,#7a2bff,#38e8ff,#ffd34d) border-box;border:2px solid transparent;box-shadow:0 30px 70px rgba(0,0,0,.9),0 0 60px rgba(122,43,255,.4);text-align:center}
-#auth .crown{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:30px;filter:drop-shadow(0 4px 10px rgba(255,211,77,.7))}
+#auth .crown{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:30px}
 #auth h2{font-size:19px;letter-spacing:2.5px;font-weight:900;margin-bottom:4px;background:linear-gradient(180deg,#fff5c2,#ffd34d 55%,#ff9d00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 #auth p{font-size:10.5px;color:#8b95b8;margin-bottom:18px;letter-spacing:1px}
 #auth input{width:100%;padding:13px;border-radius:13px;background:rgba(6,8,16,.9);border:1.5px solid rgba(122,43,255,.6);color:#fff;font-size:14px;letter-spacing:2px;text-align:center;outline:none;font-weight:700;margin-bottom:12px}
@@ -22,14 +22,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#05060d;color:#eaf0f
 #panel{position:fixed;top:50px;left:50%;transform:translateX(-50%);width:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 70px);display:none;flex-direction:column;gap:8px;z-index:9999;padding:12px;border-radius:26px;background:linear-gradient(180deg,rgba(26,31,58,.94),rgba(8,10,20,.98)) padding-box,linear-gradient(160deg,#ff4fa3,#7a2bff 35%,#38e8ff 70%,#ffd34d) border-box;border:2.5px solid transparent;box-shadow:0 30px 90px rgba(0,0,0,.9),0 0 70px rgba(122,43,255,.3);overflow-y:auto;overflow-x:hidden}
 #panel::-webkit-scrollbar{width:0}
 .head{display:flex;align-items:center;justify-content:space-between;cursor:grab;touch-action:none;position:relative;z-index:2}
-.badge{font-size:8.5px;font-weight:900;letter-spacing:1.2px;color:#c8ff5c;text-shadow:0 1px 3px #000;font-style:italic;transform:rotate(-3deg)}
+.badge{font-size:8.5px;font-weight:900;letter-spacing:1.2px;color:#c8ff5c;font-style:italic;transform:rotate(-3deg)}
 .head-actions{display:flex;gap:6px}
 .chip-btn{font-size:9.5px;font-weight:900;padding:6px 10px;border-radius:9px;cursor:pointer;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#dfe6ff}
 .chip-btn.on{border-color:#2ee6a0;color:#2ee6a0}
 .chip-btn.off{color:#7a839f}
 .brand{text-align:center;padding:2px 0 0;position:relative;z-index:2}
 .brand .crown{font-size:24px;line-height:1}
-.brand h1{font-size:30px;font-weight:950;letter-spacing:1px;font-style:italic;line-height:.95;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 3px 6px rgba(0,0,0,.9));margin-top:-4px}
+.brand h1{font-size:30px;font-weight:950;letter-spacing:1px;font-style:italic;line-height:.95;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:-4px}
 .brand h1 span{background:linear-gradient(180deg,#b6f2ff,#38e8ff 55%,#0b7ab0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:21px;letter-spacing:3px;display:block;margin-top:-2px}
 .pill{display:inline-block;margin-top:10px;font-size:9.5px;font-weight:900;letter-spacing:2px;color:#ffe98a;padding:5px 14px;border-radius:999px;background:rgba(0,0,0,.6);border:1px solid rgba(255,211,77,.45)}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:5px;border-radius:15px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);position:relative;z-index:2}
@@ -96,7 +96,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#05060d;color:#eaf0f
     <p>VIP PREDICTOR · SECURE ACCESS</p>
     <input type="password" id="pass" placeholder="Enter Password">
     <label class="row"><input type="checkbox" id="remember"> Remember me</label>
-    <button onclick="doLogin()">Unlock Panel</button>
+    <button id="loginBtn">Unlock Panel</button>
     <div class="err" id="err">Wrong password, try again!</div>
   </div>
 </div>
@@ -166,11 +166,50 @@ var market="30S";
 var unlocked=localStorage.getItem("jw_unlocked")==="true";
 var voiceOn=localStorage.getItem("jw_voice")!=="false";
 var periodCache="",lastAnnounced="";
-var pred={type:"BIG",num:7,confidence:86,color:"GREEN"};
+var pred={type:"BIG",num:7,confidence:86,color:"GREEN",orb:"green"};
 var prev=null,tickStarted=false,wins=0,losses=0;
 
-updateVoiceUI();
+/* ---------- FAB tap (simple & reliable) ---------- */
+var fab=document.getElementById("fab");
+fab.addEventListener("click",function(){
+  if(unlocked){ openPanel(); }
+  else{
+    document.getElementById("err").style.display="none";
+    document.getElementById("auth").style.display="flex";
+    setTimeout(function(){document.getElementById("pass").focus();},120);
+  }
+});
+
+/* ---------- login ---------- */
+document.getElementById("loginBtn").addEventListener("click",doLogin);
 document.getElementById("pass").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
+function doLogin(){
+  var v=document.getElementById("pass").value.trim();
+  if(v===PASS){
+    unlocked=true;
+    if(document.getElementById("remember").checked)localStorage.setItem("jw_unlocked","true");
+    document.getElementById("auth").style.display="none";
+    openPanel();
+    speak("স্বাগতম! প্যানেল আনলক হয়েছে।");
+  }else{
+    document.getElementById("err").style.display="block";
+    document.getElementById("pass").value="";
+  }
+}
+function openPanel(){
+  document.getElementById("panel").style.display="flex";
+  fab.style.display="none";
+  if(!tickStarted){tickStarted=true;setInterval(tick,1000);}
+  tick();
+  if(voiceOn)speak("জয় উইঙ্গো প্যানেল ওপেন হয়েছে।");
+}
+function hidePanel(){
+  document.getElementById("panel").style.display="none";
+  fab.style.display="flex";
+  if(voiceOn)speak("প্যানেল হাইড করা হলো।");
+}
+
+/* ---------- tabs ---------- */
 var tabEls=document.querySelectorAll(".tab");
 for(var i=0;i<tabEls.length;i++){
  (function(t){
@@ -187,49 +226,14 @@ for(var i=0;i<tabEls.length;i++){
  })(tabEls[i]);
 }
 
-makeDraggable(document.getElementById("fab"),document.getElementById("fab"),onFabTap);
-makeDraggable(document.getElementById("panel"),document.getElementById("dragHandle"),null);
-
-function onFabTap(){
- if(unlocked){openPanel();}
- else{
-  document.getElementById("err").style.display="none";
-  document.getElementById("auth").style.display="flex";
-  setTimeout(function(){document.getElementById("pass").focus();},100);
- }
-}
-function doLogin(){
- var v=document.getElementById("pass").value.trim();
- if(v===PASS){
-  unlocked=true;
-  if(document.getElementById("remember").checked)localStorage.setItem("jw_unlocked","true");
-  document.getElementById("auth").style.display="none";
-  openPanel();
-  speak("স্বাগতম! প্যানেল আনলক হয়েছে।");
- }else{
-  document.getElementById("err").style.display="block";
-  document.getElementById("pass").value="";
- }
-}
-function openPanel(){
- document.getElementById("panel").style.display="flex";
- document.getElementById("fab").style.display="none";
- if(!tickStarted){tickStarted=true;setInterval(tick,1000);}
- tick();
- if(voiceOn)speak("জয় উইঙ্গো প্যানেল ওপেন হয়েছে।");
-}
-function hidePanel(){
- document.getElementById("panel").style.display="none";
- document.getElementById("fab").style.display="flex";
- if(voiceOn)speak("প্যানেল হাইড করা হলো।");
-}
-
+/* ---------- voice ---------- */
 function updateVoiceUI(){
  var b=document.getElementById("voiceBtn");
  if(!b)return;
  if(voiceOn){b.textContent="🔊 ON";b.classList.add("on");b.classList.remove("off");}
  else{b.textContent="🔇 OFF";b.classList.add("off");b.classList.remove("on");}
 }
+updateVoiceUI();
 function toggleVoice(){
  voiceOn=!voiceOn;
  localStorage.setItem("jw_voice",String(voiceOn));
@@ -260,6 +264,7 @@ function speak(text){
 }
 if("speechSynthesis"in window)window.speechSynthesis.onvoiceschanged=function(){pickVoice();};
 
+/* ---------- win/loss ---------- */
 function markWin(){
  wins++;
  document.getElementById("stat").textContent="W: "+wins+" | L: "+losses;
@@ -273,6 +278,7 @@ function markLoss(){
  speak("দুঃখিত, এই ট্রেড লস হয়েছে!");
 }
 
+/* ---------- predictor ---------- */
 function mixHash(seed){
  var x=seed>>>0;
  x^=x>>>16;x=Math.imul(x,0x7feb352d)>>>0;
@@ -380,11 +386,8 @@ function tick(){
   if(voiceOn&&elapsed>2){
    var numBn=BN[pred.num]||pred.num;
    var sentence=(pred.type==="BIG"?"সবাই এখানে একটা বিগ ট্রেড করো!":"সবাই এখানে একটা স্মল ট্রেড করো!")+" নম্বর "+numBn+"।";
-   if(outcome){
-    speak(outcome+". "+sentence);
-   }else{
-    speak(sentence);
-   }
+   if(outcome)speak(outcome+". "+sentence);
+   else speak(sentence);
   }
  }
 
@@ -394,8 +397,7 @@ function tick(){
   var idx=Math.max(1,periodIdx-k);
   var s=evalSlot(idx,cfg,dateSeed);
   var b=document.createElement("div");
-  b.className="ball "+s.orb.charAt(0);
-  if(s.orb==="violet")b.className="ball v";
+  b.className="ball "+(s.orb==="violet"?"v":s.orb.charAt(0));
   b.textContent=s.num;
   track.appendChild(b);
  }
@@ -410,46 +412,27 @@ function copyPeriod(){
   });
  }
 }
-function makeDraggable(el,handle,onTap){
- var down=false,moved=false,sx=0,sy=0,ol=0,ot=0;
- function start(x,y){
-  var r=el.getBoundingClientRect();
-  ol=r.left;ot=r.top;sx=x;sy=y;down=true;moved=false;
-  el.style.left=ol+"px";el.style.top=ot+"px";el.style.right="auto";el.style.transform="none";
- }
- function move(x,y){
-  if(!down)return;
-  var dx=x-sx,dy=y-sy;
-  if(Math.sqrt(dx*dx+dy*dy)>6)moved=true;
-  var ml=Math.max(4,window.innerWidth-el.offsetWidth-4);
-  var mt=Math.max(4,window.innerHeight-el.offsetHeight-4);
-  el.style.left=Math.max(4,Math.min(ml,ol+dx))+"px";
-  el.style.top=Math.max(4,Math.min(mt,ot+dy))+"px";
- }
- function end(){
-  if(!down)return;
-  down=false;
-  if(!moved&&typeof onTap==="function")onTap();
- }
- handle.addEventListener("touchstart",function(e){
-  if(e.target.closest("button")||e.target.closest("a")||e.target.closest("input"))return;
-  if(e.touches.length===1)start(e.touches[0].clientX,e.touches[0].clientY);
- },{passive:true});
- handle.addEventListener("touchmove",function(e){
-  if(!down||e.touches.length!==1)return;
-  e.preventDefault();move(e.touches[0].clientX,e.touches[0].clientY);
- },{passive:false});
- handle.addEventListener("touchend",end);
- handle.addEventListener("touchcancel",end);
+
+/* ---------- simple drag (mouse only, won't block tap) ---------- */
+(function(){
+ var handle=document.getElementById("dragHandle");
+ var panel=document.getElementById("panel");
+ var dragging=false,ox=0,oy=0;
  handle.addEventListener("mousedown",function(e){
-  if(e.button!==0||e.target.closest("button")||e.target.closest("a")||e.target.closest("input"))return;
-  start(e.clientX,e.clientY);
-  function mm(ev){move(ev.clientX,ev.clientY);}
-  function mu(){document.removeEventListener("mousemove",mm);document.removeEventListener("mouseup",mu);end();}
-  document.addEventListener("mousemove",mm);
-  document.addEventListener("mouseup",mu);
+  if(e.target.closest("button"))return;
+  dragging=true;
+  var r=panel.getBoundingClientRect();
+  ox=e.clientX-r.left;oy=e.clientY-r.top;
+  panel.style.transform="none";
+  e.preventDefault();
  });
-}
+ document.addEventListener("mousemove",function(e){
+  if(!dragging)return;
+  panel.style.left=(e.clientX-ox)+"px";
+  panel.style.top=(e.clientY-oy)+"px";
+ });
+ document.addEventListener("mouseup",function(){dragging=false;});
+})();
 </script>
 </body>
 </html>
