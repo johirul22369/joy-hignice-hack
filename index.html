@@ -1,438 +1,1299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>JOY WINGO Predictor</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;background:#05060d;color:#eaf0ff;user-select:none}
-#game-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;z-index:1;filter:brightness(.85)}
-#fab{position:fixed;top:80px;right:38px;width:58px;height:58px;border-radius:50%;z-index:9999;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:2px;background:conic-gradient(from 180deg,#ff4fa3,#7a2bff,#38e8ff,#2ee6a0,#ffd34d,#ff4fa3);box-shadow:0 0 22px rgba(255,79,163,.6),0 0 44px rgba(56,232,255,.4),0 10px 26px rgba(0,0,0,.85);touch-action:none}
-#fab img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.7);pointer-events:none}
-#auth{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(3,5,12,.78);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);z-index:10000;padding:20px}
-#auth .card{position:relative;width:320px;max-width:100%;padding:30px 24px 24px;border-radius:24px;background:linear-gradient(180deg,rgba(30,36,64,.95),rgba(10,13,26,.98)) padding-box,linear-gradient(135deg,#ff4fa3,#7a2bff,#38e8ff,#ffd34d) border-box;border:2px solid transparent;box-shadow:0 30px 70px rgba(0,0,0,.9),0 0 60px rgba(122,43,255,.4);text-align:center}
-#auth .crown{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:30px}
-#auth h2{font-size:19px;letter-spacing:2.5px;font-weight:900;margin-bottom:4px;background:linear-gradient(180deg,#fff5c2,#ffd34d 55%,#ff9d00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-#auth p{font-size:10.5px;color:#8b95b8;margin-bottom:18px;letter-spacing:1px}
-#auth input{width:100%;padding:13px;border-radius:13px;background:rgba(6,8,16,.9);border:1.5px solid rgba(122,43,255,.6);color:#fff;font-size:14px;letter-spacing:2px;text-align:center;outline:none;font-weight:700;margin-bottom:12px}
-#auth .row{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#b9c2e0;margin-bottom:18px;cursor:pointer}
-#auth button{width:100%;padding:13px;border-radius:13px;border:none;cursor:pointer;font-size:13px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a0b00;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);box-shadow:0 10px 26px rgba(255,157,0,.5)}
-#auth .err{color:#ff7b8a;font-size:11px;font-weight:800;margin-top:12px;display:none}
-#panel{position:fixed;top:50px;left:50%;transform:translateX(-50%);width:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 70px);display:none;flex-direction:column;gap:8px;z-index:9999;padding:12px;border-radius:26px;background:linear-gradient(180deg,rgba(26,31,58,.94),rgba(8,10,20,.98)) padding-box,linear-gradient(160deg,#ff4fa3,#7a2bff 35%,#38e8ff 70%,#ffd34d) border-box;border:2.5px solid transparent;box-shadow:0 30px 90px rgba(0,0,0,.9),0 0 70px rgba(122,43,255,.3);overflow-y:auto;overflow-x:hidden}
-#panel::-webkit-scrollbar{width:0}
-.head{display:flex;align-items:center;justify-content:space-between;cursor:grab;touch-action:none;position:relative;z-index:2}
-.badge{font-size:8.5px;font-weight:900;letter-spacing:1.2px;color:#c8ff5c;font-style:italic;transform:rotate(-3deg)}
-.head-actions{display:flex;gap:6px}
-.chip-btn{font-size:9.5px;font-weight:900;padding:6px 10px;border-radius:9px;cursor:pointer;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#dfe6ff}
-.chip-btn.on{border-color:#2ee6a0;color:#2ee6a0}
-.chip-btn.off{color:#7a839f}
-.brand{text-align:center;padding:2px 0 0;position:relative;z-index:2}
-.brand .crown{font-size:24px;line-height:1}
-.brand h1{font-size:30px;font-weight:950;letter-spacing:1px;font-style:italic;line-height:.95;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:-4px}
-.brand h1 span{background:linear-gradient(180deg,#b6f2ff,#38e8ff 55%,#0b7ab0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:21px;letter-spacing:3px;display:block;margin-top:-2px}
-.pill{display:inline-block;margin-top:10px;font-size:9.5px;font-weight:900;letter-spacing:2px;color:#ffe98a;padding:5px 14px;border-radius:999px;background:rgba(0,0,0,.6);border:1px solid rgba(255,211,77,.45)}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:5px;border-radius:15px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);position:relative;z-index:2}
-.tab{font-size:11px;font-weight:900;padding:9px 0;border-radius:11px;border:1px solid transparent;cursor:pointer;background:transparent;color:#8b95b8}
-.tab.active{color:#1a0b00;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);border-color:rgba(255,255,255,.5)}
-.call{padding:10px 12px;border-radius:13px;text-align:center;font-size:11.5px;font-weight:800;background:linear-gradient(90deg,rgba(56,232,255,.08),rgba(122,43,255,.16),rgba(255,79,163,.08));border:1px solid rgba(56,232,255,.3);color:#d9f6ff;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;position:relative;z-index:2}
-.grid{display:grid;grid-template-columns:.95fr 1.25fr .95fr;gap:8px;position:relative;z-index:2}
-.side{border-radius:17px;padding:12px 6px 10px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;min-height:158px;border:1.5px solid transparent;transition:.25s}
-.side.small{background:linear-gradient(180deg,#0e4f7a,#072338);border-color:#38b8e0}
-.side.big{background:linear-gradient(180deg,#7c1449,#2a0619);border-color:#ff4fa3}
-.side.predicted{transform:translateY(-3px) scale(1.02);border-color:#ffd34d;box-shadow:0 0 22px rgba(255,211,77,.7)}
-.side .ico{font-size:15px}
-.side h3{font-size:16px;font-weight:950;color:#fff}
-.side .rng{font-size:10.5px;font-weight:800;color:#cfe9ff}
-.side.big .rng{color:#ffc9e3}
-.tag{margin-top:10px;width:100%;font-size:8.5px;font-weight:950;padding:6px 2px;border-radius:9px;text-align:center;white-space:nowrap}
-.tag.on-small{background:rgba(56,232,255,.15);border:1px solid #38e8ff;color:#38e8ff}
-.tag.on-big{background:rgba(255,79,163,.15);border:1px solid #ff4fa3;color:#ff9ecb}
-.tag.off{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);color:#7a839f}
-.center{border-radius:17px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#0a1224,#05060d);border:1.5px solid rgba(56,232,255,.55)}
-.center .no-label{font-size:8.5px;font-weight:800;color:#7ad7ff;letter-spacing:1.5px}
-.center .no-val{font-size:10px;font-weight:900;color:#fff;margin-top:2px;cursor:pointer;white-space:nowrap}
-.orb-wrap{position:relative;width:92px;height:92px;display:flex;align-items:center;justify-content:center;margin:6px 0}
-.ring-ticks{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.85) 0deg 1.5deg,transparent 1.5deg 9deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.4px),#000 calc(100% - 1px),transparent calc(100% - .2px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.4px),#000 calc(100% - 1px),transparent calc(100% - .2px));animation:spin 22s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ring-dash{position:absolute;inset:5px;border-radius:50%;border:1.5px dashed rgba(46,230,160,.85);animation:spin 14s linear infinite reverse}
-.ring-glow{position:absolute;inset:9px;border-radius:50%;box-shadow:0 0 20px rgba(56,232,255,.5) inset}
-.orb{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:950;color:#0a2b16;position:relative;z-index:2;border:2px solid rgba(255,255,255,.9);box-shadow:inset -6px -8px 16px rgba(0,0,0,.35),0 0 24px rgba(46,230,160,.6)}
-.orb.green{background:radial-gradient(circle at 30% 25%,#9bffc9,#22c96b 60%,#0b6b36)}
-.orb.red{background:radial-gradient(circle at 30% 25%,#ffb0b0,#e5323a 60%,#7c0d12);color:#3b0509}
-.orb.violet{background:radial-gradient(circle at 30% 25%,#e6b8ff,#9a3ae8 60%,#4a0f85);color:#2b0752}
-.timer{width:100%;padding:7px 4px;border-radius:11px;background:linear-gradient(180deg,#1a1226,#0b0916);border:1.3px solid #e6b843;display:flex;flex-direction:column;align-items:center}
-.timer .lbl{font-size:8px;font-weight:900;color:#ffd866;letter-spacing:1.5px}
-.timer .val{font-size:16px;font-weight:950;color:#fff3b0;margin-top:1px}
-.wl{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:6px;align-items:center;position:relative;z-index:2}
-.wl button{font-size:10.5px;font-weight:900;padding:9px 0;border-radius:11px;cursor:pointer;border:1px solid rgba(255,255,255,.25)}
-.wl .w{background:linear-gradient(180deg,#4dffa1,#0ba85a);color:#003b1a}
-.wl .l{background:linear-gradient(180deg,#ff8a98,#cf1626);color:#fff}
-.wl .stat{font-size:10.5px;font-weight:900;text-align:center;padding:8px 4px;border-radius:11px;background:rgba(0,0,0,.45);border:1px solid rgba(255,211,77,.45);color:#ffe98a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.recent{padding:11px;border-radius:15px;background:linear-gradient(180deg,rgba(14,30,58,.85),rgba(5,8,16,.92));border:1px solid rgba(56,232,255,.25);position:relative;z-index:2}
-.recent-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.recent-top .t{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:900;color:#c8e6ff}
-.recent-top .c{font-size:9.5px;font-weight:900;color:#2ee6a0}
-.track{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:5px;border-radius:999px;background:#03050a;border:1px solid rgba(110,195,255,.2)}
-.ball{width:100%;aspect-ratio:1/1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:950;border:1px solid rgba(255,255,255,.85)}
-.ball.g{background:radial-gradient(circle at 30% 25%,#9bffc9,#22c96b 60%,#0b6b36);color:#0a4a25}
-.ball.r{background:radial-gradient(circle at 30% 25%,#ffb0b0,#e5323a 60%,#7c0d12);color:#5c0a0f}
-.ball.v{background:radial-gradient(circle at 30% 25%,#e6b8ff,#9a3ae8 60%,#4a0f85);color:#2b0752}
-.tg{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:13px;text-decoration:none;text-transform:uppercase;letter-spacing:1px;font-size:11px;font-weight:950;color:#1a0b00;background:linear-gradient(180deg,#fff5c2,#ffd34d 45%,#ff9d00);position:relative;z-index:2}
-#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:9px 18px;border-radius:11px;font-size:12.5px;font-weight:800;background:linear-gradient(180deg,#9bffc9,#0ba85a);color:#003b1a;opacity:0;pointer-events:none;transition:.3s;z-index:10002}
-#toast.show{opacity:1}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Tuhin vip hack</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Chakra+Petch:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #030706;
+            color: #ffffff;
+        }
+
+        #game-iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .text-3d {
+            font-family: 'Chakra Petch', sans-serif;
+            font-weight: 700;
+            text-shadow: 0 1px 0 #04130e, 0 2px 6px rgba(0, 0, 0, 0.95);
+        }
+
+        .royal-font {
+            font-family: 'Cinzel Decorative', cursive;
+            font-weight: 900;
+            letter-spacing: 0.7px;
+        }
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes leafOrbitSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes chakraCounterSpin {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes goldShimmerBorder {
+            0% {
+                border-color: #facc15;
+                box-shadow: 0 18px 36px rgba(0, 0, 0, 0.94), 0 0 16px rgba(250, 204, 21, 0.55), inset 0 0 12px rgba(16, 185, 129, 0.25);
+            }
+            50% {
+                border-color: #34d399;
+                box-shadow: 0 18px 36px rgba(0, 0, 0, 0.94), 0 0 18px rgba(52, 211, 153, 0.6), inset 0 0 12px rgba(250, 204, 21, 0.22);
+            }
+            100% {
+                border-color: #facc15;
+                box-shadow: 0 18px 36px rgba(0, 0, 0, 0.94), 0 0 16px rgba(250, 204, 21, 0.55), inset 0 0 12px rgba(16, 185, 129, 0.25);
+            }
+        }
+
+        /* কাস্টম সোলার-লিফ চক্র সহ ফ্লোটিং আইকন */
+        #floating-icon-btn {
+            position: fixed;
+            top: 84px;
+            right: 34px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            cursor: grab;
+            z-index: 9999;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: floatPulse 3.4s ease-in-out infinite;
+        }
+
+        .icon-leaf-orbit {
+            position: absolute;
+            inset: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            pointer-events: none;
+            z-index: 1;
+            animation: leafOrbitSpin 7.5s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.7));
+        }
+
+        .icon-core-ring {
+            position: relative;
+            z-index: 2;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 2px;
+            background: conic-gradient(from 0deg, #fde047, #10b981, #f59e0b, #fde047);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.92);
+        }
+
+        .icon-core-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #042f2e;
+        }
+
+        .icon-core-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* পাসওয়ার্ড কার্ড */
+        #auth-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 222px;
+            background: radial-gradient(circle at top, #08382a 0%, #061411 65%, #030807 100%);
+            border: 1.8px solid #facc15;
+            border-radius: 20px;
+            box-shadow: 0 22px 44px rgba(0, 0, 0, 0.96), 0 0 24px rgba(250, 204, 21, 0.35);
+            padding: 14px 12px;
+            display: none;
+            z-index: 10000;
+            text-align: center;
+            backdrop-filter: blur(14px);
+        }
+
+        .auth-pill {
+            display: inline-block;
+            font-size: 7.5px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #052e16;
+            background: linear-gradient(90deg, #fde047, #4ade80);
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-bottom: 6px;
+        }
+
+        .auth-title {
+            font-size: 11px;
+            color: #fef08a;
+            margin-bottom: 9px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 6.5px 8px;
+            background: rgba(2, 10, 8, 0.95);
+            border: 1px solid rgba(250, 204, 21, 0.7);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 10.5px;
+            text-align: center;
+            margin-bottom: 7px;
+            outline: none;
+            font-weight: 900;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 8.5px;
+            color: #d1fae5;
+            margin-bottom: 9px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .unlock-vip-btn {
+            width: 100%;
+            padding: 7.5px;
+            background: linear-gradient(135deg, #fde047 0%, #22c55e 100%);
+            border: 1px solid #ffffff;
+            border-radius: 10px;
+            color: #041d13;
+            font-size: 9px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        #error-msg {
+            color: #fb7185;
+            font-size: 8.5px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 900;
+        }
+
+        /* একদম নতুন Royal Emerald & Gold কমপ্যাক্ট পপআপ */
+        .overlay-box {
+            position: fixed;
+            top: 84px;
+            left: 34px;
+            width: 202px;
+            max-width: calc(100vw - 68px);
+            display: none;
+            z-index: 9999;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(250, 204, 21, 0.2), transparent 52%),
+                radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.25), transparent 55%),
+                linear-gradient(170deg, #072920 0%, #051613 55%, #030908 100%);
+            border-radius: 22px;
+            padding: 7px;
+            border: 1.8px solid #facc15;
+            animation: goldShimmerBorder 3.5s ease-in-out infinite;
+            backdrop-filter: blur(14px);
+            overflow: hidden;
+        }
+
+        .botanical-mesh {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.22;
+        }
+
+        .popup-inner {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* রয়্যাল হেডার */
+        .royal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            padding: 4px 6px;
+            margin-bottom: 5px;
+            border-radius: 13px;
+            background: linear-gradient(90deg, rgba(250, 204, 21, 0.14), rgba(16, 185, 129, 0.16));
+            border: 1px solid rgba(250, 204, 21, 0.45);
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .royal-header:active {
+            cursor: grabbing;
+        }
+
+        .brand-stack {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .brand-name {
+            font-size: 8.2px;
+            font-weight: 900;
+            color: #fde047;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .brand-meta {
+            font-size: 5.5px;
+            font-weight: 900;
+            color: #6ee7b7;
+            letter-spacing: 0.3px;
+        }
+
+        .header-btns {
+            display: flex;
+            align-items: center;
+            gap: 2.5px;
+            flex-shrink: 0;
+        }
+
+        .pill-voice {
+            font-size: 5.4px;
+            font-weight: 900;
+            padding: 2px 5px;
+            border-radius: 999px;
+            border: 1px solid #fde047;
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .pill-voice.is-muted {
+            background: #1f2937;
+            border-color: #4b5563;
+            color: #9ca3af;
+        }
+
+        .pill-hide {
+            font-size: 5.4px;
+            font-weight: 900;
+            padding: 2px 5px;
+            border-radius: 999px;
+            border: 1px solid #34d399;
+            background: #065f46;
+            color: #ecfdf5;
+            cursor: pointer;
+        }
+
+        /* প্ল্যাটফর্ম সুইচ */
+        .plat-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 4.5px;
+        }
+
+        .plat-btn {
+            padding: 3.2px 4px;
+            border-radius: 9px;
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            background: rgba(4, 22, 18, 0.9);
+            color: #d1fae5;
+            font-size: 5.8px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .plat-btn.active {
+            background: linear-gradient(135deg, #fde047 0%, #10b981 100%);
+            color: #032216;
+            border-color: #ffffff;
+            text-shadow: none;
+        }
+
+        /* টাইম ট্যাব */
+        .market-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5px;
+            margin-bottom: 4.5px;
+            padding: 2px;
+            border-radius: 10px;
+            background: rgba(2, 12, 10, 0.9);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+        }
+
+        .mkt-btn {
+            padding: 2px 1px;
+            border-radius: 7px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #a7f3d0;
+            font-size: 6px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .mkt-btn.active {
+            background: linear-gradient(135deg, #10b981, #eab308);
+            color: #031b11;
+            border-color: #fef08a;
+            text-shadow: none;
+        }
+
+        /* ভয়েস কল স্ট্রিপ */
+        .voice-ticker {
+            padding: 3px 6px;
+            margin-bottom: 5px;
+            border-radius: 999px;
+            background: rgba(250, 204, 21, 0.14);
+            border: 1px solid rgba(250, 204, 21, 0.45);
+            font-size: 6px;
+            font-weight: 900;
+            color: #fef08a;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* মূল সিগন্যাল ডেক */
+        .signal-deck {
+            display: grid;
+            grid-template-columns: 0.9fr 1.25fr 0.9fr;
+            gap: 4px;
+            align-items: stretch;
+        }
+
+        .side-card {
+            border-radius: 13px;
+            padding: 5px 2px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1.4px solid rgba(250, 204, 21, 0.45);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card-big {
+            background: linear-gradient(180deg, rgba(180, 83, 9, 0.45), rgba(41, 20, 4, 0.95));
+        }
+
+        .card-small {
+            background: linear-gradient(180deg, rgba(4, 120, 87, 0.48), rgba(3, 33, 25, 0.95));
+        }
+
+        .side-card.is-live {
+            transform: scale(1.03);
+            border-color: #fde047;
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+        }
+
+        .side-title {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .side-range {
+            font-size: 5.5px;
+            font-weight: 900;
+            color: #fde68a;
+        }
+
+        .side-badge {
+            margin-top: 3px;
+            font-size: 5.2px;
+            font-weight: 900;
+            padding: 1.5px;
+            border-radius: 6px;
+            background: rgba(2, 12, 10, 0.88);
+            color: #9ca3af;
+        }
+
+        .side-badge.live {
+            background: linear-gradient(135deg, #fde047, #22c55e);
+            color: #032216;
+            text-shadow: none;
+        }
+
+        /* মাঝের চক্র ও নাম্বার অরব */
+        .core-chamber {
+            border-radius: 13px;
+            padding: 4px 3px;
+            text-align: center;
+            background: radial-gradient(circle at center, #0a3529 0%, #03100d 100%);
+            border: 1.4px solid rgba(52, 211, 153, 0.65);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
+        }
+
+        .period-chip {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5px;
+            padding: 1.5px 3px;
+            border-radius: 6px;
+            background: rgba(2, 10, 8, 0.9);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            font-size: 5px;
+            font-weight: 900;
+            color: #fef9c3;
+            cursor: pointer;
+        }
+
+        .pulse-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 6px #4ade80;
+        }
+
+        .chakra-stage {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number-bg-chakra {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            animation: chakraCounterSpin 4.5s linear infinite;
+            filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.65));
+        }
+
+        .num-orb {
+            position: relative;
+            z-index: 2;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1.6px solid #fef08a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .orb-green { background: radial-gradient(circle at 30% 25%, #86efac, #15803d 65%, #052e16 100%); }
+        .orb-red { background: radial-gradient(circle at 30% 25%, #fca5a5, #b91c1c 65%, #450a0a 100%); }
+        .orb-violet { background: radial-gradient(circle at 30% 25%, #e9d5ff, #7e22ce 65%, #2e1065 100%); }
+
+        .countdown-chip {
+            font-size: 5.5px;
+            font-weight: 900;
+            color: #041d13;
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #fde047, #4ade80);
+            text-shadow: none;
+        }
+
+        /* WIN / LOSS রো */
+        .score-bar {
+            margin-top: 4.5px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .btn-wl {
+            font-size: 5.5px;
+            font-weight: 900;
+            padding: 2.5px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            text-shadow: none;
+        }
+
+        .btn-win { background: linear-gradient(135deg, #4ade80, #059669); color: #022c22; }
+        .btn-loss { background: linear-gradient(135deg, #fb7185, #be123c); color: #ffffff; }
+
+        .score-pill {
+            font-size: 5.4px;
+            font-weight: 900;
+            text-align: center;
+            padding: 2px;
+            border-radius: 7px;
+            background: rgba(2, 12, 10, 0.92);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            color: #fde047;
+        }
+
+        /* হিস্ট্রি বল */
+        .history-box {
+            margin-top: 4.5px;
+            padding: 4px;
+            border-radius: 10px;
+            background: rgba(2, 12, 10, 0.92);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+        }
+
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 5.4px;
+            font-weight: 900;
+            margin-bottom: 3px;
+            color: #ecfdf5;
+        }
+
+        .balls-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 1.5px;
+        }
+
+        .mini-ball {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: 1px solid #fef08a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5.8px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .b-green { background: #15803d; }
+        .b-red { background: #b91c1c; }
+        .b-violet-green { background: linear-gradient(135deg, #7e22ce 50%, #16a34a 50%); }
+        .b-violet-red { background: linear-gradient(135deg, #7e22ce 50%, #dc2626 50%); }
+
+        /* হাইড করা যোগাযোগ লিংক */
+        .contact-footer {
+            margin-top: 4.5px;
+        }
+
+        .contact-btn {
+            display: block;
+            width: 100%;
+            padding: 3.8px 6px;
+            border-radius: 9px;
+            background: linear-gradient(90deg, rgba(250, 204, 21, 0.2), rgba(16, 185, 129, 0.24));
+            border: 1px solid rgba(250, 204, 21, 0.5);
+            color: #fef08a;
+            font-size: 5.8px;
+            font-weight: 900;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        #copy-toast {
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fde047;
+            color: #041d13;
+            font-size: 8.5px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: none;
+            z-index: 10002;
+        }
+    </style>
 </head>
 <body>
 
-<iframe id="game-iframe" src="https://hgnice0.com/#/register?invitationCode=376851951983" loading="lazy"></iframe>
+    <iframe id="game-iframe" src="https://www.dkwin.world/#/register?invitationCode=12215125183" loading="lazy"></iframe>
 
-<div id="fab"><img src="https://cdn.imageurlgenerator.com/uploads/5082a2d5-1833-47fe-9594-4df69e1e307c.png" alt="JW"></div>
-
-<div id="auth">
-  <div class="card">
-    <div class="crown">👑</div>
-    <h2>JOY WINGO</h2>
-    <p>VIP PREDICTOR · SECURE ACCESS</p>
-    <input type="password" id="pass" placeholder="Enter Password">
-    <label class="row"><input type="checkbox" id="remember"> Remember me</label>
-    <button id="loginBtn">Unlock Panel</button>
-    <div class="err" id="err">Wrong password, try again!</div>
-  </div>
-</div>
-
-<div id="panel">
-  <div class="head" id="dragHandle">
-    <div class="badge">⚡ PLAY SMARTER</div>
-    <div class="head-actions">
-      <button class="chip-btn on" id="voiceBtn" onclick="toggleVoice()">🔊 ON</button>
-      <button class="chip-btn" onclick="hidePanel()">✕ HIDE</button>
+    <!-- গাছের পাতার চক্র সহ ফ্লোটিং আইকন -->
+    <div id="floating-icon-btn">
+        <svg class="icon-leaf-orbit" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="35" stroke="rgba(250, 204, 21, 0.5)" stroke-width="1.1" stroke-dasharray="4 3" />
+            <path d="M40 3C35 10 35 17 40 22C45 17 45 10 40 3Z" fill="#22c55e" stroke="#fef08a" stroke-width="0.7"/>
+            <path d="M66.2 13.8C57.5 14.5 52.5 19.5 52.8 27.2C60.5 27.5 65.5 22.5 66.2 13.8Z" fill="#10b981" stroke="#fde047" stroke-width="0.7"/>
+            <path d="M77 40C70 35 63 35 58 40C63 45 70 45 77 40Z" fill="#4ade80" stroke="#fef08a" stroke-width="0.7"/>
+            <path d="M66.2 66.2C65.5 57.5 60.5 52.5 52.8 52.8C52.5 60.5 57.5 65.5 66.2 66.2Z" fill="#15803d" stroke="#fde047" stroke-width="0.7"/>
+            <path d="M40 77C45 70 45 63 40 58C35 63 35 70 40 77Z" fill="#22c55e" stroke="#fef08a" stroke-width="0.7"/>
+            <path d="M13.8 66.2C22.5 65.5 27.5 60.5 27.2 52.8C19.5 52.5 14.5 57.5 13.8 66.2Z" fill="#10b981" stroke="#fde047" stroke-width="0.7"/>
+            <path d="M3 40C10 45 17 45 22 40C17 35 10 35 3 40Z" fill="#4ade80" stroke="#fef08a" stroke-width="0.7"/>
+            <path d="M13.8 13.8C14.5 22.5 19.5 27.5 27.2 27.2C27.5 19.5 22.5 14.5 13.8 13.8Z" fill="#15803d" stroke="#fde047" stroke-width="0.7"/>
+        </svg>
+        <div class="icon-core-ring">
+            <div class="icon-core-inner">
+                <img src="https://cdn.imageurlgenerator.com/uploads/5f242846-c36b-4437-8bbd-8fab060a831d.jpg" alt="Tuhin VIP" />
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="brand">
-    <div class="crown">👑</div>
-    <h1>JOY WINGO<span>PREDICTOR</span></h1>
-    <div class="pill" id="modePill">30 SEC PREDICTOR</div>
-  </div>
-  <div class="tabs">
-    <button class="tab active" data-m="30S">30S</button>
-    <button class="tab" data-m="1M">1M</button>
-    <button class="tab" data-m="3M">3M</button>
-    <button class="tab" data-m="5M">5M</button>
-  </div>
-  <div class="call" id="call">👩 সবাই এখানে একটা বিগ ট্রেড করো!</div>
-  <div class="grid">
-    <div class="side small" id="smallCard">
-      <div class="ico">👑</div><h3>SMALL</h3><div class="rng">0 - 4</div>
-      <div class="tag off" id="smallTag">STANDBY</div>
+
+    <!-- পাসওয়ার্ড কার্ড -->
+    <div id="auth-overlay">
+        <div class="auth-pill">VIP ROYAL ACCESS</div>
+        <div class="auth-title royal-font">Tuhin vip hack</div>
+        <input type="password" id="pass-input" class="auth-input" placeholder="Enter Password" />
+        <label class="remember-row">
+            <input type="checkbox" id="remember-pass" /> Remember Password
+        </label>
+        <button type="button" class="unlock-vip-btn royal-font" onclick="AuthSystem.unlock()">UNLOCK VIP</button>
+        <div id="error-msg">Wrong Password!</div>
     </div>
-    <div class="center">
-      <div style="text-align:center"><div class="no-label">NO:</div><div class="no-val" id="period" onclick="copyPeriod()">Loading...</div></div>
-      <div class="orb-wrap">
-        <div class="ring-ticks"></div><div class="ring-dash"></div><div class="ring-glow"></div>
-        <div class="orb green" id="orb">-</div>
-      </div>
-      <div class="timer"><div class="lbl">NEXT IN</div><div class="val" id="timer">30s</div></div>
+
+    <!-- নতুন Royal Emerald & Gold পপআপ -->
+    <div class="overlay-box" id="main-content">
+        <svg class="botanical-mesh" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M120 14C66 42 28 96 24 160C20 224 60 278 120 306C180 278 220 224 216 160C212 96 174 42 120 14Z" stroke="#facc15" stroke-width="1.3"/>
+            <path d="M120 20V300" stroke="#4ade80" stroke-width="1.2"/>
+            <path d="M120 75L64 50M120 75L176 50M120 130L48 102M120 130L192 102M120 185L52 160M120 185L188 160M120 240L72 220M120 240L168 220" stroke="#4ade80" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+
+        <div class="popup-inner">
+            <div class="royal-header" id="main-content-header">
+                <div class="brand-stack">
+                    <div class="brand-name royal-font">👑 Tuhin vip hack</div>
+                    <div class="brand-meta" id="mode-subtitle">DK WIN • 30S</div>
+                </div>
+                <div class="header-btns">
+                    <button type="button" class="pill-voice" id="voice-toggle-btn" onclick="VoiceSystem.toggle()">👩 VOICE</button>
+                    <button type="button" class="pill-hide" onclick="PanelUI.hide()">HIDE</button>
+                </div>
+            </div>
+
+            <div class="plat-bar">
+                <button type="button" class="plat-btn text-3d active" id="btn-dkwin" onclick="PlatformSystem.set('DKWIN')">DK WIN সুইচ</button>
+                <button type="button" class="plat-btn text-3d" id="btn-bdwin" onclick="PlatformSystem.set('BDWIN')">BD WIN সুইচ</button>
+            </div>
+
+            <div class="market-strip">
+                <button type="button" class="mkt-btn text-3d active" data-market="30S">30S</button>
+                <button type="button" class="mkt-btn text-3d" data-market="1M">1M</button>
+                <button type="button" class="mkt-btn text-3d" data-market="3M">3M</button>
+                <button type="button" class="mkt-btn text-3d" data-market="5M">5M</button>
+            </div>
+
+            <div class="voice-ticker" id="ai-call-banner">👩 সবাই এখানে একটা বিগ ট্রেড করো!</div>
+
+            <div class="signal-deck">
+                <div class="side-card card-big" id="big-panel">
+                    <div>
+                        <div class="side-title text-3d">BIG</div>
+                        <div class="side-range">5 - 9</div>
+                    </div>
+                    <div class="side-badge text-3d" id="big-tag">WAIT</div>
+                </div>
+
+                <div class="core-chamber">
+                    <div class="period-chip" onclick="EngineSystem.copyPeriod()" title="Copy Period">
+                        <span class="pulse-dot"></span>
+                        <span id="period-num">Loading...</span>
+                    </div>
+
+                    <!-- নাম্বারের ব্যাকগ্রাউন্ডে কসমিক জ্যামিতিক চক্র -->
+                    <div class="chakra-stage">
+                        <svg class="number-bg-chakra" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="32" r="28" stroke="#facc15" stroke-width="1.3" stroke-dasharray="6 3"/>
+                            <circle cx="32" cy="32" r="22" stroke="#34d399" stroke-width="1.1" stroke-dasharray="3 3"/>
+                            <polygon points="32,2 35,8 29,8" fill="#fde047"/>
+                            <polygon points="62,32 56,35 56,29" fill="#4ade80"/>
+                            <polygon points="32,62 29,56 35,56" fill="#fde047"/>
+                            <polygon points="2,32 8,29 8,35" fill="#4ade80"/>
+                        </svg>
+                        <div class="num-orb orb-green text-3d" id="main-orb"><span id="main-orb-text">-</span></div>
+                    </div>
+
+                    <div class="countdown-chip text-3d" id="timer-display">30s</div>
+                </div>
+
+                <div class="side-card card-small" id="small-panel">
+                    <div>
+                        <div class="side-title text-3d">SMALL</div>
+                        <div class="side-range">0 - 4</div>
+                    </div>
+                    <div class="side-badge text-3d" id="small-tag">WAIT</div>
+                </div>
+            </div>
+
+            <div class="score-bar">
+                <button type="button" class="btn-wl btn-win text-3d" onclick="EngineSystem.addWin()">🏆 WIN</button>
+                <div class="score-pill text-3d" id="wl-status">W: 0 | L: 0</div>
+                <button type="button" class="btn-wl btn-loss text-3d" onclick="EngineSystem.addLoss()">❌ LOSS</button>
+            </div>
+
+            <div class="history-box">
+                <div class="history-top text-3d">
+                    <span id="color-label">GREEN</span>
+                    <span id="conf-label" style="color:#fde047;">CONF 88%</span>
+                </div>
+                <div class="balls-grid" id="recent-wheels"></div>
+            </div>
+
+            <div class="contact-footer">
+                <a href="https://t.me/Tuhin0027" target="_blank" rel="noopener noreferrer" class="contact-btn">
+                    💬 কোনো সমস্যা হলে যোগাযোগ করুন
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="side big" id="bigCard">
-      <div class="ico">👑</div><h3>BIG</h3><div class="rng">5 - 9</div>
-      <div class="tag off" id="bigTag">STANDBY</div>
-    </div>
-  </div>
-  <div class="wl">
-    <button class="w" onclick="markWin()">🏆 WIN</button>
-    <div class="stat" id="stat">W: 0 | L: 0</div>
-    <button class="l" onclick="markLoss()">✕ LOSS</button>
-  </div>
-  <div class="recent">
-    <div class="recent-top"><div class="t"><b>✓</b><span id="recentLabel">RECENT RESULTS</span></div><div class="c" id="conf">CONF 88%</div></div>
-    <div class="track" id="track"></div>
-  </div>
-  <a href="https://t.me/trader_joy22369" target="_blank" class="tg">💬 JOIN TELEGRAM</a>
-</div>
 
-<div id="toast">Copied!</div>
+    <div id="copy-toast">Copied!</div>
 
-<script>
-var MARKETS={
- "30S":{duration:30,offset:50000,salt:0x9E3779B9,label:"30 SEC PREDICTOR",bn:"ত্রিশ সেকেন্ড"},
- "1M":{duration:60,offset:20000,salt:0x85EBCA6B,label:"1 MIN PREDICTOR",bn:"এক মিনিট"},
- "3M":{duration:180,offset:10000,salt:0xC2B2AE35,label:"3 MIN PREDICTOR",bn:"তিন মিনিট"},
- "5M":{duration:300,offset:5000,salt:0x27D4EB2F,label:"5 MIN PREDICTOR",bn:"পাঁচ মিনিট"}
-};
-var BN=["শূন্য","এক","দুই","তিন","চার","পাঁচ","ছয়","সাত","আট","নয়"];
-var PASS="Zahirul22369";
-var market="30S";
-var unlocked=localStorage.getItem("jw_unlocked")==="true";
-var voiceOn=localStorage.getItem("jw_voice")!=="false";
-var periodCache="",lastAnnounced="";
-var pred={type:"BIG",num:7,confidence:86,color:"GREEN",orb:"green"};
-var prev=null,tickStarted=false,wins=0,losses=0;
+    <script>
+        const APP_DATA = {
+            pass: "Tuhinviphack",
+            platforms: {
+                DKWIN: {
+                    name: "DK WIN",
+                    bn: "ডিকে উইন",
+                    url: "https://www.dkwin.world/#/register?invitationCode=12215125183",
+                    saltMix: 0x11111111
+                },
+                BDWIN: {
+                    name: "BD WIN",
+                    bn: "বিডি উইন",
+                    url: "https://8bdwin24.com/register?inviteCode=9LBSM7N&from=web",
+                    saltMix: 0x22222222
+                }
+            },
+            markets: {
+                "30S": { duration: 30,  offset: 50000, salt: 0x9E3779B9, label: "30S", bnName: "ত্রিশ সেকেন্ড" },
+                "1M":  { duration: 60,  offset: 20000, salt: 0x85EBCA6B, label: "1M",  bnName: "এক মিনিট" },
+                "3M":  { duration: 180, offset: 10000, salt: 0xC2B2AE35, label: "3M",  bnName: "তিন মিনিট" },
+                "5M":  { duration: 300, offset: 5000,  salt: 0x27D4EB2F, label: "5M",  bnName: "পাঁচ মিনিট" }
+            },
+            digitsBn: ["শূন্য", "এক", "দুই", "তিন", "চার", "পাঁচ", "ছয়", "সাত", "আট", "নয়"]
+        };
 
-/* ---------- FAB tap (simple & reliable) ---------- */
-var fab=document.getElementById("fab");
-fab.addEventListener("click",function(){
-  if(unlocked){ openPanel(); }
-  else{
-    document.getElementById("err").style.display="none";
-    document.getElementById("auth").style.display="flex";
-    setTimeout(function(){document.getElementById("pass").focus();},120);
-  }
-});
+        const State = {
+            platform: "DKWIN",
+            market: "30S",
+            unlocked: localStorage.getItem("tuhin_vip_hack_unlocked") === "true",
+            voiceOn: localStorage.getItem("tuhin_female_voice_enabled") !== "false",
+            periodCache: "",
+            announcedPeriod: "",
+            currentPred: { type: "BIG", num: 7, confidence: 86, colorName: "GREEN" },
+            lastPred: null,
+            running: false,
+            wins: 0,
+            losses: 0
+        };
 
-/* ---------- login ---------- */
-document.getElementById("loginBtn").addEventListener("click",doLogin);
-document.getElementById("pass").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
-function doLogin(){
-  var v=document.getElementById("pass").value.trim();
-  if(v===PASS){
-    unlocked=true;
-    if(document.getElementById("remember").checked)localStorage.setItem("jw_unlocked","true");
-    document.getElementById("auth").style.display="none";
-    openPanel();
-    speak("স্বাগতম! প্যানেল আনলক হয়েছে।");
-  }else{
-    document.getElementById("err").style.display="block";
-    document.getElementById("pass").value="";
-  }
-}
-function openPanel(){
-  document.getElementById("panel").style.display="flex";
-  fab.style.display="none";
-  if(!tickStarted){tickStarted=true;setInterval(tick,1000);}
-  tick();
-  if(voiceOn)speak("জয় উইঙ্গো প্যানেল ওপেন হয়েছে।");
-}
-function hidePanel(){
-  document.getElementById("panel").style.display="none";
-  fab.style.display="flex";
-  if(voiceOn)speak("প্যানেল হাইড করা হলো।");
-}
+        const VoiceSystem = (() => {
+            const queue = [];
+            let active = false;
+            let femaleVoice = null;
 
-/* ---------- tabs ---------- */
-var tabEls=document.querySelectorAll(".tab");
-for(var i=0;i<tabEls.length;i++){
- (function(t){
-  t.addEventListener("click",function(){
-   var all=document.querySelectorAll(".tab");
-   for(var j=0;j<all.length;j++)all[j].classList.remove("active");
-   t.classList.add("active");
-   market=t.getAttribute("data-m");
-   document.getElementById("modePill").textContent=MARKETS[market].label;
-   periodCache="";lastAnnounced="";prev=null;
-   tick();
-   if(voiceOn)speak(MARKETS[market].bn+" মার্কেট চালু হয়েছে।");
-  });
- })(tabEls[i]);
-}
+            function findFemaleVoice() {
+                if (!("speechSynthesis" in window)) return null;
+                const voices = window.speechSynthesis.getVoices() || [];
+                if (!voices.length) return null;
 
-/* ---------- voice ---------- */
-function updateVoiceUI(){
- var b=document.getElementById("voiceBtn");
- if(!b)return;
- if(voiceOn){b.textContent="🔊 ON";b.classList.add("on");b.classList.remove("off");}
- else{b.textContent="🔇 OFF";b.classList.add("off");b.classList.remove("on");}
-}
-updateVoiceUI();
-function toggleVoice(){
- voiceOn=!voiceOn;
- localStorage.setItem("jw_voice",String(voiceOn));
- updateVoiceUI();
- if(!voiceOn&&"speechSynthesis"in window)window.speechSynthesis.cancel();
- else if(voiceOn)speak("ফিমেল ভয়েস চালু হয়েছে।");
-}
-function pickVoice(){
- if(!("speechSynthesis"in window))return null;
- var voices=window.speechSynthesis.getVoices()||[];
- var male=/male|man|boy|rishi|prabhat|amit|arjun|david|mark|alex|daniel/i;
- var female=/female|woman|girl|tanisha|nabila|priya|lekha|aditi|sangeeta|kalpana|zira|samantha|victoria/i;
- var nonMale=[];for(var i=0;i<voices.length;i++){if(!male.test(voices[i].name))nonMale.push(voices[i]);}
- for(var i=0;i<nonMale.length;i++){if((/bn/i.test(nonMale[i].lang)||/bangla|bengali/i.test(nonMale[i].name))&&female.test(nonMale[i].name))return nonMale[i];}
- for(var i=0;i<nonMale.length;i++){if(/bn/i.test(nonMale[i].lang)||/bangla|bengali/i.test(nonMale[i].name))return nonMale[i];}
- for(var i=0;i<nonMale.length;i++){if(female.test(nonMale[i].name))return nonMale[i];}
- return nonMale[0]||null;
-}
-function speak(text){
- if(!voiceOn||!("speechSynthesis"in window)||!text)return;
- try{
-  window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(text);
-  var v=pickVoice();if(v)u.voice=v;
-  u.lang="bn-BD";u.pitch=1.3;u.rate=1.03;u.volume=1;
-  window.speechSynthesis.speak(u);
- }catch(e){}
-}
-if("speechSynthesis"in window)window.speechSynthesis.onvoiceschanged=function(){pickVoice();};
+                const maleRe = /\b(male|man|boy|rishi|prabhat|amit|arjun|david|mark|alex|daniel|george|ryan|thomas|eric|brian|fred|albert)\b/i;
+                const femaleRe = /(female|woman|girl|lady|tanisha|nabila|priya|lekha|aditi|raveena|sangeeta|kalpana|zira|samantha|victoria|moira|fiona|veena|aria|jenny|allison|ava|zoe|karen|tessa|google.*(female|hindi|bn)|microsoft.*(tanisha|aria|jenny|zira))/i;
 
-/* ---------- win/loss ---------- */
-function markWin(){
- wins++;
- document.getElementById("stat").textContent="W: "+wins+" | L: "+losses;
- document.getElementById("call").textContent="👩 অভিনন্দন! এই ট্রেড উইন হয়েছে!";
- speak("অভিনন্দন! এই ট্রেড উইন হয়েছে!");
-}
-function markLoss(){
- losses++;
- document.getElementById("stat").textContent="W: "+wins+" | L: "+losses;
- document.getElementById("call").textContent="👩 দুঃখিত, এই ট্রেড লস হয়েছে!";
- speak("দুঃখিত, এই ট্রেড লস হয়েছে!");
-}
+                const matches = voices.filter((v) => !maleRe.test(v.name) && femaleRe.test(v.name));
+                return (
+                    matches.find((v) => /bn|bangla|bengali/i.test(v.lang) || /bn|bangla|bengali/i.test(v.name)) ||
+                    matches.find((v) => /hi|en-in|en-gb|en-us/i.test(v.lang)) ||
+                    matches[0] ||
+                    voices.filter((v) => !maleRe.test(v.name))[0] ||
+                    null
+                );
+            }
 
-/* ---------- predictor ---------- */
-function mixHash(seed){
- var x=seed>>>0;
- x^=x>>>16;x=Math.imul(x,0x7feb352d)>>>0;
- x^=x>>>15;x=Math.imul(x,0x846ca68b)>>>0;
- x^=x>>>16;return x>>>0;
-}
-function getColor(num){
- if(num===0)return{orb:"violet",color:"VIOLET+RED"};
- if(num===5)return{orb:"violet",color:"VIOLET+GRN"};
- if(num===1||num===3||num===7||num===9)return{orb:"green",color:"GREEN"};
- return{orb:"red",color:"RED"};
-}
-function evalSlot(slot,cfg,dateSeed){
- var base=(dateSeed^Math.imul(slot,cfg.salt))>>>0;
- var h1=mixHash(base);
- var h2=mixHash(h1^(slot*2654435761));
- var bigCount=0;
- for(var lb=1;lb<=5;lb++){
-  var pi=Math.max(1,slot-lb);
-  var ph=mixHash((dateSeed^Math.imul(pi,cfg.salt))>>>0);
-  if((ph%100)>=49)bigCount++;
- }
- var score=h1%100;
- if(bigCount>=4)score-=10;
- if(bigCount<=1)score+=10;
- var type=score>=50?"BIG":"SMALL";
- var pool=type==="BIG"?[5,6,7,8,9]:[0,1,2,3,4];
- var num=pool[h2%pool.length];
- var delta=Math.abs(score-50);
- var conf=Math.min(94,Math.max(76,78+Math.floor(delta*0.65)+(h2%6)));
- var c=getColor(num);
- return{type:type,num:num,confidence:conf,orb:c.orb,color:c.color};
-}
-function tick(){
- if(!unlocked)return;
- var cfg=MARKETS[market]||MARKETS["30S"];
- var now=new Date();
- var sec=now.getUTCHours()*3600+now.getUTCMinutes()*60+now.getUTCSeconds();
- var slot=Math.floor(sec/cfg.duration);
- var rem=sec%cfg.duration;
- var timeLeft=cfg.duration-rem;
- var elapsed=rem;
- var periodIdx=slot+1;
- var dateStr=""+now.getUTCFullYear()+String(now.getUTCMonth()+1).padStart(2,"0")+String(now.getUTCDate()).padStart(2,"0");
- var dateSeed=parseInt(dateStr,10)||20261121;
- var fmtIdx=String(cfg.offset+periodIdx).padStart(5,"0");
- var fullPeriod=dateStr+"1000"+fmtIdx;
+            function processNext() {
+                if (active || !State.voiceOn || !("speechSynthesis" in window)) return;
+                const line = queue.shift();
+                if (!line) return;
 
- document.getElementById("period").textContent=fullPeriod;
- document.getElementById("timer").textContent=String(timeLeft).padStart(2,"0")+"s";
+                active = true;
+                if (!femaleVoice) femaleVoice = findFemaleVoice();
 
- var outcome="";
- if(fullPeriod!==periodCache){
-  if(periodCache&&prev&&periodIdx>1){
-   var oh=mixHash((dateSeed^Math.imul(periodIdx-1,cfg.salt)^0x517CC1B7)>>>0);
-   var actualBig=(oh%100)>=50;
-   var predBig=prev.type==="BIG";
-   if(actualBig===predBig){wins++;outcome="অভিনন্দন! আগের ট্রেড উইন হয়েছে!";}
-   else{losses++;outcome="দুঃখিত, আগের ট্রেড লস হয়েছে!";}
-   document.getElementById("stat").textContent="W: "+wins+" | L: "+losses;
-  }
-  periodCache=fullPeriod;
-  pred=evalSlot(periodIdx,cfg,dateSeed);
-  prev={type:pred.type,num:pred.num};
- }
+                const utter = new SpeechSynthesisUtterance(line);
+                if (femaleVoice) utter.voice = femaleVoice;
+                utter.lang = "bn-BD";
+                utter.pitch = 1.78;
+                utter.rate = 0.94;
+                utter.volume = 1;
 
- var orb=document.getElementById("orb");
- var call=document.getElementById("call");
- var smallCard=document.getElementById("smallCard");
- var bigCard=document.getElementById("bigCard");
- var smallTag=document.getElementById("smallTag");
- var bigTag=document.getElementById("bigTag");
- var confEl=document.getElementById("conf");
- var recentLabel=document.getElementById("recentLabel");
+                let closed = false;
+                const done = () => {
+                    if (closed) return;
+                    closed = true;
+                    clearTimeout(watchdog);
+                    active = false;
+                    setTimeout(processNext, 180);
+                };
 
- if(elapsed<=2){
-  orb.textContent="...";
-  orb.className="orb violet";
-  recentLabel.textContent="RECENT RESULTS";
-  confEl.textContent="SYNC...";
-  call.textContent=outcome?"👩 "+outcome:"👩 সিগন্যাল স্ক্যান হচ্ছে...";
-  smallCard.classList.remove("predicted");
-  bigCard.classList.remove("predicted");
-  smallTag.textContent="WAIT";smallTag.className="tag off";
-  bigTag.textContent="WAIT";bigTag.className="tag off";
- }else{
-  orb.textContent=String(pred.num);
-  orb.className="orb "+pred.orb;
-  recentLabel.textContent="RECENT RESULTS · "+pred.color;
-  confEl.textContent="CONF "+pred.confidence+"%";
-  call.textContent="👩 "+(pred.type==="BIG"?"সবাই এখানে একটা বিগ ট্রেড করো!":"সবাই এখানে একটা স্মল ট্রেড করো!");
-  if(pred.type==="BIG"){
-   bigCard.classList.add("predicted");smallCard.classList.remove("predicted");
-   bigTag.textContent="✓ PREDICTED";bigTag.className="tag on-big";
-   smallTag.textContent="✕ NOT PREDICTED";smallTag.className="tag off";
-  }else{
-   smallCard.classList.add("predicted");bigCard.classList.remove("predicted");
-   smallTag.textContent="✓ PREDICTED";smallTag.className="tag on-small";
-   bigTag.textContent="✕ NOT PREDICTED";bigTag.className="tag off";
-  }
- }
+                const watchdog = setTimeout(done, 5500);
+                utter.onend = done;
+                utter.onerror = done;
 
- if(fullPeriod!==lastAnnounced){
-  lastAnnounced=fullPeriod;
-  if(voiceOn&&elapsed>2){
-   var numBn=BN[pred.num]||pred.num;
-   var sentence=(pred.type==="BIG"?"সবাই এখানে একটা বিগ ট্রেড করো!":"সবাই এখানে একটা স্মল ট্রেড করো!")+" নম্বর "+numBn+"।";
-   if(outcome)speak(outcome+". "+sentence);
-   else speak(sentence);
-  }
- }
+                try {
+                    window.speechSynthesis.speak(utter);
+                } catch (_) {
+                    done();
+                }
+            }
 
- var track=document.getElementById("track");
- track.innerHTML="";
- for(var k=9;k>=0;k--){
-  var idx=Math.max(1,periodIdx-k);
-  var s=evalSlot(idx,cfg,dateSeed);
-  var b=document.createElement("div");
-  b.className="ball "+(s.orb==="violet"?"v":s.orb.charAt(0));
-  b.textContent=s.num;
-  track.appendChild(b);
- }
-}
-function copyPeriod(){
- var t=document.getElementById("period").textContent.trim();
- if(t&&t!=="Loading..."){
-  navigator.clipboard.writeText(t).then(function(){
-   var toast=document.getElementById("toast");
-   toast.classList.add("show");
-   setTimeout(function(){toast.classList.remove("show");},1200);
-  });
- }
-}
+            function speak(text) {
+                if (!State.voiceOn || !("speechSynthesis" in window) || !text) return;
+                const clean = String(text).trim();
+                if (!clean || queue[queue.length - 1] === clean) return;
+                queue.push(clean);
+                processNext();
+            }
 
-/* ---------- simple drag (mouse only, won't block tap) ---------- */
-(function(){
- var handle=document.getElementById("dragHandle");
- var panel=document.getElementById("panel");
- var dragging=false,ox=0,oy=0;
- handle.addEventListener("mousedown",function(e){
-  if(e.target.closest("button"))return;
-  dragging=true;
-  var r=panel.getBoundingClientRect();
-  ox=e.clientX-r.left;oy=e.clientY-r.top;
-  panel.style.transform="none";
-  e.preventDefault();
- });
- document.addEventListener("mousemove",function(e){
-  if(!dragging)return;
-  panel.style.left=(e.clientX-ox)+"px";
-  panel.style.top=(e.clientY-oy)+"px";
- });
- document.addEventListener("mouseup",function(){dragging=false;});
-})();
-</script>
+            function syncUI() {
+                const btn = document.getElementById("voice-toggle-btn");
+                if (!btn) return;
+                btn.textContent = State.voiceOn ? "👩 VOICE" : "🔇 MUTE";
+                btn.classList.toggle("is-muted", !State.voiceOn);
+            }
+
+            function toggle() {
+                State.voiceOn = !State.voiceOn;
+                localStorage.setItem("tuhin_female_voice_enabled", String(State.voiceOn));
+                syncUI();
+                if (!State.voiceOn) {
+                    queue.length = 0;
+                    active = false;
+                    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+                } else {
+                    speak("সবাই এখানে একটা বিগ ট্রেড করো!");
+                }
+            }
+
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    femaleVoice = findFemaleVoice();
+                };
+            }
+
+            return { speak, toggle, syncUI };
+        })();
+
+        const PlatformSystem = (() => {
+            function updateHeader() {
+                const p = APP_DATA.platforms[State.platform]?.name || "DK WIN";
+                const m = APP_DATA.markets[State.market]?.label || "30S";
+                document.getElementById("mode-subtitle").innerText = `${p} • ${m}`;
+            }
+
+            function set(key) {
+                if (!APP_DATA.platforms[key]) return;
+                State.platform = key;
+                document.getElementById("btn-dkwin").classList.toggle("active", key === "DKWIN");
+                document.getElementById("btn-bdwin").classList.toggle("active", key === "BDWIN");
+                document.getElementById("game-iframe").src = APP_DATA.platforms[key].url;
+                updateHeader();
+                State.periodCache = "";
+                State.announcedPeriod = "";
+                State.lastPred = null;
+                EngineSystem.update();
+                VoiceSystem.speak(`${APP_DATA.platforms[key].bn} পেজে সুইচ করা হয়েছে।`);
+            }
+
+            return { updateHeader, set };
+        })();
+
+        const PanelUI = (() => {
+            function open() {
+                document.getElementById("main-content").style.display = "block";
+                document.getElementById("floating-icon-btn").style.display = "none";
+            }
+
+            function hide() {
+                document.getElementById("main-content").style.display = "none";
+                document.getElementById("floating-icon-btn").style.display = "flex";
+                VoiceSystem.speak("প্যানেল হাইড করা হলো।");
+            }
+
+            function handleIconTap() {
+                if (State.unlocked) {
+                    open();
+                    EngineSystem.start();
+                    VoiceSystem.speak("ভিআইপি প্যানেল চালু হয়েছে।");
+                } else {
+                    document.getElementById("error-msg").style.display = "none";
+                    document.getElementById("auth-overlay").style.display = "block";
+                }
+            }
+
+            function enableDrag(boxEl, handleEl, onTap) {
+                let dragging = false, moved = false, startX = 0, startY = 0, initL = 0, initT = 0;
+
+                function begin(x, y) {
+                    const r = boxEl.getBoundingClientRect();
+                    initL = r.left;
+                    initT = r.top;
+                    startX = x;
+                    startY = y;
+                    dragging = true;
+                    moved = false;
+                    boxEl.style.left = `${initL}px`;
+                    boxEl.style.top = `${initT}px`;
+                    boxEl.style.right = "auto";
+                    boxEl.style.bottom = "auto";
+                    boxEl.style.transform = "none";
+                }
+
+                function drag(x, y) {
+                    if (!dragging) return;
+                    const dx = x - startX, dy = y - startY;
+                    if (Math.hypot(dx, dy) > 6) moved = true;
+                    const maxL = Math.max(4, window.innerWidth - boxEl.offsetWidth - 4);
+                    const maxT = Math.max(4, window.innerHeight - boxEl.offsetHeight - 4);
+                    boxEl.style.left = `${Math.max(4, Math.min(maxL, initL + dx))}px`;
+                    boxEl.style.top = `${Math.max(4, Math.min(maxT, initT + dy))}px`;
+                }
+
+                function stop() {
+                    if (!dragging) return;
+                    dragging = false;
+                    if (!moved && typeof onTap === "function") onTap();
+                }
+
+                handleEl.addEventListener("touchstart", (e) => {
+                    if (e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) return;
+                    if (e.touches.length === 1) begin(e.touches[0].clientX, e.touches[0].clientY);
+                }, { passive: true });
+
+                handleEl.addEventListener("touchmove", (e) => {
+                    if (!dragging || e.touches.length !== 1) return;
+                    e.preventDefault();
+                    drag(e.touches[0].clientX, e.touches[0].clientY);
+                }, { passive: false });
+
+                handleEl.addEventListener("touchend", stop);
+                handleEl.addEventListener("touchcancel", stop);
+
+                handleEl.addEventListener("mousedown", (e) => {
+                    if (e.button !== 0 || e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) return;
+                    begin(e.clientX, e.clientY);
+                    function onMove(ev) { drag(ev.clientX, ev.clientY); }
+                    function onUp() {
+                        document.removeEventListener("mousemove", onMove);
+                        document.removeEventListener("mouseup", onUp);
+                        stop();
+                    }
+                    document.addEventListener("mousemove", onMove);
+                    document.addEventListener("mouseup", onUp);
+                });
+            }
+
+            return { open, hide, handleIconTap, enableDrag };
+        })();
+
+        const AuthSystem = (() => {
+            function unlock() {
+                const input = document.getElementById("pass-input").value.trim();
+                const save = document.getElementById("remember-pass").checked;
+                if (input === APP_DATA.pass) {
+                    State.unlocked = true;
+                    if (save) localStorage.setItem("tuhin_vip_hack_unlocked", "true");
+                    document.getElementById("error-msg").style.display = "none";
+                    document.getElementById("auth-overlay").style.display = "none";
+                    PanelUI.open();
+                    EngineSystem.start();
+                    VoiceSystem.speak("স্বাগতম! প্যানেল আনলক হয়েছে।");
+                } else {
+                    document.getElementById("error-msg").style.display = "block";
+                    document.getElementById("pass-input").value = "";
+                }
+            }
+            return { unlock };
+        })();
+
+        const EngineSystem = (() => {
+            function hash32(seed) {
+                let x = seed >>> 0;
+                x ^= x >>> 16;
+                x = Math.imul(x, 0x7feb352d) >>> 0;
+                x ^= x >>> 15;
+                x = Math.imul(x, 0x846ca68b) >>> 0;
+                x ^= x >>> 16;
+                return x >>> 0;
+            }
+
+            function getSalt(cfg) {
+                return (cfg.salt ^ (APP_DATA.platforms[State.platform]?.saltMix || 0)) >>> 0;
+            }
+
+            function getOrbStyle(num) {
+                if (num === 0) return { orbClass: "orb-violet", ballClass: "b-violet-red", colorName: "VIOLET+RED" };
+                if (num === 5) return { orbClass: "orb-violet", ballClass: "b-violet-green", colorName: "VIOLET+GRN" };
+                if ([1, 3, 7, 9].includes(num)) return { orbClass: "orb-green", ballClass: "b-green", colorName: "GREEN" };
+                return { orbClass: "orb-red", ballClass: "b-red", colorName: "RED" };
+            }
+
+            function baseDigit(slot, cfg, dateSeed) {
+                const s = getSalt(cfg);
+                const h1 = hash32((dateSeed ^ Math.imul(slot, s)) >>> 0);
+                const h2 = hash32(h1 ^ (slot * 2654435761));
+                const type = (h1 % 100) >= 50 ? "BIG" : "SMALL";
+                const pool = type === "BIG" ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+                return pool[h2 % pool.length];
+            }
+
+            function computeSignal(slot, cfg, dateSeed) {
+                const s = getSalt(cfg);
+                const h1 = hash32((dateSeed ^ Math.imul(slot, s)) >>> 0);
+                const h2 = hash32(h1 ^ (slot * 2654435761));
+
+                let streakType = null, streak = 0, bigCnt = 0;
+                for (let i = 1; i <= 5; i++) {
+                    const prev = Math.max(1, slot - i);
+                    const isB = (hash32((dateSeed ^ Math.imul(prev, s)) >>> 0) % 100) >= 49;
+                    if (isB) bigCnt++;
+                    if (i === 1) {
+                        streakType = isB ? "BIG" : "SMALL";
+                        streak = 1;
+                    } else if (((isB ? "BIG" : "SMALL") === streakType) && streak === i - 1) {
+                        streak++;
+                    }
+                }
+
+                let score = h1 % 100;
+                if (streakType === "BIG" && streak >= 3) score -= 18;
+                else if (streakType === "SMALL" && streak >= 3) score += 18;
+                if (bigCnt >= 4) score -= 10;
+                if (bigCnt <= 1) score += 10;
+
+                const type = score >= 50 ? "BIG" : "SMALL";
+                const pool = type === "BIG" ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+                const idx = h2 % pool.length;
+                let num = pool[idx];
+                if (slot > 1 && num === baseDigit(slot - 1, cfg, dateSeed)) {
+                    num = pool[(idx + 1) % pool.length];
+                }
+
+                const confidence = Math.min(94, Math.max(76, 78 + Math.floor(Math.abs(score - 50) * 0.65) + (h2 % 6)));
+                return { type, num, confidence, ...getOrbStyle(num) };
+            }
+
+            function wasWin(slot, cfg, dateSeed, pred) {
+                const h = hash32((dateSeed ^ Math.imul(slot, getSalt(cfg)) ^ 0x517CC1B7) >>> 0);
+                return (pred.type === "BIG") === ((h % 100) >= 50);
+            }
+
+            function renderBalls(cfg, indexToday, dateSeed) {
+                const box = document.getElementById("recent-wheels");
+                box.innerHTML = "";
+                for (let i = 9; i >= 0; i--) {
+                    const item = computeSignal(Math.max(1, indexToday - i), cfg, dateSeed);
+                    const dot = document.createElement("div");
+                    dot.className = `mini-ball text-3d ${item.ballClass}`;
+                    dot.textContent = String(item.num);
+                    box.appendChild(dot);
+                }
+            }
+
+            function addWin() {
+                State.wins++;
+                document.getElementById("wl-status").textContent = `W: ${State.wins} | L: ${State.losses}`;
+                document.getElementById("ai-call-banner").textContent = "👩 অভিনন্দন! এই ট্রেড উইন হয়েছে!";
+                VoiceSystem.speak("অভিনন্দন! এই ট্রেড উইন হয়েছে!");
+            }
+
+            function addLoss() {
+                State.losses++;
+                document.getElementById("wl-status").textContent = `W: ${State.wins} | L: ${State.losses}`;
+                document.getElementById("ai-call-banner").textContent = "👩 দুঃখিত, এই ট্রেড লস হয়েছে!";
+                VoiceSystem.speak("দুঃখিত, এই ট্রেড লস হয়েছে!");
+            }
+
+            function copyPeriod() {
+                const val = document.getElementById("period-num").innerText.trim();
+                if (!val || val === "Loading...") return;
+                navigator.clipboard.writeText(val).then(() => {
+                    const t = document.getElementById("copy-toast");
+                    t.style.display = "block";
+                    setTimeout(() => { t.style.display = "none"; }, 1200);
+                    VoiceSystem.speak("পিরিয়ড নম্বর কপি হয়েছে।");
+                }).catch(() => {});
+            }
+
+            function update() {
+                if (!State.unlocked) return;
+                const cfg = APP_DATA.markets[State.market] || APP_DATA.markets["30S"];
+                const now = new Date();
+                const sec = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+                const indexToday = Math.floor(sec / cfg.duration) + 1;
+                const elapsed = sec % cfg.duration;
+                const left = cfg.duration - elapsed;
+
+                const dStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, "0")}${String(now.getUTCDate()).padStart(2, "0")}`;
+                const dSeed = parseInt(dStr, 10) || 20261127;
+                const period = `${dStr}1000${String(cfg.offset + indexToday).padStart(5, "0")}`;
+
+                document.getElementById("period-num").innerText = period;
+                document.getElementById("timer-display").innerText = `${String(left).padStart(2, "0")}s`;
+
+                let changed = false;
+                let resultVoice = "";
+
+                if (period !== State.periodCache) {
+                    if (State.periodCache && State.lastPred && indexToday > 1) {
+                        if (wasWin(indexToday - 1, cfg, dSeed, State.lastPred)) {
+                            State.wins++;
+                            resultVoice = "অভিনন্দন! আগের ট্রেড উইন হয়েছে!";
+                        } else {
+                            State.losses++;
+                            resultVoice = "দুঃখিত, আগের ট্রেড লস হয়েছে!";
+                        }
+                        document.getElementById("wl-status").textContent = `W: ${State.wins} | L: ${State.losses}`;
+                    }
+                    State.periodCache = period;
+                    State.currentPred = computeSignal(indexToday, cfg, dSeed);
+                    State.lastPred = { ...State.currentPred };
+                    changed = true;
+                }
+
+                const orb = document.getElementById("main-orb");
+                const orbTxt = document.getElementById("main-orb-text");
+                const bigCard = document.getElementById("big-panel");
+                const smallCard = document.getElementById("small-panel");
+                const bigTag = document.getElementById("big-tag");
+                const smallTag = document.getElementById("small-tag");
+
+                if (elapsed <= 2) {
+                    orbTxt.innerText = "...";
+                    orb.className = "num-orb orb-violet text-3d";
+                    document.getElementById("color-label").innerText = "SCANNING";
+                    document.getElementById("conf-label").innerText = "SYNC...";
+                    document.getElementById("ai-call-banner").textContent = resultVoice ? `👩 ${resultVoice}` : "👩 সিগন্যাল স্ক্যান হচ্ছে...";
+                    bigCard.classList.remove("is-live");
+                    smallCard.classList.remove("is-live");
+                    bigTag.innerText = "WAIT";
+                    smallTag.innerText = "WAIT";
+                    bigTag.className = "side-badge text-3d";
+                    smallTag.className = "side-badge text-3d";
+                } else {
+                    const p = State.currentPred;
+                    const callMsg = p.type === "BIG" ? "সবাই এখানে একটা বিগ ট্রেড করো!" : "সবাই এখানে একটা স্মল ট্রেড করো!";
+                    orbTxt.innerText = String(p.num);
+                    orb.className = `num-orb ${p.orbClass} text-3d`;
+                    document.getElementById("color-label").innerText = p.colorName;
+                    document.getElementById("conf-label").innerText = `CONF ${p.confidence}%`;
+                    document.getElementById("ai-call-banner").textContent = `👩 ${callMsg}`;
+
+                    const isBig = p.type === "BIG";
+                    bigCard.classList.toggle("is-live", isBig);
+                    smallCard.classList.toggle("is-live", !isBig);
+                    bigTag.innerText = isBig ? "ACTIVE" : "SKIP";
+                    smallTag.innerText = !isBig ? "ACTIVE" : "SKIP";
+                    bigTag.className = `side-badge text-3d ${isBig ? "live" : ""}`;
+                    smallTag.className = `side-badge text-3d ${!isBig ? "live" : ""}`;
+                }
+
+                if (changed && State.announcedPeriod !== period) {
+                    State.announcedPeriod = period;
+                    const p = State.currentPred;
+                    const callMsg = p.type === "BIG" ? "সবাই এখানে একটা বিগ ট্রেড করো!" : "সবাই এখানে একটা স্মল ট্রেড করো!";
+                    const numWord = APP_DATA.digitsBn[p.num] ?? p.num;
+                    if (resultVoice) VoiceSystem.speak(resultVoice);
+                    VoiceSystem.speak(`${callMsg} নম্বর ${numWord}।`);
+                }
+
+                renderBalls(cfg, indexToday, dSeed);
+            }
+
+            function start() {
+                update();
+                if (!State.running) {
+                    State.running = true;
+                    setInterval(update, 1000);
+                }
+            }
+
+            return { update, start, addWin, addLoss, copyPeriod };
+        })();
+
+        VoiceSystem.syncUI();
+        PlatformSystem.updateHeader();
+
+        document.getElementById("pass-input").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") AuthSystem.unlock();
+        });
+
+        document.querySelectorAll(".mkt-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".mkt-btn").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                State.market = btn.dataset.market;
+                PlatformSystem.updateHeader();
+                State.periodCache = "";
+                State.announcedPeriod = "";
+                State.lastPred = null;
+                EngineSystem.update();
+                VoiceSystem.speak(`${APP_DATA.markets[State.market].bnName} মার্কেট চালু হয়েছে।`);
+            });
+        });
+
+        PanelUI.enableDrag(
+            document.getElementById("floating-icon-btn"),
+            document.getElementById("floating-icon-btn"),
+            PanelUI.handleIconTap
+        );
+        PanelUI.enableDrag(
+            document.getElementById("main-content"),
+            document.getElementById("main-content-header"),
+            null
+        );
+    </script>
 </body>
 </html>
